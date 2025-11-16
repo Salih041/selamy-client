@@ -22,9 +22,9 @@ function LoginPage() {
         username:username,
         password:password
       });
-      const token = response.data.token;
+      const {token,userID} = response.data;
 
-      login(token);
+      login(token,userID);
 
       navigate('/');
     }catch(error)
