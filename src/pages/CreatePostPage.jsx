@@ -3,28 +3,28 @@ import { useNavigate } from 'react-router-dom'
 import api from "../api"
 
 function CreatePostPage() {
-    const [title,setTitle] = useState("");
-    const [content,setContent] = useState("");
+    const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    const handleSubmit = async(e)=>{
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
         setError(null);
 
-        try{
-            const response = await api.post("/posts",{
-                title:title,
-                content:content
+        try {
+            const response = await api.post("/posts", {
+                title: title,
+                content: content
             });
             const newPostId = response.data.savedPost._id;
             navigate(`/posts/${newPostId}`)
-        }catch(error){
+        } catch (error) {
             console.error("Create Post error :", error)
             setError(error.response ? error.response.data.message : "Post could not be created!");
-        }finally{
+        } finally {
             setIsLoading(false);
         }
     }
@@ -55,7 +55,7 @@ function CreatePostPage() {
                 </div>
 
                 {error && <p style={{ color: 'red' }}>{error}</p>}
-                
+
                 <button type="submit" disabled={isLoading}>
                     {isLoading ? '...' : 'Share'}
                 </button>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { useParams, NavLink } from 'react-router-dom'
+import { useParams, NavLink, useNavigate } from 'react-router-dom'
 import api from "../api"
 import { useAuth } from '../context/AuthContext'
 
@@ -15,6 +15,7 @@ function PostDetailsPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { isLoggedIn, userId } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -78,13 +79,42 @@ function PostDetailsPage() {
     }
   }
 
+  const handleDeletePost = async () => {
+    if (!isOwner) {
+      alert("Unauthorized");
+      return;
+    }
+    if (window.confirm("Are you sure you want to delete this post?")) {
+      try {
+        await api.delete(`/posts/${id}`);
+        alert("Post deleted");
+        navigate("/");
+      } catch (error) {
+        console.error("Error: ", error)
+        alert("Error");
+      }
+    }
+  }
+
   if (isLoading) return (<p>Loading</p>)
   if (error) return (<p>Error: {error}</p>)
   if (!post) return (<h4>Post Not Found</h4>)
 
   const hasLiked = post.likes.includes(userId);
+  const isOwner = isLoggedIn && userId === post.author._id;
   return (
     <div>
+      {isOwner && (
+        <div className="post-controls" style={{ backgroundColor: '#fff8e1', padding: '10px' }}>
+          <strong>Author Panel:</strong>
+          <button onClick={handleDeletePost} style={{ marginLeft: '10px', color: 'red' }}>
+            Delete Post
+          </button>
+          <NavLink to={`/posts/edit/${post._id}`} style={{ marginLeft: '10px' }}>
+            Edit Post
+          </NavLink>
+        </div>
+      )}
       <h1>{post.title}</h1>
       <p>{post.author.username}</p>
       <p>{post.content}</p>
@@ -114,6 +144,18 @@ function PostDetailsPage() {
       ) : (
         <p>Login<NavLink to="/login">to comment⛈️</NavLink>.</p>
       )}
+      <div className="comment-list">
+        {post.comments.length > 0 ? (
+          post.comments.toReversed().map(comment => (
+            <article key={comment._id} className="comment-bubble">
+              <p><strong>{comment.author.username}</strong></p>
+              <p>{comment.text}</p>
+            </article>
+          ))
+        ) : (
+          <p>Henüz yorum yapılmamış.</p>
+        )}
+      </div>
     </div>
   )
 }

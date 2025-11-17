@@ -6,6 +6,7 @@ import PostDetailsPage from '../pages/PostDetailsPage'
 import RegisterPage from '../pages/RegisterPage'
 import CreatePostPage from '../pages/CreatePostPage'
 import ProtectedRoute from '../components/ProtectedRoute'
+import PostEditPage from '../pages/PostEditPage'
 
 function RouterConfig() {
   return (
@@ -18,6 +19,7 @@ function RouterConfig() {
 
       <Route element={<ProtectedRoute />}>
         <Route exact path="/create-post" element={<CreatePostPage />}></Route>
+        <Route exact path="/posts/edit/:id" element={<PostEditPage/>}></Route>
       </Route>
     </Routes>
   )
