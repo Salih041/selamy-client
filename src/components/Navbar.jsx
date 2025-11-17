@@ -2,6 +2,8 @@ import React from 'react'
 import {NavLink,useNavigate} from "react-router-dom" 
 import {useAuth} from "../context/AuthContext"
 
+import '../styles/Navbar.css';
+
 function Navbar() {
 
   const { isLoggedIn, logout } = useAuth();
@@ -13,15 +15,16 @@ function Navbar() {
   }
 
   return (
-    <nav>
-        <div>
-            <NavLink to="/">Name</NavLink>
+    <nav className='nav'>
+        <div className='nav__logo'>
+            <NavLink to="/">Selam Ya</NavLink>
         </div>
-        <div>
+
+        <div className='nav__links'>
           {isLoggedIn ? (
             <>
             <NavLink to="/create-post">Create Post</NavLink>
-            <button onClick={handleLogout}>Logout</button>
+            <button className='navbar-logout-button' onClick={handleLogout}>Logout</button>
             </>
           ):(
             <>

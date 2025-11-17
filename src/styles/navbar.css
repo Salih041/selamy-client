@@ -1,0 +1,36 @@
+.nav {
+    display: flex;
+    background-color: rgb(196, 255, 255);
+    box-sizing: border-box;
+    width: 100%;
+    height: 3rem;
+    padding: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 5px solid rgb(120, 120, 120);
+}
+
+.nav__logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: brown;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.nav__links a,
+.nav__links button {
+    margin-left: 3rem;
+    font-size: 1rem;
+    color: black;
+}
+
+.nax__links a.active{
+    font-weight: bold;
+    color: pink;
+}
+
+.nav__links button {
+    color: white;
+    background-color: rgb(176, 0, 0);
+    border-color: rgb(56, 0, 0);
+}

@@ -1,0 +1,29 @@
+/* src/index.css (Sadece global stiller burada kalır) */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  line-height: 1.6;
+}
+
+/* Linkler için global bir temizlik */
+a {
+  text-decoration: none;
+  color: inherit; /* Rengi ebeveyninden al */
+}
+
+/* Butonlar için global bir temel */
+button {
+  cursor: pointer;
+  font-family: inherit; /* Fontu body'den al */
+  border: solid 1px;
+  padding: 5px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  background: none;
+}
