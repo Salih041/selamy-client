@@ -1,9 +1,9 @@
 import React from 'react'
-import { NavLink} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import "../styles/postCard.css"
 
 function Post({ postProps }) {
-    const { _id, title, content, comments, commentCount, like, likeCount, author, readingTime, createdAt } = postProps;
+    const { _id, title, content, comments, commentCount, like, likeCount, author, createdAt, tags } = postProps;
     const formattedDate = new Date(createdAt).toLocaleDateString('tr-TR');
 
     return (
@@ -20,10 +20,19 @@ function Post({ postProps }) {
                 {content.length > 250 ? content.substring(0, 250) + "..." : content}
             </p>
 
+            {tags && tags.length > 0 && (
+                <div className='post-card__tags'>
+                    {tags.map((tag, index) => (
+                        <span key={index} className='post-card__tag'>#{tag}</span>
+                    ))}
+                </div>
+            )}
+
             <footer className='post-card__footer'>
                 <div className="post-card__stat">
                     <span>❤️</span> {likeCount} Like
                 </div>
+
                 <div className="post-card__stat">
                     <span>💬</span> {commentCount} Comment
                 </div>

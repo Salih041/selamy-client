@@ -69,3 +69,22 @@
     color: #3498db;
     transition: color 0.2s;
 }
+
+.post-card__tags {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.post-card__tag {
+    font-size: 0.75rem;
+    color: #666;
+    background-color: #ffe0e0;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-weight: bold;
+    border: 1px solid #eee;
+
+}

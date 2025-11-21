@@ -6,6 +6,7 @@ import "../styles/Posting.css"
 function PostEditPage() {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
+    const [tags, setTags] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
@@ -18,6 +19,10 @@ function PostEditPage() {
                 const response = await api.get(`/posts/${id}`);
                 setTitle(response.data.title);
                 setContent(response.data.content);
+                if(response.data.tags && Array.isArray(response.data.tags)){
+                    setTags(response.data.tags.join(", "));
+                }
+                setIsLoading(false)
             } catch (error) {
                 console.error("Error:", err);
                 setError("Post data could not be loaded.");
@@ -32,10 +37,12 @@ function PostEditPage() {
         setIsLoading(true);
         setError(null);
 
+        const tagsArray = tags.split(',').map(tag => tag.trim()).filter(tag => tag !== "");
         try {
             await api.put(`/posts/${id}`, {
                 title: title,
-                content: content
+                content: content,
+                tags : tagsArray
             });
 
             navigate(`/posts/${id}`);
@@ -64,6 +71,11 @@ function PostEditPage() {
                     </div>
 
                     <div className='form-group'>
+                        <label htmlFor="tags">Tags (seperate with commas)</label>
+                        <input className='form-input' type="text" id='tags' placeholder='Tag1, tag2, tag3...' value={tags} onChange={(e)=>{setTags(e.target.value)}} />
+                    </div>
+
+                    <div className='form-group'>
                         <label htmlFor="content">Content</label>
                         <textarea className="form-textarea" id="content" value={content} onChange={(e) => { setContent(e.target.value) }} required></textarea>
                     </div>
@@ -71,7 +83,7 @@ function PostEditPage() {
                     {error && <div className="form-error">{error}</div>}
 
                     <div className="form-actions">
-                        <button type="submit" className="submit-btn" disabled={!isLoading}>
+                        <button type="submit" className="submit-btn" disabled={isLoading}>
                             Share
                         </button>
                     </div>

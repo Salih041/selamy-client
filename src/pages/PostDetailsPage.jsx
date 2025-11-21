@@ -119,7 +119,7 @@ function PostDetailsPage() {
         });
         return {
           ...prevPost,
-          comments : updatedComments
+          comments: updatedComments
         }
       });
     } catch (error) {
@@ -157,6 +157,16 @@ function PostDetailsPage() {
           {post.content}
         </div>
 
+        {post.tags && post.tags.length > 0 && (
+          <div className="post-tags-container">
+            {post.tags.map((tag, index) => (
+              <span key={index} className="post-tag">
+                #{tag}
+              </span>
+            ))}
+          </div>
+        )}
+
         <footer className='post-footer'>
           <button className='like-button' onClick={handleLike} disabled={!isLoggedIn} style={{ color: hasLiked ? '#e74c3c' : '', borderColor: hasLiked ? '#e74c3c' : '' }}>
             {hasLiked ? '❤️ Liked' : '🤍 Like'}
@@ -186,7 +196,7 @@ function PostDetailsPage() {
                 return (
                   <article key={comment._id} className='comment-bubble'>
                     <strong className="comment-author"><NavLink to={`/profil/${comment.author._id}`}>
-                    {comment.author.username}</NavLink></strong>
+                      {comment.author.username}</NavLink></strong>
                     <p className="comment-text">{comment.text}</p>
                     <div className="comment-actions">
                       <button
