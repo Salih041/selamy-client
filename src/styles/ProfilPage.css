@@ -1,0 +1,93 @@
+.profile-container {
+    width: 100%;
+    padding: 20px;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    background-color: rgb(255, 210, 210);
+    border-radius: 15px;
+    padding: 30px;
+    gap: 30px;
+    box-shadow: 0 10px 5px rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+    transition: 0.5s;
+}
+.profile-header:hover
+{
+    background-color: rgb(255, 188, 188);
+    box-shadow: 0 8px 5px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, #ea6666 0%, #a24b4b 100%);
+    color: white;
+    font-size: 3rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(162, 75, 75, 0.5);
+}
+
+.profile-info h1 {
+    margin: 0;
+    color: black;
+    font-size: 2rem;
+}
+
+.profile-join-date {
+    color: #777;
+    margin: 10px 0;
+    font-size: 0.9rem;
+}
+
+.profile-stats span {
+    background-color: #ff9797;
+    box-sizing: border-box;
+    border-radius: 20px;
+    padding: 8px;
+    font-size: 0.9rem;
+    color: #505050;
+}
+
+.profile-divider {
+    margin: 30px 0;
+    border: 0;
+    height: 1px;
+    background: #eee;
+}
+
+.profile-posts-section_Posts-header {
+    margin-bottom: 20px;
+    font-weight: 800;
+    font-size: 2rem;
+    color: #4f4f4f;
+}
+
+.no-post-p {
+    color: #888;
+    font-style: italic;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.profile-posts-container
+{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+}
+
+@media (max-width: 600px) {
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+    }
+}

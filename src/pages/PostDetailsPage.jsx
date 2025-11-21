@@ -150,7 +150,7 @@ function PostDetailsPage() {
         <header className='post-header'>
           <h1 className='post-title'>{post.title}</h1>
           <div className='post-meta'>
-            <span>by <NavLink to={`/profil/${post.author._id}`}>{post.author.username}</NavLink></span>
+            <span>by <NavLink to={`/profile/${post.author._id}`}>{post.author.username}</NavLink></span>
             <span>•</span>
             <span>📅 {new Date(post.createdAt).toLocaleDateString('tr-TR')}</span>
           </div>

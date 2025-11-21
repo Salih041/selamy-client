@@ -11,7 +11,7 @@ function Post({ postProps }) {
             <h2 className='post-card__title'><NavLink to={`/posts/${_id}`}>{title}</NavLink></h2>
 
             <div className='post-card__meta'>
-                <span className='post-card__author'>by <NavLink className={"post-card__author_username"}>{author.username}</NavLink></span>
+                <span className='post-card__author'>by <NavLink to={`/profile/${author._id}`} className={"post-card__author_username"}>{author.username}</NavLink></span>
                 <span> • </span>
                 <span className='post-card__post-date'>{formattedDate}</span>
             </div>
