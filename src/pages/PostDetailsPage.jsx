@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useParams, NavLink, useNavigate } from 'react-router-dom'
 import api from "../api"
 import { useAuth } from '../context/AuthContext'
+import toast from 'react-hot-toast'
 
 import "../styles/PostDetail.css"
 
@@ -42,7 +43,7 @@ function PostDetailsPage() {
 
   const handleLike = async () => {
     if (!isLoggedIn) {
-      alert("Please LOGIN")
+      toast.warn("Please Login")
       return
     }
     try {
@@ -73,9 +74,11 @@ function PostDetailsPage() {
         comments: [...prevPost.comments, newComment],
         commentCount: prevPost.commentCount + 1
       }))
+      toast.success("Comment Sent");
       setCommentText("");
     } catch (error) {
       console.error("Comment error:", err);
+      toast.error(error)
     } finally {
       setIsSubmitting(false);
     }
@@ -83,24 +86,24 @@ function PostDetailsPage() {
 
   const handleDeletePost = async () => {
     if (!isOwner) {
-      alert("Unauthorized");
+      toast.error("Unauthorized")
       return;
     }
     if (window.confirm("Are you sure you want to delete this post?")) {
       try {
         await api.delete(`/posts/${id}`);
-        alert("Post deleted");
+        toast.success("Post Deleted")
         navigate("/");
       } catch (error) {
         console.error("Error: ", error)
-        alert("Error");
+        toast.error(error)
       }
     }
   }
 
   const handleLikeComment = async (comment_id) => {
     if (!isLoggedIn) {
-      alert("Please LOGIN")
+      toast.warn("Please Login")
       return
     }
     try {
@@ -185,7 +188,7 @@ function PostDetailsPage() {
           </form>
         ) : (
           <p style={{ marginBottom: '20px' }}>
-            <Link to="/login" style={{ color: '#3498db' }}>Login</Link> to comment.
+            <NavLink to="/login" style={{ color: '#3498db' }}>Login</NavLink> to comment.
           </p>)}
 
         <div className='comment-list'>

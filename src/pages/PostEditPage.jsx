@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import api from '../api';
 import "../styles/Posting.css"
+import toast from 'react-hot-toast';
 
 function PostEditPage() {
     const [title, setTitle] = useState("");
@@ -24,8 +25,9 @@ function PostEditPage() {
                 }
                 setIsLoading(false)
             } catch (error) {
-                console.error("Error:", err);
+                console.error("Error:", error);
                 setError("Post data could not be loaded.");
+                toast.error(error)
                 setIsLoading(false);
             }
         }
@@ -44,12 +46,14 @@ function PostEditPage() {
                 content: content,
                 tags : tagsArray
             });
+            toast.success("Post Updated")
 
             navigate(`/posts/${id}`);
 
         } catch (error) {
             console.error("Error:", error);
             setError(error.response ? error.response.data.message : "Error.");
+            toast.error(error)
             setIsLoading(false);
         }finally{
             setIsLoading(false);

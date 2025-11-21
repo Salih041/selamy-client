@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from "../api"
 import "../styles/Posting.css"
+import toast from 'react-hot-toast'
 
 function CreatePostPage() {
     const [title, setTitle] = useState("");
@@ -24,11 +25,14 @@ function CreatePostPage() {
                 content: content,
                 tags : tagsArray
             });
+            toast.success("Post Created");
             const newPostId = response.data.savedPost._id;
             navigate(`/posts/${newPostId}`)
         } catch (error) {
             console.error("Create Post error :", error)
             setError(error.response ? error.response.data.message : "Post could not be created!");
+            toast.error(errorMessage);
+            setError(errorMessage);
         } finally {
             setIsLoading(false);
         }

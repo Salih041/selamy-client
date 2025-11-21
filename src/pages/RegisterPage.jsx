@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from "../api"
 import "../styles/auth.css"
+import toast from 'react-hot-toast';
 
 function RegisterPage() {
   const [username, setUsername] = useState('');
@@ -22,7 +23,7 @@ function RegisterPage() {
         username: username,
         password: password
       });
-      alert('Registered :)');
+      toast.success("Registered")
       navigate('/login');
     } catch (error) {
       console.error("Register error:", error);
