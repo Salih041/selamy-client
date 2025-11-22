@@ -6,7 +6,7 @@ import '../styles/navbar.css';
 
 function Navbar() {
 
-  const { isLoggedIn, logout } = useAuth();
+  const { isLoggedIn, logout, userId } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
@@ -36,6 +36,7 @@ function Navbar() {
         <div className='nav__links'>
           {isLoggedIn ? (
             <>
+            <NavLink to={`/profile/${userId}`} className="nav-profile-link">My Profile</NavLink>
             <NavLink to="/create-post">Create Post</NavLink>
             <button className='navbar-logout-button' onClick={handleLogout}>Logout</button>
             </>
