@@ -1,4 +1,4 @@
-import React, { useState , useMemo, useRef} from 'react'
+import React, { useState, useMemo, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from "../api"
 import "../styles/Posting.css"
@@ -7,6 +7,7 @@ import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 
 function CreatePostPage() {
+    const MAX_LENGTH = 20000;
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [tags, setTags] = useState("");
@@ -15,25 +16,26 @@ function CreatePostPage() {
     const navigate = useNavigate();
 
     const quillRef = useRef(null);
+    const [charCount, setCharCount] = useState(0);
 
-    const imageHandler = ()=>{
+    const imageHandler = () => {
         const input = document.createElement('input');
         input.setAttribute('type', 'file');
         input.setAttribute('accept', 'image/*');
         input.click();
 
-        input.onchange = async ()=>{
+        input.onchange = async () => {
             const file = input.files[0];
-            if(!file) return;
+            if (!file) return;
 
             const formData = new FormData();
             formData.append('image', file);
 
             const loadingToast = toast.loading("Image uploading...");
 
-            try{
-                const res = await api.post('/posts/upload-image',formData, {
-                    headers:{'Content-Type' : 'multipart/form-data'}
+            try {
+                const res = await api.post('/posts/upload-image', formData, {
+                    headers: { 'Content-Type': 'multipart/form-data' }
                 });
 
                 const imageUrl = res.data.url;
@@ -45,32 +47,41 @@ function CreatePostPage() {
                 toast.success("Image Uploaded", { id: loadingToast });
 
 
-            }catch(error)
-            {
+            } catch (error) {
                 console.error("Error:", error);
                 toast.error("Image upload error", { id: loadingToast });
             }
         }
     }
 
-    const modules = useMemo(()=>({
-        toolbar : {
-            container : [
+    const modules = useMemo(() => ({
+        toolbar: {
+            container: [
                 [{ 'header': [1, 2, 3, false] }],
                 ['bold', 'italic', 'underline', 'strike', 'blockquote'],
                 [{ 'list': 'ordered' }],
                 ['link', 'image'],
                 ['clean']
             ],
-            handlers : {
-                image:imageHandler
+            handlers: {
+                image: imageHandler
             }
         }
-    }),[])
+    }), [])
 
+    const handleContentChange = (value, delta, source, editor) => {
+        setContent(value);
+        setCharCount(editor.getLength() - 1);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (charCount > MAX_LENGTH) {
+            toast.error(`Content is too long! Limit: ${MAX_LENGTH}`);
+            return;
+        }
+
         setIsLoading(true);
         setError(null);
 
@@ -87,13 +98,15 @@ function CreatePostPage() {
             navigate(`/posts/${newPostId}`)
         } catch (error) {
             console.error("Create Post error :", error)
-            setError(error.response ? error.response.data.message : "Post could not be created!");
+            const errorMessage = error.response?.data?.message || error.message || "Post couldnt be created";
             toast.error(errorMessage);
             setError(errorMessage);
         } finally {
             setIsLoading(false);
         }
     }
+
+    const isOverLimit = charCount > MAX_LENGTH;
 
     return (
         <div className='post-form-container'>
@@ -103,11 +116,11 @@ function CreatePostPage() {
                 <form onSubmit={handleSubmit}>
                     <div className='form-group'>
                         <label htmlFor="title">Title</label>
-                        <input className='form-input' type="text" id='title' value={title} onChange={(e) => { setTitle(e.target.value) }} placeholder='Title' required />
+                        <input className='form-input' type="text" id='title' value={title} onChange={(e) => { setTitle(e.target.value) }} maxLength={40} placeholder='Title (max 40 characters)' required />
                     </div>
 
                     <div className='form-group'>
-                        <label htmlFor="tags">Tags (seperate with commas)</label>
+                        <label htmlFor="tags">Tags (seperate with commas (,))</label>
                         <input className='form-input' type="text" id='tags' placeholder='Tag1, tag2, tag3...' value={tags} onChange={(e) => { setTags(e.target.value) }} />
                     </div>
 
@@ -117,17 +130,20 @@ function CreatePostPage() {
                             ref={quillRef}
                             theme='snow'
                             value={content}
-                            onChange={setContent}
+                            onChange={handleContentChange}
                             modules={modules}
                             placeholder='Write'
                             className='editor-input'
                         />
+                        <div className={`char-counter ${isOverLimit ? 'limit-exceeded' : ''}`}>
+                            {charCount.toLocaleString()} / {MAX_LENGTH.toLocaleString()} characters
+                        </div>
                     </div>
 
                     {error && <div className="form-error">{error}</div>}
 
                     <div className="form-actions">
-                        <button type="submit" className="submit-btn" disabled={isLoading}>
+                        <button type="submit" className="submit-btn" disabled={isLoading || isOverLimit} style={{ opacity: (isLoading || isOverLimit) ? 0.6 : 1 }}>
                             Share
                         </button>
                     </div>

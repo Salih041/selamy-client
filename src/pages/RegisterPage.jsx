@@ -49,7 +49,7 @@ function RegisterPage() {
 
           <div className='form-group'>
             <label htmlFor="username">Username</label>
-            <input className='form-input' type="text" id='username' value={username} minLength={3} required placeholder='Username' onChange={(e) => { setUsername(e.target.value) }} />
+            <input className='form-input' type="text" id='username' value={username} minLength={3} maxLength={20} required placeholder='Username' onChange={(e) => { setUsername(e.target.value) }} />
           </div>
 
           <div className='form-group'>

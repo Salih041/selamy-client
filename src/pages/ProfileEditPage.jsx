@@ -63,7 +63,6 @@ function ProfileEditPage() {
             navigate(`/profile/${id}`);
         } catch (error) {
             console.error(error);
-
             toast.error("Update failed.");
         } finally {
             setIsLoading(false);

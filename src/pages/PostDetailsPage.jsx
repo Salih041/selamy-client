@@ -78,7 +78,7 @@ function PostDetailsPage() {
       setCommentText("");
     } catch (error) {
       console.error("Comment error:", err);
-      toast.error(error)
+      toast.error(error.message || "Error")
     } finally {
       setIsSubmitting(false);
     }
@@ -96,7 +96,7 @@ function PostDetailsPage() {
         navigate("/");
       } catch (error) {
         console.error("Error: ", error)
-        toast.error(error)
+        toast.error(error.message || "Error")
       }
     }
   }

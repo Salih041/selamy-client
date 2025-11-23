@@ -121,6 +121,16 @@
     text-decoration: underline;
 }
 
+.post-content, 
+.ql-snow .ql-editor {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 .post-content img,
 .ql-snow .ql-editor img {
     display: block;
@@ -154,5 +164,20 @@
 .post-content h2, .ql-snow .ql-editor h2 {
     color: #2c3e50;
     margin-top: 20px;
+    font-weight: bold;
+}
+
+.char-counter {
+    text-align: right;
+    font-size: 0.85rem;
+    color: #777;
+    margin-top: -15px;
+    margin-bottom: 20px;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.char-counter.limit-exceeded {
+    color: #e74c3c;
     font-weight: bold;
 }
