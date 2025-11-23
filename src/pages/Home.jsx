@@ -3,6 +3,8 @@ import api from '../api';
 import { useSearchParams } from 'react-router-dom';
 import Post from '../components/Post';
 import "../styles/home.css"
+import PostSkeleton from '../components/skeletons/PostSkeleton';
+
 function Home() {
 
     const [posts, setPosts] = useState([]);
@@ -59,7 +61,13 @@ function Home() {
         }
     };
 
-    if (isLoading) return <p className='loading'>LOading...</p>;
+    if (isLoading) {
+        return (
+            <div className='posts-container'>
+                <PostSkeleton cards={6} />
+            </div>
+        );
+    }
     if (error) return <p className='error'>Error: {error}</p>;
     return (
         <>
@@ -76,13 +84,13 @@ function Home() {
                         (
                             posts.map((post) => (
                                 <Post key={post._id} postProps={post}></Post>
-                        ))) : 
+                            ))) :
                         (
                             (
-                                <p style={{textAlign:'center', width:'100%'}}>{searchTerm ? "No Result" : "No Post"}</p>
+                                <p style={{ textAlign: 'center', width: '100%' }}>{searchTerm ? "No Result" : "No Post"}</p>
                             )
                         )
-                    
+
                 }
             </div>
             <div className='home__controls'>
