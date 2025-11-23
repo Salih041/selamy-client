@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState , useMemo, useRef} from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from "../api"
 import "../styles/Posting.css"
@@ -14,15 +14,60 @@ function CreatePostPage() {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    const modules = {
-        toolbar: [
-            [{ 'header': [1, 2, 3, false] }],
-            ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-            [{ 'list': 'ordered' }],
-            ['link', 'image'],
-            ['clean']
-        ],
+    const quillRef = useRef(null);
+
+    const imageHandler = ()=>{
+        const input = document.createElement('input');
+        input.setAttribute('type', 'file');
+        input.setAttribute('accept', 'image/*');
+        input.click();
+
+        input.onchange = async ()=>{
+            const file = input.files[0];
+            if(!file) return;
+
+            const formData = new FormData();
+            formData.append('image', file);
+
+            const loadingToast = toast.loading("Image uploading...");
+
+            try{
+                const res = await api.post('/posts/upload-image',formData, {
+                    headers:{'Content-Type' : 'multipart/form-data'}
+                });
+
+                const imageUrl = res.data.url;
+
+                const quill = quillRef.current.getEditor();
+                const range = quill.getSelection();
+                quill.insertEmbed(range.index, 'image', imageUrl);
+
+                toast.success("Image Uploaded", { id: loadingToast });
+
+
+            }catch(error)
+            {
+                console.error("Error:", error);
+                toast.error("Image upload error", { id: loadingToast });
+            }
+        }
     }
+
+    const modules = useMemo(()=>({
+        toolbar : {
+            container : [
+                [{ 'header': [1, 2, 3, false] }],
+                ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                [{ 'list': 'ordered' }],
+                ['link', 'image'],
+                ['clean']
+            ],
+            handlers : {
+                image:imageHandler
+            }
+        }
+    }),[])
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -69,11 +114,11 @@ function CreatePostPage() {
                     <div className='form-group'>
                         <label htmlFor="content">Content</label>
                         <ReactQuill
+                            ref={quillRef}
                             theme='snow'
                             value={content}
                             onChange={setContent}
                             modules={modules}
-                            //formats={formats}
                             placeholder='Write'
                             className='editor-input'
                         />

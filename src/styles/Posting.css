@@ -123,11 +123,12 @@
 
 .post-content img,
 .ql-snow .ql-editor img {
+    display: block;
     max-width: 100%;
     height: auto;
+    margin: 10px auto;
     border-radius: 8px;
-    margin: 20px 0;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
 }
 
 
