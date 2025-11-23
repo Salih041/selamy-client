@@ -199,7 +199,7 @@ function PostDetailsPage() {
                 const hasLikedComment = comment.likes.includes(userId);
                 return (
                   <article key={comment._id} className='comment-bubble'>
-                    <strong className="comment-author"><NavLink to={`/profil/${comment.author._id}`}>
+                    <strong className="comment-author"><NavLink to={`/profile/${comment.author._id}`}>
                       {comment.author.username}</NavLink></strong>
                     <p className="comment-text">{comment.text}</p>
                     <div className="comment-actions">
