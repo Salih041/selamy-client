@@ -10,6 +10,8 @@ import PostEditPage from '../pages/PostEditPage'
 import ProfilePage from '../pages/ProfilePage'
 import ProfileEditPage from '../pages/ProfileEditPage'
 import VerifyEmailPage from '../pages/VerifyEmailPage'
+import ForgotPasswordPage from '../pages/ForgotPasswordPage'
+import ResetPasswordPage from '../pages/ResetPasswordPage'
 
 function RouterConfig() {
   return (
@@ -20,6 +22,8 @@ function RouterConfig() {
       <Route exact path="/register" element={<RegisterPage />}></Route>
       <Route exact path="/profile/:id" element={<ProfilePage/>}></Route>
       <Route exact path="/verify-email" element={<VerifyEmailPage/>}></Route>
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      <Route path="/reset-password" element={<ResetPasswordPage />} />
 
       <Route element={<ProtectedRoute />}>
         <Route exact path="/create-post" element={<CreatePostPage />}></Route>
