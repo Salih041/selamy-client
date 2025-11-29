@@ -252,6 +252,11 @@ label.submit-btn {
     font-size: 1.1rem;
 }
 
+.post-edit--delete-btn:hover{
+    transition: 0.2s;
+    background-color: #7b0c00;
+}
+
 @media (max-width: 600px) {
     .profile-header {
         flex-direction: column;

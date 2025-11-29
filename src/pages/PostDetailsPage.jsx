@@ -176,7 +176,7 @@ function PostDetailsPage() {
         {post.tags && post.tags.length > 0 && (
           <div className="post-tags-container">
             {post.tags.map((tag, index) => (
-              <span key={index} className="post-tag" onClick={(e)=>{handleTagClick(e,tag)}}>
+              <span key={index} className="post-tag" onClick={(e) => { handleTagClick(e, tag) }}>
                 #{tag}
               </span>
             ))}
@@ -210,6 +210,14 @@ function PostDetailsPage() {
               post.comments.toReversed().map(comment => {
                 const hasLikedComment = comment.likes.includes(userId);
                 const isMentioned = comment.mentions && comment.mentions.some(id => id.toString() === userId);
+
+                const author = comment.author || {
+                  username: "Deleted User",
+                  displayName: "Deleted User",
+                  _id: null,
+                  profilePicture: null
+                };
+
                 const formattedText = comment.text.split(' ').map((word, i) => {
                   if (word.startsWith('@')) {
                     return <span key={i} className="mention-text">{word} </span>;
@@ -221,17 +229,17 @@ function PostDetailsPage() {
                     <div className="comment-header" style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
 
                       <div className="comment-avatar">
-                        {comment.author.profilePicture ? (
+                        {comment.author ? (
                           <img src={comment.author.profilePicture} alt="avatar" />
                         ) : (
-                          <span>{comment.author.username.charAt(0).toUpperCase()}</span>
+                          <span>{author.username.charAt(0).toUpperCase()}</span>
                         )}
                       </div>
 
-                      <strong className="comment-author" style={{ margin: 0 }}>
-                        <NavLink to={`/profile/${comment.author._id}`}>
+                      <strong className="comment-author" style={{ margin: 0 }}>{
+                        author._id ? (<NavLink to={`/profile/${comment.author._id}`}>
                           {comment.author.displayName}
-                        </NavLink>
+                        </NavLink>) : (<span style={{ color: '#999', fontStyle: 'italic' }}>{author.displayName}</span>)}
                       </strong>
                     </div>
                     <p className="comment-text">{formattedText}</p>

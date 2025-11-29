@@ -9,7 +9,7 @@ function ProfileEditPage() {
 
     const { id } = useParams();
     const navigate = useNavigate();
-    const { userId } = useAuth();
+    const { userId, logout } = useAuth();
 
     const [bio, setBio] = useState("");
     const [displayName, setDisplayName] = useState("");
@@ -72,6 +72,25 @@ function ProfileEditPage() {
         }
     }
 
+    const handleDeleteAccount = async () => {
+        if (window.confirm("ARE YOU SURE? Your account and your posts will be permanently deleted!")) {
+            try {
+                setIsLoading(true);
+                await api.delete(`/users/${id}`);
+                toast.success("Your account has been deleted.")
+
+                logout();
+                navigate("/");
+            } catch (error) {
+                console.error(error);
+                toast.error("Account couldnt be deleted")
+                setIsLoading(false);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+    }
+
     return (
         <div className="profile-container">
             <div className="profile-header">
@@ -127,6 +146,28 @@ function ProfileEditPage() {
                         </button>
                         <button type="submit" className="submit-btn" disabled={isLoading}>
                             {isLoading ? 'Updating...' : 'Update'}
+                        </button>
+                    </div>
+
+                    <div style={{ marginTop: '140px', borderTop: '1px solid #eee', paddingTop: '20px', textAlign: 'center' }}>
+                        <p style={{ fontSize: '0.9rem', color: '#777', marginBottom: '10px' }}>
+                            This action cannot be reversed.
+                        </p>
+                        <button
+                            type="button"
+                            onClick={handleDeleteAccount}
+                            style={{
+                                border: '1px solid #e74c3c',
+                                color: '#e74c3c',
+                                padding: '10px 20px',
+                                borderRadius: '8px',
+                                cursor: 'pointer',
+                                fontSize: '0.9rem',
+                                fontWeight: 'bold'
+                            }}
+                            className='post-edit--delete-btn'
+                        >
+                            Permanently Delete My Account 🗑️
                         </button>
                     </div>
                 </form>
