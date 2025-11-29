@@ -9,6 +9,7 @@ import ProtectedRoute from '../components/ProtectedRoute'
 import PostEditPage from '../pages/PostEditPage'
 import ProfilePage from '../pages/ProfilePage'
 import ProfileEditPage from '../pages/ProfileEditPage'
+import VerifyEmailPage from '../pages/VerifyEmailPage'
 
 function RouterConfig() {
   return (
@@ -18,6 +19,7 @@ function RouterConfig() {
       <Route exact path="/posts/:id" element={<PostDetailsPage />}></Route>
       <Route exact path="/register" element={<RegisterPage />}></Route>
       <Route exact path="/profile/:id" element={<ProfilePage/>}></Route>
+      <Route exact path="/verify-email" element={<VerifyEmailPage/>}></Route>
 
       <Route element={<ProtectedRoute />}>
         <Route exact path="/create-post" element={<CreatePostPage />}></Route>

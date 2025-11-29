@@ -11,6 +11,7 @@ function RegisterPage() {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const navigate = useNavigate();
 
@@ -18,15 +19,20 @@ function RegisterPage() {
     e.preventDefault();
     setError(null);
     setIsLoading(true);
-
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match!");
+      setIsLoading(false);
+      return;
+    }
     try {
       await api.post("/auth/register", {
         username: username,
         email: email,
         password: password
       });
-      toast.success("Registered")
-      navigate('/login');
+      toast.success("Code sent! Please check your email.")
+      navigate("/verify-email", { state: { email: email } });
+
     } catch (error) {
       console.error("Register error:", error);
       setError(error.response ? error.response.data.message : "Error");
@@ -55,6 +61,11 @@ function RegisterPage() {
           <div className='form-group'>
             <label htmlFor="password">Password</label>
             <input className='form-input' type="password" id='password' value={password} minLength={6} required placeholder='Password' onChange={(e) => { setPassword(e.target.value) }} />
+            <div className='form-group'>
+              <label>Confirm Password</label>
+              <input type="password" className='form-input' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder='Repeat password' required
+              />
+            </div>
             <p style={{ fontSize: '0.8rem', color: '#666', marginTop: '5px' }}>
               * Password must contain at least 6 characters, 1 Uppercase Letter, 1 Lowercase Letter and 1 Number!
             </p>
