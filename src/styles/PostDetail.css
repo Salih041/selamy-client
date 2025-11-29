@@ -282,3 +282,21 @@
     transform: translateY(-2px);
     cursor:pointer
 }
+
+.comment-bubble.mentioned {
+    background-color: #fff8e1;
+    border-left: 4px solid #f1c40f;
+    animation: highlightPulse 2s infinite;
+}
+
+
+.mention-text {
+    color: #3498db;
+    font-weight: bold;
+}
+
+@keyframes highlightPulse {
+    0% { background-color: #fff8e1; }
+    50% { background-color: #fff3cd; }
+    100% { background-color: #fff8e1; }
+}

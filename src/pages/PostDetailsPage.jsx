@@ -156,9 +156,9 @@ function PostDetailsPage() {
           </div>
         </header>
 
-        <div className='post-content' dangerouslySetInnerHTML={{ 
-                __html: DOMPurify.sanitize(post.content) 
-            }}>
+        <div className='post-content' dangerouslySetInnerHTML={{
+          __html: DOMPurify.sanitize(post.content)
+        }}>
         </div>
 
         {post.tags && post.tags.length > 0 && (
@@ -197,11 +197,18 @@ function PostDetailsPage() {
             post.commentCount > 0 ? (
               post.comments.toReversed().map(comment => {
                 const hasLikedComment = comment.likes.includes(userId);
+                const isMentioned = comment.mentions && comment.mentions.some(id => id.toString() === userId);
+                const formattedText = comment.text.split(' ').map((word, i) => {
+                  if (word.startsWith('@')) {
+                    return <span key={i} className="mention-text">{word} </span>;
+                  }
+                  return word + ' ';
+                });
                 return (
-                  <article key={comment._id} className='comment-bubble'>
+                  <article key={comment._id} className={`comment-bubble ${isMentioned ? 'mentioned' : ''}`}>
                     <strong className="comment-author"><NavLink to={`/profile/${comment.author._id}`}>
                       {comment.author.username}</NavLink></strong>
-                    <p className="comment-text">{comment.text}</p>
+                    <p className="comment-text">{formattedText}</p>
                     <div className="comment-actions">
                       <button
                         className="comment-like-btn"
