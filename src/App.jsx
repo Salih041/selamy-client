@@ -2,6 +2,7 @@ import './App.css'
 import Navbar from './components/Navbar'
 import RouterConfig from './config/RouterConfig'
 import { Toaster } from 'react-hot-toast'
+import FloatingPostButton from './components/FloatingPostButton'
 
 function App() {
 
@@ -11,6 +12,7 @@ function App() {
       
       <Navbar></Navbar>
       <RouterConfig></RouterConfig>
+      <FloatingPostButton/>
     </>
   )
 }

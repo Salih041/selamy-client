@@ -1,0 +1,42 @@
+.floating-post-btn {
+    position: fixed; 
+    bottom: 40px;  
+    right: 40px;  
+    
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    
+    background-color: #0dd7e6;
+    color: rgb(239, 255, 239);
+    border: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+    
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.floating-post-btn:hover {
+    background-color: #1da3ad;
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 1.1);
+}
+
+@media (max-width: 768px) {
+    .floating-post-btn {
+        width: 50px;
+        height: 50px;
+        bottom: 20px;
+        right: 20px;
+        font-size: 24px;
+    }
+}
