@@ -102,7 +102,7 @@ function Navbar() {
       case 'mention':
         return "mentioned you in a comment";
       case 'like':
-        return "liked your post";
+        return "liked one of your content";
       case 'comment':
         return "commented on the post.";
       case 'follow':
