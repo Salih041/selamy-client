@@ -8,6 +8,7 @@ import 'react-quill-new/dist/quill.snow.css';
 
 function CreatePostPage() {
     const MAX_LENGTH = 20000;
+    const MIN_LENGTH = 200;
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [tags, setTags] = useState("");
@@ -76,7 +77,10 @@ function CreatePostPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        if (charCount < MIN_LENGTH) {
+            toast.error(`Content is too short! Minimum: ${MIN_LENGTH}`);
+            return;
+        }
         if (charCount > MAX_LENGTH) {
             toast.error(`Content is too long! Limit: ${MAX_LENGTH}`);
             return;
@@ -106,7 +110,7 @@ function CreatePostPage() {
         }
     }
 
-    const isOverLimit = charCount > MAX_LENGTH;
+    const isInvalidLength = charCount < MIN_LENGTH || charCount > MAX_LENGTH;
 
     return (
         <div className='post-form-container'>
@@ -135,15 +139,18 @@ function CreatePostPage() {
                             placeholder='Write'
                             className='editor-input'
                         />
-                        <div className={`char-counter ${isOverLimit ? 'limit-exceeded' : ''}`}>
-                            {charCount.toLocaleString()} / {MAX_LENGTH.toLocaleString()} characters
+                        <div className={`char-counter ${charCount > MAX_LENGTH
+                            ? 'limit-exceeded'
+                            : (charCount < MIN_LENGTH ? 'under-limit' : '')
+                            }`}>
+                            {charCount.toLocaleString()} / {MAX_LENGTH.toLocaleString()}
                         </div>
                     </div>
 
                     {error && <div className="form-error">{error}</div>}
 
                     <div className="form-actions">
-                        <button type="submit" className="submit-btn" disabled={isLoading || isOverLimit} style={{ opacity: (isLoading || isOverLimit) ? 0.6 : 1 }}>
+                        <button type="submit" className="submit-btn" disabled={isLoading || isInvalidLength} style={{ opacity: (isLoading || isInvalidLength) ? 0.6 : 1 }}>
                             Share
                         </button>
                     </div>

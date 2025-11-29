@@ -171,13 +171,18 @@
     text-align: right;
     font-size: 0.85rem;
     color: #777;
-    margin-top: -15px;
+    margin-top: -5px;
     margin-bottom: 20px;
     font-weight: 500;
     transition: all 0.3s;
 }
 
-.char-counter.limit-exceeded {
+.limit-exceeded {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+.under-limit{
     color: #e74c3c;
     font-weight: bold;
 }
