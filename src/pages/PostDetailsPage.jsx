@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext'
 import toast from 'react-hot-toast'
 import DOMPurify from 'dompurify';
 import UserListModal from '../components/UserListModal'
+import CommentItem from '../components/CommentItem'
 import "../styles/PostDetail.css"
 
 function PostDetailsPage() {
@@ -60,6 +61,24 @@ function PostDetailsPage() {
       console.error("Like error : ", error);
     }
   }
+
+  const handleCommentDeleted = (commentId) => {
+    setPost(prevPost => ({
+      ...prevPost,
+      comments: prevPost.comments.filter(c => c._id !== commentId),
+      commentCount: prevPost.commentCount - 1
+    }));
+  };
+
+  const handleCommentUpdated = (commentId, newText) => {
+    setPost(prevPost => ({
+      ...prevPost,
+      comments: prevPost.comments.map(c =>
+        c._id === commentId ? { ...c, text: newText } : c
+      )
+    }));
+  };
+
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
@@ -214,62 +233,21 @@ function PostDetailsPage() {
         <div className='comment-list'>
           {
             post.commentCount > 0 ? (
-              post.comments.toReversed().map(comment => {
-                const hasLikedComment = comment.likes.includes(userId);
-                const isMentioned = comment.mentions && comment.mentions.some(id => id.toString() === userId);
-
-                const author = comment.author || {
-                  username: "Deleted User",
-                  displayName: "Deleted User",
-                  _id: null,
-                  profilePicture: null
-                };
-
-                const formattedText = comment.text.split(' ').map((word, i) => {
-                  if (word.startsWith('@')) {
-                    return <span key={i} className="mention-text">{word} </span>;
-                  }
-                  return word + ' ';
-                });
-                return (
-                  <article key={comment._id} className={`comment-bubble ${isMentioned ? 'mentioned' : ''}`}>
-                    <div className="comment-header" style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-
-                      <div className="comment-avatar">
-                        {comment.author?.profilePicture && comment.author.profilePicture !== "" ? (
-                          <img src={comment.author.profilePicture} alt="avatar" />
-                        ) : (
-                          <span>{author.username.charAt(0).toUpperCase()}</span>
-                        )}
-                      </div>
-
-                      <strong className="comment-author" style={{ margin: 0 }}>{
-                        author._id ? (<NavLink to={`/profile/${comment.author._id}`}>
-                          {comment.author.displayName}
-                        </NavLink>) : (<span style={{ color: '#999', fontStyle: 'italic' }}>{author.displayName}</span>)}
-                      </strong>
-                    </div>
-                    <p className="comment-text">{formattedText}</p>
-                    <div className="comment-actions">
-                      <button
-                        className="comment-like-btn"
-                        onClick={() => handleLikeComment(comment._id)}
-                        disabled={!isLoggedIn}
-                      >
-                        {hasLikedComment ? '❤️' : '🤍'} Like
-                      </button>
-                      <span>{comment.likeCount}</span>
-                      <span style={{ marginLeft: '10px' }}>• {new Date(comment.createdAt).toLocaleDateString()}</span>
-                    </div>
-                  </article>
-                )
-              })
+              post.comments.toReversed().map(comment => (
+                <CommentItem
+                  key={comment._id}
+                  comment={comment}
+                  postId={post._id}
+                  onCommentUpdated={handleCommentUpdated}
+                  onCommentDeleted={handleCommentDeleted}
+                />
+              ))
             ) : (<p style={{ color: '#777', fontStyle: 'italic' }}>There are no comment</p>)
           }
         </div>
       </section>
       {showLikesModal && (
-        <UserListModal title="Likes" users={post.likes} onClose={()=>{setShowLikesModal(false)}}/>
+        <UserListModal title="Likes" users={post.likes} onClose={() => { setShowLikesModal(false) }} />
       )}
     </div >
   )
