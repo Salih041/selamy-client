@@ -9,7 +9,7 @@
     
     background-color: var(--bg-third);
     color: rgb(239, 255, 239);
-    border: none;
+    border: 2px solid #1da3ad;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
     
     font-size: 40px;
