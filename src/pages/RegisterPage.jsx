@@ -6,6 +6,9 @@ import "../styles/auth.css"
 import toast from 'react-hot-toast';
 
 function RegisterPage() {
+
+  const MAINTENANCE_MODE = true;
+
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -39,6 +42,27 @@ function RegisterPage() {
     } finally {
       setIsLoading(false);
     }
+  }
+
+  if (MAINTENANCE_MODE) {
+    return (
+      <div className='post-form-container' style={{ maxWidth: '400px', textAlign: 'center', marginTop: '50px' }}>
+        <div className='post-form-card'>
+          <h1 className='post-form-title' style={{ color: '#e74c3c', borderBottom: 'none', marginBottom: '10px' }}>
+            ⚠️ Registrations Temporarily Closed
+          </h1>
+
+          <div style={{ fontSize: '3rem', margin: '10px 0' }}>🚧</div>
+
+          <p style={{ color: '#555', lineHeight: '1.6', marginBottom: '20px' }}>
+            New member registration has been temporarily suspended due to work.
+          </p>
+          <div className='auth-footer'>
+            Already have an account? <Link to={"/login"}>Login</Link>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -80,9 +104,9 @@ function RegisterPage() {
           marginTop: '25px',
           borderTop: '1px solid #eee',
           paddingTop: '15px',
-          fontSize: '0.8rem', 
-          color: '#666',    
-          lineHeight: '1.5' 
+          fontSize: '0.8rem',
+          color: '#666',
+          lineHeight: '1.5'
         }}>
           <p style={{ fontWeight: 'bold', marginBottom: '5px', color: '#444' }}>
             By registering, you acknowledge that:
