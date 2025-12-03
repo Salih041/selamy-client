@@ -353,3 +353,9 @@
     margin: 0;
     box-shadow: none;
 }
+
+#comment-username-span{
+    font-style: italic;
+    color: gray;
+    font-size: 0.9rem;
+}

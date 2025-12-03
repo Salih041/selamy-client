@@ -112,9 +112,9 @@
 
 .edit-profile-button {
     font-size: 0.9rem;
-    color: #93009e;
+    color: rgba(255, 192, 203, 0.6);
     text-decoration: none;
-    border: 1px solid #ae009f;
+    border: 1px solid rgba(255, 192, 203, 0.6);
     padding: 4px 12px;
     border-radius: 20px;
     transition: all 0.2s;
@@ -122,7 +122,7 @@
 }
 
 .edit-profile-button:hover {
-    background-color: rgb(126, 0, 116);
+    background-color: rgba(255, 177, 190, 0.8);
     color: white;
 }
 

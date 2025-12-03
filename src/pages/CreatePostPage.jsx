@@ -98,8 +98,8 @@ function CreatePostPage() {
                 tags: tagsArray
             });
             toast.success("Post Created");
-            const newPostId = response.data.savedPost._id;
-            navigate(`/posts/${newPostId}`)
+            const savedPost = response.data.savedPost;
+            navigate(`/posts/${savedPost.slug || savedPost._id}`)
         } catch (error) {
             console.error("Create Post error :", error)
             const errorMessage = error.response?.data?.message || error.message || "Post couldnt be created";

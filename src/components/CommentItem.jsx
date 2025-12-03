@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import "../styles/PostDetail.css"
 import { formatRelativeTime } from '../utils/dateFormater';
 
-function CommentItem({ comment, postId, onCommentUpdated, onCommentDeleted }) {
+function CommentItem({ comment, postId, onCommentUpdated, onCommentDeleted, onReply }) {
 
     const { userId, isLoggedIn } = useAuth();
 
@@ -98,6 +98,13 @@ function CommentItem({ comment, postId, onCommentUpdated, onCommentDeleted }) {
                             <span style={{ color: '#999', fontStyle: 'italic' }}>{author.displayName}</span>
                         )}
                     </strong>
+                    <span id='comment-username-span'>
+                        {author._id ? (
+                            "@" + author.username
+                        ) : (
+                            ""
+                        )}
+                    </span>
                 </div>
 
                 {isAuthor && !isEditing && (
@@ -139,6 +146,14 @@ function CommentItem({ comment, postId, onCommentUpdated, onCommentDeleted }) {
                 </button>
 
                 <span>{likeCount}</span>
+
+                {isLoggedIn && !isAuthor && (
+                    <button onClick={() => { onReply(author.username) }} style={{
+                        background: 'none', border: 'none', color: '#3498db', cursor: 'pointer', fontSize: '0.8rem', fontWeight: '600', marginLeft: '10px'
+                    }}>
+                        Reply
+                    </button>
+                )}
 
                 <span style={{ marginLeft: '10px' }}>• {formatRelativeTime(comment.createdAt)}</span>
             </div>

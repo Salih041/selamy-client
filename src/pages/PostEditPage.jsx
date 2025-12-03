@@ -19,6 +19,7 @@ function PostEditPage() {
     const navigate = useNavigate();
     const quillRef = useRef(null);
     const [charCount, setCharCount] = useState(0);
+    const [postSlug, setPostSlug] = useState("");
 
     const getInitialCharCount = (html) => {
         const doc = new DOMParser().parseFromString(html, 'text/html');
@@ -91,6 +92,7 @@ function PostEditPage() {
                 setContent(response.data.content);
 
                 setCharCount(getInitialCharCount(response.data.content));
+                setPostSlug(response.data.slug || response.data._id);
 
                 if (response.data.tags && Array.isArray(response.data.tags)) {
                     setTags(response.data.tags.join(", "));
@@ -119,14 +121,14 @@ function PostEditPage() {
 
         const tagsArray = tags.split(',').map(tag => tag.trim()).filter(tag => tag !== "");
         try {
-            await api.put(`/posts/${id}`, {
+            const response = await api.put(`/posts/${id}`, {
                 title: title,
                 content: content,
                 tags: tagsArray
             });
             toast.success("Post Updated")
-
-            navigate(`/posts/${id}`);
+            const updatedPost = response.data;
+            navigate(`/posts/${updatedPost.slug || updatedPost._id}`);
 
         } catch (error) {
             console.error("Error:", error);
@@ -185,7 +187,7 @@ function PostEditPage() {
                         <button 
                             type="button" 
                             className="cancel-btn"
-                            onClick={() => navigate(`/posts/${id}`)} 
+                            onClick={() => navigate(`/posts/${postSlug || id}`)} 
                         >
                             Cancel
                         </button>

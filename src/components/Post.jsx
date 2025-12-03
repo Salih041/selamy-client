@@ -4,7 +4,7 @@ import "../styles/postCard.css"
 import {formatRelativeTime} from "../utils/dateFormater"
 
 function Post({ postProps }) {
-    const { _id, title, content, comments, commentCount, like, likeCount, author, createdAt, tags } = postProps;
+    const { _id, title, content, comments, commentCount, like, likeCount, author, createdAt, tags , slug} = postProps;
     const formattedDate = formatRelativeTime(createdAt)
     const navigate = useNavigate();
 
@@ -18,7 +18,7 @@ function Post({ postProps }) {
     const plainText = stripHtml(content);
 
     const handleCardClick = () => {
-        navigate(`/posts/${_id}`);
+        navigate(`/posts/${slug || _id}`)
     }
 
     const handleTagClick = (e, tag) => {

@@ -16,6 +16,7 @@ function ProfileEditPage() {
     const [previewImage, setPreviewImage] = useState(null);
     const [imageFile, setImageFile] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [username, setUsername] = useState("");
 
     useEffect(() => {
         if (userId && userId !== id) {
@@ -30,6 +31,7 @@ function ProfileEditPage() {
                 const res = await api.get(`/users/${id}`);
                 setBio(res.data.bio || "");
                 setDisplayName(res.data.displayName || res.data.username);
+                setUsername(res.data.username);
                 setPreviewImage(res.data.profilePicture || null);
             } catch (error) {
                 console.error(error);
@@ -53,7 +55,9 @@ function ProfileEditPage() {
 
         const formData = new FormData();
         formData.append('bio', bio);
-        formData.append('displayName', displayName);
+
+        const finalDisplayName = displayName.trim() === "" ? username : displayName
+        formData.append('displayName', finalDisplayName);
         if (imageFile) {
             formData.append('profilePicture', imageFile);
         }
@@ -62,6 +66,7 @@ function ProfileEditPage() {
             await api.put(`/users/update/${id}`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
+            setDisplayName(finalDisplayName)
             toast.success("Profie Updated!");
             navigate(`/profile/${id}`);
         } catch (error) {

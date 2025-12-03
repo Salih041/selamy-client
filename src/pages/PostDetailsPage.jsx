@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef} from 'react'
 import { useParams, NavLink, useNavigate } from 'react-router-dom'
 import api from "../api"
 import { useAuth } from '../context/AuthContext'
@@ -24,6 +24,8 @@ function PostDetailsPage() {
 
   const [showLikesModal, setShowLikesModal] = useState(false);
   const navigate = useNavigate();
+
+  const commentInputRef = useRef(null);
 
   const fetchPostData = async () => {
     try {
@@ -122,7 +124,15 @@ function PostDetailsPage() {
     }
   }
 
-  const handleLikeComment = async (comment_id) => {
+  const handleReplyComment = (username) => {
+    const mention = `@${username} `;
+    setCommentText(prev => prev ? `${prev} ${mention}` : mention);
+    if (commentInputRef.current) {
+        commentInputRef.current.focus();
+    }
+  }
+
+  /*const handleLikeComment = async (comment_id) => {
     if (!isLoggedIn) {
       toast.warn("Please Login")
       return
@@ -149,7 +159,7 @@ function PostDetailsPage() {
     } catch (error) {
       console.error("Like error : ", error);
     }
-  }
+  }*/
 
   const handleTagClick = (e, tag) => {
     e.stopPropagation();
@@ -224,7 +234,7 @@ function PostDetailsPage() {
 
         {isLoggedIn ? (
           <form onSubmit={handleCommentSubmit} className='comment-form'>
-            <textarea rows="3" placeholder='Write your comments' value={commentText} onChange={(e) => { setCommentText(e.target.value) }} required ></textarea>
+            <textarea ref={commentInputRef} rows="3" placeholder='Write your comments' value={commentText} onChange={(e) => { setCommentText(e.target.value) }} required ></textarea>
             <button type='submit' disabled={isSubmitting}>{isSubmitting ? '...' : 'Comment'}</button>
           </form>
         ) : (
@@ -242,6 +252,7 @@ function PostDetailsPage() {
                   postId={post._id}
                   onCommentUpdated={handleCommentUpdated}
                   onCommentDeleted={handleCommentDeleted}
+                  onReply={handleReplyComment}
                 />
               ))
             ) : (<p style={{ color: '#777', fontStyle: 'italic' }}>There are no comment</p>)
