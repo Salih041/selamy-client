@@ -20,7 +20,7 @@ function VerifyEmailPage() {
         e.preventDefault();
         try {
             await api.post("/auth/verify-email", { email, code });
-            toast.success("Account verified! Logging in...");
+            toast.success("Account verified!");
             navigate("/login");
         }
         catch (error) {

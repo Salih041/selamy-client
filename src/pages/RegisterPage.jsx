@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 
 function RegisterPage() {
 
-  const MAINTENANCE_MODE = true;
+  const MAINTENANCE_MODE = false;
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
