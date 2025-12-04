@@ -134,6 +134,7 @@ function Navbar() {
 
               {showNotifications && (
                 <div className="notification-dropdown">
+                  <button className="mark-all-btn" onClick={handleMarkAllRead}>Mark All Read</button>
                   {notifications.length > 0 ? (
                     <>
                       {notifications.map(notif => (
@@ -166,7 +167,6 @@ function Navbar() {
                           </div>
                         </div>
                       ))}
-                      <button className="mark-all-btn" onClick={handleMarkAllRead}>Mark All Read</button>
                     </>
                   ) : (
                     <div className="notification-empty">No notification</div>
@@ -198,8 +198,8 @@ function Navbar() {
           </>
         )}
         <button className="theme-toggle-btn" onClick={toggleTheme} title="Temayı Değiştir">
-              {theme === 'light' ? '🌙' : '☀️'}
-            </button>
+          {theme === 'light' ? '🌙' : '☀️'}
+        </button>
       </div>
     </nav>
   )

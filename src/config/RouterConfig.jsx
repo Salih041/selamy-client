@@ -12,6 +12,7 @@ import ProfileEditPage from '../pages/ProfileEditPage'
 import VerifyEmailPage from '../pages/VerifyEmailPage'
 import ForgotPasswordPage from '../pages/ForgotPasswordPage'
 import ResetPasswordPage from '../pages/ResetPasswordPage'
+import NotFoundPage from '../pages/NotFoundPage'
 
 function RouterConfig() {
   return (
@@ -30,6 +31,8 @@ function RouterConfig() {
         <Route exact path="/posts/edit/:id" element={<PostEditPage/>}></Route>
         <Route exact path="/profile/edit/:id" element={<ProfileEditPage/>}></Route>
       </Route>
+
+      <Route path="*" element={<NotFoundPage/>}></Route>
     </Routes>
   )
 }
