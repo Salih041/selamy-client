@@ -48,7 +48,7 @@ function Post({ postProps }) {
                 <span className='post-card__post-date'>{formattedDate}</span>
                 {isEdited && (<>
                 <span>•</span>
-                <span style={{ fontStyle: 'italic', color: '#666', fontWeight:"100" }}>Edited at {formatRelativeTime(editedAt)}</span>
+                <span style={{ fontStyle: 'italic', color: '#666', fontWeight:"100" }}>Edited {formatRelativeTime(editedAt)}</span>
             </>)}
             </div>
 

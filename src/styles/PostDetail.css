@@ -381,3 +381,10 @@
     
     box-shadow: 0 2px 5px rgba(243, 156, 18, 1);
 }
+
+@media (max-width: 600px){
+    .post-content{
+        padding: 0px;
+        font-size: 1rem;
+    }
+}
