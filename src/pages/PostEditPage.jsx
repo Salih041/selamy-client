@@ -14,6 +14,7 @@ function PostEditPage() {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [tags, setTags] = useState("");
+    const [statu, setStatu] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
@@ -42,7 +43,6 @@ function PostEditPage() {
             const loadingToast = toast.loading("Image uploading...");
 
             try {
-                // Sadece resim yükleyen rotamıza istek atıyoruz
                 const res = await api.post('/posts/upload-image', formData, {
                     headers: { 'Content-Type': 'multipart/form-data' }
                 });
@@ -90,6 +90,7 @@ function PostEditPage() {
                 const response = await api.get(`/posts/${id}`);
                 setTitle(response.data.title);
                 setContent(response.data.content);
+                setStatu(response.data.statu);
 
                 setCharCount(getInitialCharCount(response.data.content));
                 setPostSlug(response.data.slug || response.data._id);
@@ -124,7 +125,8 @@ function PostEditPage() {
             const response = await api.put(`/posts/${id}`, {
                 title: title,
                 content: content,
-                tags: tagsArray
+                tags: tagsArray,
+                statu: statu
             });
             toast.success("Post Updated")
             const updatedPost = response.data;
@@ -182,17 +184,23 @@ function PostEditPage() {
                     </div>
 
                     {error && <div className="form-error">{error}</div>}
-
+                    <div className='form-group'>
+                        <label>Statu: </label>
+                        <select value={statu} onChange={(e) => setStatu(e.target.value)}>
+                            <option value="published">Published</option>
+                            <option value="draft">Draft</option>
+                        </select>
+                    </div>
                     <div className="form-actions">
-                        <button 
-                            type="button" 
+                        <button
+                            type="button"
                             className="cancel-btn"
-                            onClick={() => navigate(`/posts/${postSlug || id}`)} 
+                            onClick={() => navigate(`/posts/${postSlug || id}`)}
                         >
                             Cancel
                         </button>
                         <button type="submit" className="submit-btn" disabled={isLoading || isInvalidLength} style={{ opacity: (isLoading || isInvalidLength) ? 0.6 : 1 }}>
-                            Share
+                            {statu === 'draft' ? 'Save Draft' : isLoading ? 'Updating...' : 'Update Post'}
                         </button>
                     </div>
                 </form>

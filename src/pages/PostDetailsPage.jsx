@@ -184,6 +184,7 @@ function PostDetailsPage() {
         )}
 
         <header className='post-header'>
+          {post.statu === 'draft' && (<span className='draft-badge'>Draft</span>)}
           <h1 className='post-title'>{post.title}</h1>
           <div className='post-meta'>
             {authorExists && (<div className="comment-avatar">

@@ -133,3 +133,33 @@
 .post-card__meta {
     align-items: center; 
 }
+
+.post-card.draft-post {
+    border: 3px dashed var(--text-secondary);
+    opacity: 0.6;
+    position: relative;
+    overflow: hidden;
+}
+
+.post-card.draft-post::after {
+    content: "DRAFT";
+    position: absolute;
+    top: 10px;
+    right: -30px;
+    
+    background-color: #f39c12;
+    color: white;
+    font-weight: bold;
+    font-size: 0.8rem;
+    
+    padding: 5px 30px;
+    transform: rotate(45deg);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 10;
+    pointer-events: none;
+}
+
+.post-card.draft-post:hover {
+    opacity: 1;
+    border-color: var(--accent-color);
+}

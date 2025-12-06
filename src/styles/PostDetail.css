@@ -359,3 +359,25 @@
     color: gray;
     font-size: 0.9rem;
 }
+
+.draft-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgba(243, 156, 18, 0.15);
+    color: #d35400;
+    border: 1px solid #f39c12;
+    
+    font-size: 1rem;
+    font-weight: 800; 
+    text-transform: uppercase;
+    letter-spacing: 1px; 
+    
+    padding: 4px 12px;
+    border-radius: 6px;
+    
+    vertical-align: middle;
+    
+    box-shadow: 0 2px 5px rgba(243, 156, 18, 1);
+}

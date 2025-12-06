@@ -343,4 +343,15 @@
         border-width: 1.5px;
         margin-left: 0.8rem;
     }
+
+    .notification-dropdown {
+        position: fixed;
+        top: 70px;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        width: 90%;
+        max-width: 350px;
+        max-height: 60vh;
+    }
 }

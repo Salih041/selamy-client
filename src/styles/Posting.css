@@ -231,3 +231,16 @@
     color: #e74c3c;
     font-weight: bold;
 }
+
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    outline: none;
+    transition: 0.2s;
+}

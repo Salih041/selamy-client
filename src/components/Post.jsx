@@ -4,7 +4,7 @@ import "../styles/postCard.css"
 import {formatRelativeTime} from "../utils/dateFormater"
 
 function Post({ postProps }) {
-    const { _id, title, content, comments, commentCount, like, likeCount, author, createdAt, tags , slug} = postProps;
+    const { _id, title, content, comments, commentCount, like, likeCount, author, createdAt, tags , slug, statu} = postProps;
     const formattedDate = formatRelativeTime(createdAt)
     const navigate = useNavigate();
 
@@ -32,9 +32,9 @@ function Post({ postProps }) {
     }
 
     return (
-        <article className='post-card' onClick={handleCardClick}>
+        <article className={'post-card'+ (statu==='draft' ? ' draft-post': '')} onClick={handleCardClick}>
             <h2 className='post-card__title'> {title} </h2>
-
+            
             <div className='post-card__meta'>
                 <div className="post-card-avatar">
                     {author.profilePicture ? (

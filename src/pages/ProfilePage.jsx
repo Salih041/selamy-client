@@ -13,6 +13,8 @@ function ProfilePage() {
     const [userPosts, setUserPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [activeTab, setActiveTab] = useState("published");
+    const [userDrafts, setUserDrafts] = useState([]);
 
     const isOwnProfile = userId === id;
 
@@ -26,6 +28,11 @@ function ProfilePage() {
 
                 const userPostRes = await api.get(`/posts/user/${id}`);
                 setUserPosts(userPostRes.data);
+
+                if (userId === id) {
+                    const userDraftRes = await api.get(`/posts/my-drafts`);
+                    setUserDrafts(userDraftRes.data);
+                }
             } catch (error) {
                 console.error("Profile error: ", error);
                 const errorMessage = error.response?.data?.message || error.message || "Error";
@@ -36,7 +43,7 @@ function ProfilePage() {
             }
         }
         fetchProfileData();
-    }, [id])
+    }, [id, userId])
 
     if (!profileUser) return <p>User not found</p>
     if (isLoading) return <p> Loading </p>
@@ -83,19 +90,55 @@ function ProfilePage() {
                 </div>
             </div>
             <hr className="profile-divider" />
-            <div className="profile-posts-section">
-                <h2 className="profile-posts-section_Posts-header">Posts</h2>
-                <div className="profile-posts-container">
-                    {userPosts.length > 0 ? (
-                        userPosts.map(post => (
-                            <Post key={post._id} postProps={post} />
-                        ))
-                    ) :
-                        (
-                            <p className="no-post-p">This user has not posted yet</p>
-                        )}
-                </div>
+
+            <div className="profile-tabs">
+                {isOwnProfile && (
+                    <div>
+                        <button className={"tab-btn" + (activeTab === "published" ? " active" : "")} onClick={() => setActiveTab("published")}>
+                            Published
+                        </button>
+                        <button className={"tab-btn" + (activeTab === "drafts" ? " active" : "")} onClick={() => setActiveTab("drafts")}>
+                            Drafts
+                        </button>
+                    </div>
+                )}
             </div>
+            {/*published posts */}
+            {activeTab === "published" && (
+                <div className="profile-posts-section">
+                    <h2 className="profile-posts-section_Posts-header">Posts</h2>
+                    <div className="profile-posts-container">
+                        {userPosts.length > 0 ? (
+                            userPosts.map(post => (
+                                <Post key={post._id} postProps={post} />
+                            ))
+                        ) :
+                            (
+                                <p className="no-post-p">This user has not posted yet</p>
+                            )}
+                    </div>
+                </div>
+            )
+            }
+
+            {/*draft posts */}
+            {isOwnProfile && activeTab === "drafts" && (
+                <div className="profile-posts-section">
+                    <h2 className="profile-posts-section_Posts-header">Drafts</h2>
+                    <div className="profile-posts-container">
+                        {userDrafts.length > 0 ? (
+                            userDrafts.map(post => (
+                                <Post key={post._id} postProps={post} />
+                            ))
+                        ) :
+                            (
+                                <p className="no-post-p">You have no drafts yet</p>
+                            )}
+                    </div>
+                </div>
+            )
+            }
+
         </div>
     )
 }

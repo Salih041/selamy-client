@@ -12,6 +12,7 @@ function CreatePostPage() {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [tags, setTags] = useState("");
+    const [statu, setStatu] = useState("published");
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
@@ -95,7 +96,8 @@ function CreatePostPage() {
             const response = await api.post("/posts", {
                 title: title,
                 content: content,
-                tags: tagsArray
+                tags: tagsArray,
+                statu: statu
             });
             toast.success("Post Created");
             const savedPost = response.data.savedPost;
@@ -148,7 +150,13 @@ function CreatePostPage() {
                     </div>
 
                     {error && <div className="form-error">{error}</div>}
-
+                    <div className='form-group'>
+                        <label>Statu: </label>
+                        <select value={statu} onChange={(e) => setStatu(e.target.value)}>
+                            <option value="published">Published</option>
+                            <option value="draft">Draft</option>
+                        </select>
+                    </div>
                     <div className="form-actions">
                         <button 
                             type="button" 
@@ -159,7 +167,7 @@ function CreatePostPage() {
                         </button>
 
                         <button type="submit" className="submit-btn" disabled={isLoading || isInvalidLength} style={{ opacity: (isLoading || isInvalidLength) ? 0.6 : 1 }}>
-                            Share
+                            {statu === 'draft' ? 'Save Draft' : isLoading ? 'Posting...' : 'Post'}
                         </button>
                     </div>
                 </form>
