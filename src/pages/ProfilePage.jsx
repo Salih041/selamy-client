@@ -5,6 +5,7 @@ import api from "../api";
 import Post from "../components/Post";
 import toast from "react-hot-toast";
 import "../styles/ProfilPage.css";
+import { FaGithub, FaTwitter, FaInstagram } from "react-icons/fa";
 
 function ProfilePage() {
     const { id } = useParams();
@@ -87,6 +88,21 @@ function ProfilePage() {
                             "{profileUser.bio}"
                         </p>
                     )}
+
+                    <div className="profile-socials">
+                        {profileUser.socials?.x && (
+                            <a href={profileUser.socials.x} target="_blank" rel="noopener noreferrer">
+                                <FaTwitter size={20} />
+                            </a>)}
+                        {profileUser.socials?.instagram && (
+                            <a href={profileUser.socials.instagram} target="_blank" rel="noopener noreferrer">
+                                <FaInstagram size={20} />
+                            </a>)}
+                        {profileUser.socials?.github && (
+                            <a href={profileUser.socials.github} target="_blank" rel="noopener noreferrer">
+                                <FaGithub size={20} />
+                            </a>)}
+                    </div>
 
                     <p className="profile-join-date">{new Date(profileUser.createdAt).toLocaleDateString('tr-TR')}</p>
                     <div className="profile-stats">

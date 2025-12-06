@@ -10,6 +10,14 @@ import CommentItem from '../components/CommentItem'
 import "../styles/PostDetail.css"
 import { formatRelativeTime } from '../utils/dateFormater';
 
+DOMPurify.addHook('afterSanitizeAttributes', function (node) {
+  if ('target' in node) {
+    node.setAttribute('target', '_blank');
+    node.setAttribute('rel', 'noopener noreferrer');
+  }
+});
+
+
 function PostDetailsPage() {
 
   const [post, setPost] = useState(null);

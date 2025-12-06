@@ -321,6 +321,18 @@ label.submit-btn {
     100% { background-position: 0% 50%; }
 }
 
+.profile-socials a {
+    transition: transform 0.2s, opacity 0.2s;
+    color: var(--text-primary) !important; 
+    margin-right: 5px;
+}
+
+.profile-socials a:hover {
+    transform: translateY(-3px);
+    opacity: 0.8;
+    color: var(--accent-color) !important;
+}
+
 @media (max-width: 600px) {
     .profile-header {
         flex-direction: column;

@@ -15,6 +15,7 @@ function ProfileEditPage() {
     const [displayName, setDisplayName] = useState("");
     const [previewImage, setPreviewImage] = useState(null);
     const [imageFile, setImageFile] = useState(null);
+    const [socials, setSocials] = useState({x: "", instagram: "", github: ""});
     const [isLoading, setIsLoading] = useState(false);
     const [username, setUsername] = useState("");
 
@@ -33,6 +34,7 @@ function ProfileEditPage() {
                 setDisplayName(res.data.displayName || res.data.username);
                 setUsername(res.data.username);
                 setPreviewImage(res.data.profilePicture || null);
+                setSocials(res.data.socials || {x: "", instagram: "", github: ""});
             } catch (error) {
                 console.error(error);
                 toast.error("Information could not be loaded");
@@ -61,6 +63,7 @@ function ProfileEditPage() {
         if (imageFile) {
             formData.append('profilePicture', imageFile);
         }
+        formData.append('socials', JSON.stringify(socials));
 
         try {
             await api.put(`/users/update/${id}`, formData, {
@@ -139,6 +142,34 @@ function ProfileEditPage() {
                             maxLength={140}
                         />
                         <small>{bio.length}/140</small>
+                    </div>
+
+                    <div className="form-group">
+                            <label>Social Links</label>
+                            <input
+                                className="form-input"
+                                type="url"
+                                value={socials.x}
+                                onChange={(e) => setSocials({ ...socials, x: e.target.value.trim() })}
+                                placeholder="X (Twitter) URL"
+                                style={{ marginBottom: '5px' }}
+                            />
+                            <input
+                                className="form-input"
+                                type="url"
+                                value={socials.instagram}
+                                onChange={(e) => setSocials({ ...socials, instagram: e.target.value.trim() })}
+                                placeholder="Instagram URL"
+                                style={{ marginBottom: '5px' }}
+                            />
+                            <input
+                                className="form-input"
+                                type="url"
+                                value={socials.github}
+                                onChange={(e) => setSocials({ ...socials, github: e.target.value.trim() })}
+                                placeholder="Github URL"
+                                style={{ marginBottom: '5px' }}
+                            />
                     </div>
 
                     <div className="form-actions">
