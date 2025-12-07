@@ -6,6 +6,7 @@ import Post from "../components/Post";
 import toast from "react-hot-toast";
 import "../styles/ProfilPage.css";
 import { FaGithub, FaTwitter, FaInstagram } from "react-icons/fa";
+import FollowButton from "../components/FollowButton";
 
 function ProfilePage() {
     const { id } = useParams();
@@ -73,10 +74,12 @@ function ProfilePage() {
                                 &#9733;
                             </span>
                         )}
-                        {isOwnProfile && (
+                        {isOwnProfile ? (
                             <Link className="edit-profile-button" to={`/profile/edit/${id}`}>
                                 Edit
                             </Link>
+                        ):(
+                            <FollowButton targetUserId={id} isFollowingInitial={profileUser.followers?.includes(userId)}></FollowButton>
                         )}
                     </h1>
                     <p style={{ color: '#888', margin: '-5px 0 10px 0', fontSize: '0.9rem' }}>
@@ -106,6 +109,9 @@ function ProfilePage() {
 
                     <p className="profile-join-date">{new Date(profileUser.createdAt).toLocaleDateString('tr-TR')}</p>
                     <div className="profile-stats">
+                        <span><strong>{profileUser.followers?.length || 0}</strong> Followers</span>
+                        <span><strong>{profileUser.following?.length || 0}</strong> Following</span>
+                        <br /><br />
                         <span><strong>{userPosts.length}</strong> Posts</span>
                     </div>
                 </div>

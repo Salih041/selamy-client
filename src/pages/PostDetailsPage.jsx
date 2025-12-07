@@ -9,6 +9,7 @@ import UserListModal from '../components/UserListModal'
 import CommentItem from '../components/CommentItem'
 import "../styles/PostDetail.css"
 import { formatRelativeTime } from '../utils/dateFormater';
+import FollowButton from '../components/FollowButton';
 
 DOMPurify.addHook('afterSanitizeAttributes', function (node) {
   if ('target' in node) {
@@ -35,6 +36,8 @@ function PostDetailsPage() {
 
   const commentInputRef = useRef(null);
 
+  const [currentUserFollowing, setCurrentUserFollowing] = useState([]);
+
   const fetchPostData = async () => {
     try {
       setError(null);
@@ -43,6 +46,11 @@ function PostDetailsPage() {
 
       setPost(response.data)
       console.log(response.data)
+
+      if(isLoggedIn){
+        const currentUserResponse = await api.get(`/users/${userId}`);
+        setCurrentUserFollowing(currentUserResponse.data.following || []);
+      }
 
     } catch (error) {
       console.log("error : ", error);
@@ -220,6 +228,9 @@ function PostDetailsPage() {
               <span>•</span>
               <span style={{ fontStyle: 'italic', color: '#666' }}>Edited {formatRelativeTime(post.editedAt)}</span>
             </>)}
+            {authorExists && userId !== post.author._id && (
+              <FollowButton targetUserId={post.author._id} isFollowingInitial={currentUserFollowing.includes(post.author._id)}></FollowButton>
+            )}
           </div>
         </header>
 

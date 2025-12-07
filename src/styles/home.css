@@ -55,3 +55,32 @@
     background-color: rgb(255, 109, 109);
     border-color: var(--accent-color);
 }
+
+.home-tabs {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    border-bottom: 1px solid var(--border-color, #ddd);
+}
+
+.home-tabs .tab-btn {
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-secondary, #666);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 0; 
+}
+
+.home-tabs .tab-btn.active {
+    color: var(--accent-color, #333);
+    border-bottom-color: var(--accent-color, #3498db);
+}
+
+.home-tabs .tab-btn:hover {
+    color: var(--text-primary, #333);
+}

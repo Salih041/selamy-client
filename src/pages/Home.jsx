@@ -12,6 +12,7 @@ function Home() {
     const [pagination, setPagination] = useState({ currentPage: 1, totalPages: 1, limit: 20, totalResults: 0 })
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null)
+    const [activeTab, setActiveTab] = useState("all");
 
     const [searchParams, setSearchParams] = useSearchParams();
     const searchTerm = searchParams.get("search");
@@ -27,7 +28,8 @@ function Home() {
                 url = `/posts/search?q=${searchTerm}&page=${page}&limit=20`
             }
             else {
-                url = `/posts?page=${page}&limit=20`
+                if (activeTab === "all") url = `/posts?page=${page}&limit=20`;
+                else url = `/posts/feed?page=${page}&limit=20`;
             }
 
             const response = await api.get(url);
@@ -43,11 +45,11 @@ function Home() {
 
     useEffect(() => {
         fetchPosts();
-    }, [page, searchTerm]);
+    }, [page, searchTerm, activeTab]);
 
     useEffect(() => {
         setPage(1);
-    }, [searchTerm])
+    }, [searchTerm, activeTab]);
 
     const clearSearch = () => {
         setSearchParams({}); // url parametre temizleme
@@ -61,13 +63,12 @@ function Home() {
         }
     };
 
-    if (isLoading) {
-        return (
-            <div className='posts-container'>
-                <PostSkeleton cards={6} />
-            </div>
-        );
+    const handleTabChange = (tab) => {
+        if (activeTab !== tab) {
+            setActiveTab(tab);
+        }
     }
+
     if (error) return <p className='error'>Error: {error}</p>;
     return (
         <>
@@ -77,6 +78,31 @@ function Home() {
                     <button onClick={clearSearch} className='home_clear-search-button'>Clear Search</button>
                 </div>
             )}
+
+            {!searchTerm && (
+                <div className="home-tabs">
+                    <button
+                        className={`tab-btn ${activeTab === 'all' ? 'active' : ''}`}
+                        onClick={() => handleTabChange('all')}
+                    >
+                        All
+                    </button>
+                    <button
+                        className={`tab-btn ${activeTab === 'feed' ? 'active' : ''}`}
+                        onClick={() => handleTabChange('feed')}
+                    >
+                        Following
+                    </button>
+                </div>
+            )}
+
+            {isLoading ?
+                (
+                    <div className='posts-container'>
+                        <PostSkeleton cards={6} />
+                    </div>
+                ) : ""
+            }
 
             <div className='posts-container'>
                 {
