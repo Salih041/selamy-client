@@ -10,6 +10,7 @@ import CommentItem from '../components/CommentItem'
 import "../styles/PostDetail.css"
 import { formatRelativeTime } from '../utils/dateFormater';
 import FollowButton from '../components/FollowButton';
+import { Helmet } from 'react-helmet'
 
 DOMPurify.addHook('afterSanitizeAttributes', function (node) {
   if ('target' in node) {
@@ -45,7 +46,6 @@ function PostDetailsPage() {
       const response = await api.get(`/posts/${id}`);
 
       setPost(response.data)
-      console.log(response.data)
 
       if(isLoggedIn){
         const currentUserResponse = await api.get(`/users/${userId}`);
@@ -192,6 +192,14 @@ function PostDetailsPage() {
   const authorExists = !!post.author;
   return (
     <div className='Post-detail-wrapper'>
+      {
+        post && (
+          <Helmet>
+            <title>{post.title} | SelamY</title>
+            <meta name='description' content={post.content.substring(0,150)}/>
+          </Helmet>
+        )
+      }
       <article className='full-post-artice'>
         {canManage && (
           <div className='owner-controls'>
