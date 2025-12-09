@@ -5,6 +5,7 @@ import { Toaster } from 'react-hot-toast'
 import FloatingPostButton from './components/FloatingPostButton'
 import ScrollToTop from './components/ScrollTop'
 import Footer from './components/Footer'
+import { Helmet } from 'react-helmet'
 
 function App() {
 
@@ -13,6 +14,9 @@ function App() {
       <ScrollToTop></ScrollToTop>
       <Toaster position="top-center" toastOptions={{ duration: 2000 }} />
       <div className="app-wrapper" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <Helmet>
+          <title>SelamY</title>
+        </Helmet>
         <Navbar></Navbar>
         <div style={{flex: 1}}>
           <RouterConfig></RouterConfig>
