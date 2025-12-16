@@ -112,9 +112,9 @@
 
 .edit-profile-button {
     font-size: 0.9rem;
-    color: rgba(255, 192, 203, 0.802);
+    color: rgba(94, 21, 33, 0.802);
     text-decoration: none;
-    border: 1px solid rgba(255, 126, 147, 0.806);
+    border: 1px solid rgba(249, 77, 106, 0.806);
     padding: 4px 12px;
     border-radius: 20px;
     transition: all 0.2s;
@@ -297,14 +297,14 @@ label.submit-btn {
 .admin-badge {
     font-size: 0.9rem;
     color: #fff;
-    background: linear-gradient(45deg, #ffd11b, #ff6600);
+    background: linear-gradient(45deg, #1bf4ff, #3300ff);
     padding: 4px 10px;
     border-radius: 20px;
     margin-left: 10px;
     font-weight: 800;
     letter-spacing: 2px;
     text-transform: uppercase;
-    box-shadow: 0 2px 5px rgb(243, 157, 18);
+    box-shadow: 0 2px 5px rgb(243, 18, 221);
     display: inline-flex;
     align-items: center;
     gap: 5px;

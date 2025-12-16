@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useEffect, useRef} from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams, NavLink, useNavigate } from 'react-router-dom'
 import api from "../api"
 import { useAuth } from '../context/AuthContext'
@@ -30,7 +30,7 @@ function PostDetailsPage() {
   const [commentText, setCommentText] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { isLoggedIn, userId , isAdmin} = useAuth();
+  const { isLoggedIn, userId, isAdmin } = useAuth();
 
   const [showLikesModal, setShowLikesModal] = useState(false);
   const navigate = useNavigate();
@@ -47,7 +47,7 @@ function PostDetailsPage() {
 
       setPost(response.data)
 
-      if(isLoggedIn){
+      if (isLoggedIn) {
         const currentUserResponse = await api.get(`/users/${userId}`);
         setCurrentUserFollowing(currentUserResponse.data.following || []);
       }
@@ -140,11 +140,37 @@ function PostDetailsPage() {
     }
   }
 
+  const handleUnpublish = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await api.put(`/posts/${id}`, {
+        title: post.title,
+        content: post.content,
+        tags: post.tagsArray,
+        statu: "draft"
+      });
+      toast.success("Post Unpublished")
+      const updatedPost = response.data;
+      navigate(`/`);
+
+    } catch (error) {
+      console.error("Error:", error);
+      setError(error.response ? error.response.data.message : "Error.");
+      toast.error(error.message || "Error")
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   const handleReplyComment = (username) => {
     const mention = `@${username} `;
     setCommentText(prev => prev ? `${prev} ${mention}` : mention);
     if (commentInputRef.current) {
-        commentInputRef.current.focus();
+      commentInputRef.current.focus();
     }
   }
 
@@ -182,11 +208,24 @@ function PostDetailsPage() {
     navigate(`/?search=${tag}`);
   }
 
+  const handleExternalLinkClick = (e) => {
+    const link = e.target.closest('a');
+    if (!link || !link.href) return;
+    if (link.href.startsWith('http') || link.href.startsWith('https')) {
+      e.preventDefault();
+      const isConfirmed = window.confirm("Are you sure you want to go to :\n" + link.href)
+      if (isConfirmed) {
+        window.open(link.href, '_blank', 'noopener,noreferrer');
+      }
+    }
+  }
+
+
   if (isLoading) return (<p>Loading</p>)
   if (error) return (<p>Error: {error}</p>)
   if (!post) return (<h4>Post Not Found</h4>)
 
-  const hasLiked = post.likes.some(like => (like._id || like).toString() === userId); 
+  const hasLiked = post.likes.some(like => (like._id || like).toString() === userId);
   const isOwner = isLoggedIn && userId === post.author?._id;
   const canManage = isOwner || isAdmin;
   const authorExists = !!post.author;
@@ -196,7 +235,7 @@ function PostDetailsPage() {
         post && (
           <Helmet>
             <title>{post.title} | SelamY</title>
-            <meta name='description' content={post.content.substring(0,150)}/>
+            <meta name='description' content={post.content.substring(0, 150)} />
           </Helmet>
         )
       }
@@ -205,12 +244,13 @@ function PostDetailsPage() {
           <div className='owner-controls'>
             <span>Author Panel:</span>
             <NavLink className="link-edit" to={`/posts/edit/${post._id}`}
-            style={!isOwner ? { 
-                    pointerEvents: 'none',
-                    opacity: 0.5,
-                    cursor: 'not-allowed',
-                    borderColor: '#ccc'
-                } : {}}>Edit Post</NavLink>
+              style={!isOwner ? {
+                pointerEvents: 'none',
+                opacity: 0.5,
+                cursor: 'not-allowed',
+                borderColor: '#ccc'
+              } : {}}>Edit Post</NavLink>
+            <button className="link-edit" onClick={handleUnpublish}>Unpublish</button>
             <button className='button-delete' onClick={handleDeletePost}>Delete Post</button>
           </div>
         )}
@@ -242,7 +282,7 @@ function PostDetailsPage() {
           </div>
         </header>
 
-        <div className='post-content' dangerouslySetInnerHTML={{
+        <div className='post-content' onClick={handleExternalLinkClick} dangerouslySetInnerHTML={{
           __html: DOMPurify.sanitize(post.content)
         }}>
         </div>

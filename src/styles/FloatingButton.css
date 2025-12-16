@@ -9,7 +9,7 @@
     
     background-color: var(--bg-third);
     color: rgb(239, 255, 239);
-    border: 2px solid #1da3ad;
+    border: 2px solid #ad241d;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
     
     font-size: 40px;
@@ -25,7 +25,7 @@
 }
 
 .floating-post-btn:hover {
-    background-color: #1da3ad;
+    background-color: #ad1d1d;
     color: white;
     transform: scale(1.1);
     box-shadow: 0 6px 14px rgba(0, 0, 0, 1.1);

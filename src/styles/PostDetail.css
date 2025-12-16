@@ -74,6 +74,8 @@
 }
 
 .post-meta {
+    display: flex;
+    flex-wrap: wrap;
     color: var(--text-secondary);
     font-size: 0.9rem;
     display: flex;

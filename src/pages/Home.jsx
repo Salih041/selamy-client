@@ -4,6 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import Post from '../components/Post';
 import "../styles/home.css"
 import PostSkeleton from '../components/skeletons/PostSkeleton';
+import {useAuth} from "../context/AuthContext";
 
 function Home() {
 
@@ -13,6 +14,7 @@ function Home() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null)
     const [activeTab, setActiveTab] = useState("all");
+    const {isLoggedIn} = useAuth();
 
     const [searchParams, setSearchParams] = useSearchParams();
     const searchTerm = searchParams.get("search");
@@ -79,7 +81,7 @@ function Home() {
                 </div>
             )}
 
-            {!searchTerm && (
+            {!searchTerm && isLoggedIn &&(
                 <div className="home-tabs">
                     <button
                         className={`tab-btn ${activeTab === 'all' ? 'active' : ''}`}

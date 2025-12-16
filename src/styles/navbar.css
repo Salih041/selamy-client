@@ -19,13 +19,13 @@
     flex-basis: 0;
     font-size: 1.5rem;
     font-weight: bold;
-    color: rgb(150, 0, 0);
+    color: #d62d2d;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     white-space: nowrap;
 }
 
 [data-theme='dark'] .nav__logo {
-    color: rgb(150, 0, 0);
+    color: #ffd15b;
 }
 
 .nav__links {
@@ -121,8 +121,8 @@
 
 .navbar-logout-button {
     background-color: transparent;
-    color: #e74c3c;
-    border: 2px solid #e74c3c;
+    color: #000000;
+    border: 2px solid #380600;
     padding: 6px 16px;
     border-radius: 20px;
     font-weight: 600;
@@ -181,7 +181,7 @@
     align-items: center;
     font-weight: bold;
     border: 2px solid var(--bg-secondary);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 4px rgba(255, 225, 0, 0.2);
 }
 
 .notification-dropdown {
