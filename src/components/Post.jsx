@@ -4,8 +4,8 @@ import "../styles/postCard.css"
 import {formatRelativeTime} from "../utils/dateFormater"
 
 function Post({ postProps }) {
-    const { _id, title, content, comments, commentCount, like, likeCount, author, createdAt, tags , slug, statu, isEdited, editedAt} = postProps;
-    const formattedDate = formatRelativeTime(createdAt)
+    const { _id, title, content, comments, commentCount, like, likeCount, author, createdAt, tags , slug, statu, isEdited, editedAt, firstPublishDate} = postProps;
+    const formattedDate = formatRelativeTime(firstPublishDate)
     const navigate = useNavigate();
 
     const stripHtml = (html) => {

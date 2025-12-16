@@ -271,7 +271,7 @@ function PostDetailsPage() {
               {authorExists ? (<NavLink to={`/profile/${post.author._id}`}>{post.author.displayName}</NavLink>) : (<span style={{ fontStyle: 'italic', color: '#999' }}>Deleted User</span>)}
             </span>
             <span>•</span>
-            <span>📅 {formatRelativeTime(post.createdAt)}</span>
+            <span>📅 {formatRelativeTime(post.firstPublishDate)}</span>
             {post.isEdited && (<>
               <span>•</span>
               <span style={{ fontStyle: 'italic', color: '#666' }}>Edited {formatRelativeTime(post.editedAt)}</span>
