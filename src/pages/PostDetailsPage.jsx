@@ -250,7 +250,9 @@ function PostDetailsPage() {
                 cursor: 'not-allowed',
                 borderColor: '#ccc'
               } : {}}>Edit Post</NavLink>
-            <button className="link-edit" onClick={handleUnpublish}>Unpublish</button>
+            {
+              isAdmin && <button className="link-edit" onClick={handleUnpublish}>Unpublish</button>
+            }
             <button className='button-delete' onClick={handleDeletePost}>Delete Post</button>
           </div>
         )}
