@@ -19,7 +19,7 @@
     flex-basis: 0;
     font-size: 1.5rem;
     font-weight: bold;
-    color: #d62d2d;
+    color: rgb(174, 23, 23);
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     white-space: nowrap;
 }
@@ -47,7 +47,7 @@
 
 .nav__links a.active {
     font-weight: bold;
-    color: rgb(255, 125, 147);
+    color: var(--accent-color);
 }
 
 .search-form {

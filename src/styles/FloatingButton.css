@@ -23,12 +23,19 @@
     z-index: 1000;
     transition: all 0.3s ease;
 }
+[data-theme='dark'] .floating-post-btn {
+    border: 2px solid #ffd15b;
+}
 
 .floating-post-btn:hover {
-    background-color: #ad1d1d;
+    background-color: rgb(174, 23, 23);
     color: white;
     transform: scale(1.1);
     box-shadow: 0 6px 14px rgba(0, 0, 0, 1.1);
+}
+
+[data-theme='dark'] .floating-post-btn:hover {
+    background-color: #ffd15b;
 }
 
 @media (max-width: 768px) {
