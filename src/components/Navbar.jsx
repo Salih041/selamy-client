@@ -7,6 +7,9 @@ import '../styles/navbar.css';
 import { IoMdNotifications } from "react-icons/io";
 import { useTheme } from '../context/ThemeContext';
 import { formatRelativeTime } from '../utils/dateFormater';
+import { BsFillSunFill } from "react-icons/bs";
+import { IoMoonSharp } from "react-icons/io5";
+
 
 
 function Navbar() {
@@ -108,6 +111,10 @@ function Navbar() {
         return "commented on the post.";
       case 'follow':
         return "started following you";
+      case 'delete':
+        return "Your content was deleted for violating our community rules."
+      case 'unpublish':
+        return "Your post has been moved to drafts for violating our community rules. You can edit and republish it"
       default:
         return "interacted with you.";
     }
@@ -198,7 +205,7 @@ function Navbar() {
           </>
         )}
         <button className="theme-toggle-btn" onClick={toggleTheme} title="Temayı Değiştir">
-          {theme === 'light' ? '🌙' : '☀️'}
+          {theme === 'light' ? <IoMoonSharp /> : <BsFillSunFill/>}
         </button>
       </div>
     </nav>

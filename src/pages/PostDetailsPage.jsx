@@ -124,7 +124,7 @@ function PostDetailsPage() {
   }
 
   const handleDeletePost = async () => {
-    if (!isOwner) {
+    if (!canManage ) {
       toast.error("Unauthorized")
       return;
     }

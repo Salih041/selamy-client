@@ -121,8 +121,8 @@
 
 .navbar-logout-button {
     background-color: transparent;
-    color: #000000;
-    border: 2px solid #380600;
+    color: rgb(174, 23, 23);
+    border: 2px solid rgb(174, 23, 23);
     padding: 6px 16px;
     border-radius: 20px;
     font-weight: 600;
@@ -155,14 +155,14 @@
     align-items: center;
     justify-content: center;
     font-size: 1.8rem;
-    color: #FFD700;
+    color: #cefffe;
     transition: color 0.2s;
-    filter: drop-shadow(0 0 5px rgba(0, 51, 255, 0.8));
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 1));
     margin-right: -12px;
 }
 
 .notification-btn:hover {
-    color: #fff200;
+    color: #4bfffc;
     transform: scale(1.1);
 }
 
