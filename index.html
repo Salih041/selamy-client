@@ -5,6 +5,17 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta 
+    http-equiv="Content-Security-Policy" 
+    content="
+      default-src 'self'; 
+      img-src 'self' data: https://res.cloudinary.com; 
+      script-src 'self' 'unsafe-inline'; 
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; 
+      font-src 'self' https://fonts.gstatic.com; 
+      connect-src 'self' http://localhost:3000 https://salih-blog-api-server.onrender.com;
+    "
+  >
   <title>SelamY</title>
   <meta name="description"
     content="SelamY is a modern, secure, and open-source blogging platform for developers and students. Share your writings about technology, software, and life" />
