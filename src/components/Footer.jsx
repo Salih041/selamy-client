@@ -4,7 +4,7 @@ import { FaGithub, FaLinkedin } from 'react-icons/fa';
 
 function Footer() {
     const currentYear = new Date().getFullYear();
-    const version = "v1.5.0";
+    const version = "v0.9.0";
     return (
         <footer className="footer">
             <div className="footer-content">
