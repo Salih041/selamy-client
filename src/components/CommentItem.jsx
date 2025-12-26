@@ -5,6 +5,7 @@ import api from '../api';
 import toast from 'react-hot-toast';
 import "../styles/PostDetail.css"
 import { formatRelativeTime } from '../utils/dateFormater';
+import UserListModal from './UserListModal';
 
 function CommentItem({ comment, postId, onCommentUpdated, onCommentDeleted, onReply }) {
 
@@ -16,6 +17,7 @@ function CommentItem({ comment, postId, onCommentUpdated, onCommentDeleted, onRe
 
     const [likes, setLikes] = useState(comment.likes || []);
     const [likeCount, setLikeCount] = useState(comment.likeCount || 0);
+    const [showCommentLikesModal, setShowCommentLikesModal] = useState(false);
 
     const author = comment.author || {
         username: "Deleted User",
@@ -78,7 +80,10 @@ function CommentItem({ comment, postId, onCommentUpdated, onCommentDeleted, onRe
     });
 
     const isMentioned = comment.mentions && comment.mentions.some(id => id.toString() === userId);
-    const hasLikedComment = likes.some(id => id.toString() === userId);
+    const hasLikedComment = likes.some(like => {
+        const likeId = like._id ? like._id : like;
+        return likeId.toString() === userId?.toString();
+    });
 
     return (
         <article className={`comment-bubble ${isMentioned ? 'mentioned' : ''}`}>
@@ -110,8 +115,9 @@ function CommentItem({ comment, postId, onCommentUpdated, onCommentDeleted, onRe
 
                 {canManage && !isEditing && (
                     <div className="comment-controls" style={{ fontSize: '0.8rem', display: 'flex', gap: '10px' }}>
-                        <button onClick={() => setIsEditing(true)} style={!isAuthor ? { pointerEvents: 'none',opacity: 0.5,cursor: 'not-allowed',borderColor: '#ccc'
-                } : {border: 'none', background: 'none', cursor: 'pointer', color: '#3498db' }}>Edit</button>
+                        <button onClick={() => setIsEditing(true)} style={!isAuthor ? {
+                            pointerEvents: 'none', opacity: 0.5, cursor: 'not-allowed', borderColor: '#ccc'
+                        } : { border: 'none', background: 'none', cursor: 'pointer', color: '#3498db' }}>Edit</button>
                         <button onClick={handleDelete} style={{ border: 'none', background: 'none', cursor: 'pointer', color: '#e74c3c' }}>Delete</button>
                     </div>
                 )}
@@ -147,7 +153,11 @@ function CommentItem({ comment, postId, onCommentUpdated, onCommentDeleted, onRe
                     {hasLikedComment ? '❤️ Liked' : '🤍 Like'}
                 </button>
 
-                <span>{likeCount}</span>
+                <span onClick={() => { if (comment.likeCount > 0) setShowCommentLikesModal(true) }} style={{
+                    cursor: comment.likeCount > 0 ? 'pointer' : 'default',
+                    fontWeight: 'bold',
+                    fontStyle: comment.likeCount > 0 ? 'none' : 'italic'
+                }}>{likeCount}</span>
 
                 {isLoggedIn && !isAuthor && (
                     <button onClick={() => { onReply(author.username) }} style={{
@@ -159,7 +169,11 @@ function CommentItem({ comment, postId, onCommentUpdated, onCommentDeleted, onRe
 
                 <span style={{ marginLeft: '10px' }}>• {formatRelativeTime(comment.createdAt)}</span>
             </div>
+            {showCommentLikesModal && (
+                <UserListModal title="Comment Likes" users={likes} onClose={() => { setShowCommentLikesModal(false) }} />
+            )}
         </article>
+
     );
 }
 
