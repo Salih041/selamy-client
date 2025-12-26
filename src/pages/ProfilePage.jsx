@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import "../styles/ProfilPage.css";
 import { FaGithub, FaTwitter, FaInstagram } from "react-icons/fa";
 import FollowButton from "../components/FollowButton";
+import UserListModal from "../components/UserListModal";
 
 function ProfilePage() {
     const { id } = useParams();
@@ -17,6 +18,8 @@ function ProfilePage() {
     const [error, setError] = useState(null);
     const [activeTab, setActiveTab] = useState("published");
     const [userDrafts, setUserDrafts] = useState([]);
+    const [showFollowersModal, setShowFollowersModal] = useState(false);
+    const [showFollowingModal, setShowFollowingModal] = useState(false);
 
     const isOwnProfile = userId === id;
 
@@ -78,8 +81,11 @@ function ProfilePage() {
                             <Link className="edit-profile-button" to={`/profile/edit/${id}`}>
                                 Edit
                             </Link>
-                        ):(
-                            <FollowButton targetUserId={id} isFollowingInitial={profileUser.followers?.includes(userId)}></FollowButton>
+                        ) : (
+                            <FollowButton targetUserId={id} isFollowingInitial={profileUser.followers?.some(follower => {
+                                const followerId = follower._id ? follower._id : follower;
+                                return followerId.toString() === userId?.toString();
+                            })}></FollowButton>
                         )}
                     </h1>
                     <p style={{ color: '#888', margin: '-5px 0 10px 0', fontSize: '0.9rem' }}>
@@ -109,8 +115,8 @@ function ProfilePage() {
 
                     <p className="profile-join-date">{new Date(profileUser.createdAt).toLocaleDateString('tr-TR')}</p>
                     <div className="profile-stats">
-                        <span><strong>{profileUser.followers?.length || 0}</strong> Followers</span>
-                        <span><strong>{profileUser.following?.length || 0}</strong> Following</span>
+                        <span onClick={() => { if (profileUser.followers.length > 0) setShowFollowersModal(true) }}><strong>{profileUser.followers?.length || 0}</strong> Followers</span>
+                        <span onClick={() => { if (profileUser.following.length > 0) setShowFollowingModal(true) }}><strong>{profileUser.following?.length || 0}</strong> Following</span>
                         <br /><br />
                         <span><strong>{userPosts.length}</strong> Posts</span>
                     </div>
@@ -165,6 +171,12 @@ function ProfilePage() {
                 </div>
             )
             }
+            {showFollowersModal && (
+                <UserListModal title="Followers" users={profileUser.followers} onClose={() => { setShowFollowersModal(false) }} />
+            )}
+            {showFollowingModal && (
+                <UserListModal title="Following" users={profileUser.following} onClose={() => { setShowFollowingModal(false) }} />
+            )}
 
         </div>
     )

@@ -124,7 +124,7 @@ function PostDetailsPage() {
   }
 
   const handleDeletePost = async () => {
-    if (!canManage ) {
+    if (!canManage) {
       toast.error("Unauthorized")
       return;
     }
@@ -279,7 +279,10 @@ function PostDetailsPage() {
               <span style={{ fontStyle: 'italic', color: '#666' }}>Edited {formatRelativeTime(post.editedAt)}</span>
             </>)}
             {authorExists && userId !== post.author._id && (
-              <FollowButton targetUserId={post.author._id} isFollowingInitial={currentUserFollowing.includes(post.author._id)}></FollowButton>
+              <FollowButton targetUserId={post.author._id} isFollowingInitial={currentUserFollowing?.some(followingUser => {
+                const followingId = followingUser._id ? followingUser._id : followingUser;
+                return followingId.toString() === post.author._id?.toString();
+              })}></FollowButton>
             )}
           </div>
         </header>
