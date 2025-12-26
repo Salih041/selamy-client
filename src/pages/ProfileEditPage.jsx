@@ -98,6 +98,17 @@ function ProfileEditPage() {
             }
         }
     }
+    const isValidImageUrl = (url) => {
+    if (!url || typeof url !== 'string') return false;
+    
+    if (url.startsWith("blob:")) return true;
+    
+    if (url.startsWith("http://") || url.startsWith("https://")) return true;
+    
+    if (url.startsWith("data:image/")) return true;
+
+    return false;
+};
 
     return (
         <div className="profile-container">
@@ -119,7 +130,7 @@ function ProfileEditPage() {
 
                     <div className='profile-upload-wrapper'>
                         <div className="profile-avatar">
-                            {previewImage ? (
+                            {previewImage && isValidImageUrl(previewImage) ? (
                                 <img src={previewImage} alt="Avatar" />
                             ) : (
                                 <span>?</span>
