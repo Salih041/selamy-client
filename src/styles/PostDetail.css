@@ -78,7 +78,6 @@
     flex-wrap: wrap;
     color: var(--text-secondary);
     font-size: 0.9rem;
-    display: flex;
     gap: 10px;
     align-items: center;
 }
@@ -393,8 +392,24 @@
     justify-content: center;
     cursor: pointer;
     color: var(--text-primary);
-    margin-left: auto; /* EN ÖNEMLİSİ: Bu onu en sağa yaslar */
+    margin-left: 0;
     transition: all 0.2s ease;
+}
+
+.bookmark-btn {
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-primary);
+    margin-left: auto;
+    transition: all 0.4s ease;
+}
+
+.bookmark-btn:hover{
+    color: #0984e3;
 }
 
 .share-btn:hover {

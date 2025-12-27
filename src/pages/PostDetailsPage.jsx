@@ -12,6 +12,12 @@ import { formatRelativeTime } from '../utils/dateFormater';
 import FollowButton from '../components/FollowButton';
 import { Helmet } from 'react-helmet'
 import { IoShareOutline } from "react-icons/io5";
+import { FaRegBookmark } from "react-icons/fa";
+import { FaBookmark } from "react-icons/fa";
+import { MdBookmarkAdded } from "react-icons/md";
+
+
+
 
 DOMPurify.addHook('afterSanitizeAttributes', function (node) {
   if ('target' in node) {
@@ -39,6 +45,7 @@ function PostDetailsPage() {
   const commentInputRef = useRef(null);
 
   const [currentUserFollowing, setCurrentUserFollowing] = useState([]);
+  const [isSaved, setIsSaved] = useState(false);
 
   const fetchPostData = async () => {
     try {
@@ -51,6 +58,13 @@ function PostDetailsPage() {
       if (isLoggedIn) {
         const currentUserResponse = await api.get(`/users/${userId}`);
         setCurrentUserFollowing(currentUserResponse.data.following || []);
+
+        const savedList = currentUserResponse.data.savedPosts || [];
+        const isPostSaved = savedList.some(saved => {
+          const savedID = saved._id ? saved._id : saved;
+          return savedID.toString() === response.data._id.toString();
+        });
+        setIsSaved(isPostSaved);
       }
 
     } catch (error) {
@@ -230,20 +244,33 @@ function PostDetailsPage() {
           text: "Check out this amazing post! : ",
           url: shareUrl,
         });
-      }catch(error)
-      {
+      } catch (error) {
         console.log("Share Error");
       }
     }
-    else{
-      try{
+    else {
+      try {
         await navigator.clipboard.writeText(shareUrl);
         toast.success("Link copied to clipboard");
       }
-      catch(error)
-      {
+      catch (error) {
         toast.error("Failed to copy link");
       }
+    }
+  }
+
+  const handleBookmarkPost = async () => {
+    if (!isLoggedIn) {
+      toast.error("Please Login to save post");
+      return;
+    }
+    try {
+      const response = await api.put(`posts/${id}/save`);
+      setIsSaved(!isSaved);
+      toast.success(response.data.message);
+    } catch (error) {
+      setIsSaved(false);
+      toast.error("Failed to mark")
     }
   }
 
@@ -286,7 +313,7 @@ function PostDetailsPage() {
 
         <header className='post-header'>
           {post.statu === 'draft' && (<span className='draft-badge'>Draft</span>)}
-          <h1 className='post-title'>{post.title}</h1>
+          <h1 className='post-title'>{post.title} </h1>
           <div className='post-meta'>
             {authorExists && (<div className="comment-avatar">
               {post.author.profilePicture ? (
@@ -311,7 +338,12 @@ function PostDetailsPage() {
                 return followingId.toString() === post.author._id?.toString();
               })}></FollowButton>
             )}
-            <button className="action-btn share-btn" onClick={(e)=>{
+            <button className='action-btn bookmark-btn' onClick={(e) => {
+              e.preventDefault();
+              handleBookmarkPost();
+            }} title='Bookmark'> {isSaved ? <MdBookmarkAdded style={{ fontSize: "2rem" }} /> : <FaRegBookmark style={{ fontSize: "1.6rem" }} />}  </button>
+
+            <button className="action-btn share-btn" onClick={(e) => {
               e.preventDefault();
               handleSharePost();
             }} title='Share'><IoShareOutline /></button>

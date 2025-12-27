@@ -20,6 +20,8 @@ function ProfilePage() {
     const [userDrafts, setUserDrafts] = useState([]);
     const [showFollowersModal, setShowFollowersModal] = useState(false);
     const [showFollowingModal, setShowFollowingModal] = useState(false);
+    const [userBookmarks, setUserBookmarks] = useState([]);
+    const [userLikedPosts, setUserLikedPosts] = useState([]);
 
     const isOwnProfile = userId === id;
 
@@ -37,6 +39,12 @@ function ProfilePage() {
                 if (userId === id) {
                     const userDraftRes = await api.get(`/posts/my-drafts`);
                     setUserDrafts(userDraftRes.data);
+
+                    const userSavedRes = await api.get(`/posts/my-saved`);
+                    setUserBookmarks(userSavedRes.data);
+
+                    const userLikedRes = await api.get(`/posts/my-liked`);
+                    setUserLikedPosts(userLikedRes.data);
                 }
             } catch (error) {
                 console.error("Profile error: ", error);
@@ -133,9 +141,16 @@ function ProfilePage() {
                         <button className={"tab-btn" + (activeTab === "drafts" ? " active" : "")} onClick={() => setActiveTab("drafts")}>
                             Drafts
                         </button>
+                        <button className={"tab-btn" + (activeTab === "liked" ? " active" : "")} onClick={() => setActiveTab("liked")}>
+                            Liked
+                        </button>
+                        <button className={"tab-btn" + (activeTab === "bookmarks" ? " active" : "")} onClick={() => setActiveTab("bookmarks")}>
+                            Bookmarks
+                        </button>
                     </div>
                 )}
             </div>
+
             {/*published posts */}
             {activeTab === "published" && (
                 <div className="profile-posts-section">
@@ -171,6 +186,43 @@ function ProfilePage() {
                 </div>
             )
             }
+            
+            {/*bookmarks*/}
+            {isOwnProfile && activeTab === "bookmarks" && (
+                <div className="profile-posts-section">
+                    <h2 className="profile-posts-section_Posts-header">Bookmarks</h2>
+                    <div className="profile-posts-container">
+                        {userBookmarks.length > 0 ? (
+                            userBookmarks.map(post => (
+                                <Post key={post._id} postProps={post} />
+                            ))
+                        ) :
+                            (
+                                <p className="no-post-p">You have no bookmark yet</p>
+                            )}
+                    </div>
+                </div>
+            )
+            }
+
+            {/*bookmarks*/}
+            {isOwnProfile && activeTab === "liked" && (
+                <div className="profile-posts-section">
+                    <h2 className="profile-posts-section_Posts-header">Liked</h2>
+                    <div className="profile-posts-container">
+                        {userLikedPosts.length > 0 ? (
+                            userLikedPosts.map(post => (
+                                <Post key={post._id} postProps={post} />
+                            ))
+                        ) :
+                            (
+                                <p className="no-post-p">You have not liked a post yet</p>
+                            )}
+                    </div>
+                </div>
+            )
+            }
+
             {showFollowersModal && (
                 <UserListModal title="Followers" users={profileUser.followers} onClose={() => { setShowFollowersModal(false) }} />
             )}
