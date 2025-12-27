@@ -227,7 +227,7 @@ function PostDetailsPage() {
       try {
         await navigator.share({
           title: post.title,
-          text: "Check out this amazing post!",
+          text: "Check out this amazing post! : ",
           url: shareUrl,
         });
       }catch(error)
