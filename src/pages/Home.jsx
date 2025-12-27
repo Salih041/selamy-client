@@ -5,6 +5,7 @@ import Post from '../components/Post';
 import "../styles/home.css"
 import PostSkeleton from '../components/skeletons/PostSkeleton';
 import {useAuth} from "../context/AuthContext";
+import ReleaseNotes from '../components/ReleaseNotesModal';
 
 function Home() {
 
@@ -79,6 +80,7 @@ function Home() {
     if (error) return <p className='error'>Error: {error}</p>;
     return (
         <>
+            <ReleaseNotes></ReleaseNotes>
             {(searchTerm || searchTag) && (
                 <div style={{ textAlign: 'center', margin: '20px', color: '#666' }}>
                     <h3>"{searchTerm ? searchTerm : searchTag}" results:</h3>
