@@ -384,6 +384,23 @@
     box-shadow: 0 2px 5px rgba(243, 156, 18, 1);
 }
 
+.share-btn {
+    background: transparent;
+    border: none;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-primary);
+    margin-left: auto; /* EN ÖNEMLİSİ: Bu onu en sağa yaslar */
+    transition: all 0.2s ease;
+}
+
+.share-btn:hover {
+    color: #0984e3;
+}
+
 @media (max-width: 600px){
     .post-content{
         padding: 0px;

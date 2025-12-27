@@ -11,6 +11,7 @@ import "../styles/PostDetail.css"
 import { formatRelativeTime } from '../utils/dateFormater';
 import FollowButton from '../components/FollowButton';
 import { Helmet } from 'react-helmet'
+import { IoShareOutline } from "react-icons/io5";
 
 DOMPurify.addHook('afterSanitizeAttributes', function (node) {
   if ('target' in node) {
@@ -220,6 +221,32 @@ function PostDetailsPage() {
     }
   }
 
+  const handleSharePost = async () => {
+    const shareUrl = `${window.location.origin}/posts/${post.slug}`;
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: post.title,
+          text: "Check out this amazing post!",
+          url: shareUrl,
+        });
+      }catch(error)
+      {
+        console.log("Share Error");
+      }
+    }
+    else{
+      try{
+        await navigator.clipboard.writeText(shareUrl);
+        toast.success("Link copied to clipboard");
+      }
+      catch(error)
+      {
+        toast.error("Failed to copy link");
+      }
+    }
+  }
+
 
   if (isLoading) return (<p>Loading</p>)
   if (error) return (<p>Error: {error}</p>)
@@ -284,6 +311,10 @@ function PostDetailsPage() {
                 return followingId.toString() === post.author._id?.toString();
               })}></FollowButton>
             )}
+            <button className="action-btn share-btn" onClick={(e)=>{
+              e.preventDefault();
+              handleSharePost();
+            }} title='Share'><IoShareOutline /></button>
           </div>
         </header>
 
