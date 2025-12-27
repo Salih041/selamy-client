@@ -205,7 +205,7 @@ function PostDetailsPage() {
 
   const handleTagClick = (e, tag) => {
     e.stopPropagation();
-    navigate(`/?search=${tag}`);
+    navigate(`/?tag=${tag}`);
   }
 
   const handleExternalLinkClick = (e) => {

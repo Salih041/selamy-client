@@ -18,6 +18,7 @@ function Home() {
 
     const [searchParams, setSearchParams] = useSearchParams();
     const searchTerm = searchParams.get("search");
+    const searchTag = searchParams.get("tag");
 
     const fetchPosts = async () => {
         try {
@@ -28,6 +29,10 @@ function Home() {
 
             if (searchTerm) {
                 url = `/posts/search?q=${searchTerm}&page=${page}&limit=20`
+            }
+            else if (searchTag)
+            {
+                url = `/posts/search?tag=${searchTag}&page=${page}&limit=20`
             }
             else {
                 if (activeTab === "all") url = `/posts?page=${page}&limit=20`;
@@ -47,11 +52,11 @@ function Home() {
 
     useEffect(() => {
         fetchPosts();
-    }, [page, searchTerm, activeTab]);
+    }, [page, searchTerm, searchTag,activeTab]);
 
     useEffect(() => {
         setPage(1);
-    }, [searchTerm, activeTab]);
+    }, [searchTerm, searchTag,activeTab]);
 
     const clearSearch = () => {
         setSearchParams({}); // url parametre temizleme
@@ -74,14 +79,14 @@ function Home() {
     if (error) return <p className='error'>Error: {error}</p>;
     return (
         <>
-            {searchTerm && (
+            {(searchTerm || searchTag) && (
                 <div style={{ textAlign: 'center', margin: '20px', color: '#666' }}>
-                    <h3>"{searchTerm}" results:</h3>
+                    <h3>"{searchTerm ? searchTerm : searchTag}" results:</h3>
                     <button onClick={clearSearch} className='home_clear-search-button'>Clear Search</button>
                 </div>
             )}
 
-            {!searchTerm && isLoggedIn &&(
+            {!searchTerm && !searchTag && isLoggedIn &&(
                 <div className="home-tabs">
                     <button
                         className={`tab-btn ${activeTab === 'all' ? 'active' : ''}`}

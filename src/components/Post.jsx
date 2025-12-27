@@ -23,7 +23,7 @@ function Post({ postProps }) {
 
     const handleTagClick = (e, tag) => {
         e.stopPropagation();
-        navigate(`/?search=${tag}`);
+        navigate(`/?tag=${tag}`);
     }
 
     const handleProfileClick = (e) => {
