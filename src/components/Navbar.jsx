@@ -101,8 +101,8 @@ function Navbar() {
     } catch (error) { console.error(error); }
   };
 
-  const getNotificationText = (type) => {
-    switch (type) {
+  const getNotificationText = (notif) => {
+    switch (notif.type) {
       case 'mention':
         return "mentioned you in a comment";
       case 'like':
@@ -112,9 +112,11 @@ function Navbar() {
       case 'follow':
         return "started following you";
       case 'delete':
-        return "Your content was deleted for violating our community rules."
+        if(notif.message === "") return "Your content was deleted for violating our community rules.";
+        else return `Your content was deleted! Reason: ${notif.message.toString()}`;
       case 'unpublish':
-        return "Your post has been moved to drafts for violating our community rules. You can edit and republish it"
+        if(notif.message === "") return "Your post has been moved to drafts for violating our community rules. You can edit and republish it"
+        else return `Your post has been moved to drafts! Reason: ${notif.message.toString()}`;
       default:
         return "interacted with you.";
     }
@@ -166,7 +168,7 @@ function Navbar() {
                           <div className="notification-content">
                             <p className="notification-text">
                               <strong>{notif.sender?.username || "user"} </strong>
-                              {getNotificationText(notif.type)}
+                              {getNotificationText(notif)}
                             </p>
                             <span className="notification-time">
                               {formatRelativeTime(notif.createdAt)}

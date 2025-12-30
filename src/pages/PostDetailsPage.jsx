@@ -143,14 +143,33 @@ function PostDetailsPage() {
       toast.error("Unauthorized")
       return;
     }
-    if (window.confirm("Are you sure you want to delete this post?")) {
-      try {
-        await api.delete(`/posts/${id}`);
-        toast.success("Post Deleted")
-        navigate("/");
-      } catch (error) {
-        console.error("Error: ", error)
-        toast.error(error.message || "Error")
+    if (!isAdmin && isOwner) {
+      if (window.confirm("Are you sure you want to delete this post?")) {
+        try {
+          await api.delete(`/posts/${id}`);
+          toast.success("Post Deleted")
+          navigate("/");
+        } catch (error) {
+          console.error("Error: ", error)
+          toast.error(error.message || "Error")
+        }
+      }
+    }
+    if (isAdmin) {
+      const reasonText = prompt("Reason : ");
+      if (reasonText !== null) {
+        try {
+          await api.delete(`/posts/${id}`, {
+            params: {
+              reason: reasonText
+            }
+          });
+          toast.success("Post Deleted")
+          navigate("/");
+        } catch (error) {
+          console.error("Error: ", error)
+          toast.error(error.message || "Error")
+        }
       }
     }
   }
@@ -160,24 +179,31 @@ function PostDetailsPage() {
     setIsLoading(true);
     setError(null);
 
-    try {
-      const response = await api.put(`/posts/${id}`, {
-        title: post.title,
-        content: post.content,
-        tags: post.tagsArray,
-        statu: "draft"
-      });
-      toast.success("Post Unpublished")
-      const updatedPost = response.data;
-      navigate(`/`);
-
-    } catch (error) {
-      console.error("Error:", error);
-      setError(error.response ? error.response.data.message : "Error.");
-      toast.error(error.message || "Error")
-      setIsLoading(false);
-    } finally {
-      setIsLoading(false);
+    const reasonText = prompt("Sebep : ");
+    if(reasonText === null) setIsLoading(false);
+    else{
+      try {
+        const response = await api.put(`/posts/${id}`, {
+          title: post.title,
+          content: post.content,
+          tags: post.tagsArray,
+          statu: "draft"
+        },{
+          params : {
+            reason : reasonText
+          }
+        });
+        toast.success("Post Unpublished")
+        const updatedPost = response.data;
+        navigate(`/`);
+      } catch (error) {
+        console.error("Error:", error);
+        setError(error.response ? error.response.data.message : "Error.");
+        toast.error(error.message || "Error")
+        setIsLoading(false);
+      } finally {
+        setIsLoading(false);
+      }
     }
   }
 
