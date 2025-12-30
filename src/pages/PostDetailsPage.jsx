@@ -15,6 +15,9 @@ import { IoShareOutline } from "react-icons/io5";
 import { FaRegBookmark } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa";
 import { MdBookmarkAdded } from "react-icons/md";
+import ReportModal from '../components/ReportModal'
+import { FaRegFlag } from "react-icons/fa6";
+
 
 
 
@@ -46,6 +49,8 @@ function PostDetailsPage() {
 
   const [currentUserFollowing, setCurrentUserFollowing] = useState([]);
   const [isSaved, setIsSaved] = useState(false);
+
+  const [isReportOpen, setIsReportOpen] = useState(false);
 
   const fetchPostData = async () => {
     try {
@@ -180,17 +185,17 @@ function PostDetailsPage() {
     setError(null);
 
     const reasonText = prompt("Sebep : ");
-    if(reasonText === null) setIsLoading(false);
-    else{
+    if (reasonText === null) setIsLoading(false);
+    else {
       try {
         const response = await api.put(`/posts/${id}`, {
           title: post.title,
           content: post.content,
           tags: post.tagsArray,
           statu: "draft"
-        },{
-          params : {
-            reason : reasonText
+        }, {
+          params: {
+            reason: reasonText
           }
         });
         toast.success("Post Unpublished")
@@ -373,6 +378,11 @@ function PostDetailsPage() {
               e.preventDefault();
               handleSharePost();
             }} title='Share'><IoShareOutline /></button>
+
+            {!isOwner && (<button onClick={() => setIsReportOpen(true)} className="report-trigger-btn" title="Report this post">
+              <FaRegFlag/>
+            </button>)}
+            
           </div>
         </header>
 
@@ -436,6 +446,7 @@ function PostDetailsPage() {
       {showLikesModal && (
         <UserListModal title="Likes" users={post.likes} onClose={() => { setShowLikesModal(false) }} />
       )}
+      {isReportOpen && (<ReportModal isOpen={isReportOpen} onClose={()=>{setIsReportOpen(false)}} targetId={post._id} targetType="Post" targetPost={post._id}/>)}
     </div >
   )
 }

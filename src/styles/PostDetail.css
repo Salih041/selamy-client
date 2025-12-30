@@ -394,6 +394,7 @@
     color: var(--text-primary);
     margin-left: 0;
     transition: all 0.2s ease;
+    margin-bottom: 5px;
 }
 
 .bookmark-btn {
@@ -414,6 +415,20 @@
 
 .share-btn:hover {
     color: #0984e3;
+}
+
+.report-trigger-btn
+{
+    border: none;
+    color: rgb(216, 0, 0);
+    font-size: 1.7rem;
+    margin-top: 5px;
+}
+
+.report-trigger-btn:hover{
+    color: #ff2e2e;
+    transform: translateY(-5px);
+    transition: 0.3s
 }
 
 @media (max-width: 600px){

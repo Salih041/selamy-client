@@ -6,6 +6,9 @@ import toast from 'react-hot-toast';
 import "../styles/PostDetail.css"
 import { formatRelativeTime } from '../utils/dateFormater';
 import UserListModal from './UserListModal';
+import ReportModal from './ReportModal';
+import { FaRegFlag } from "react-icons/fa6";
+
 
 function CommentItem({ comment, postId, onCommentUpdated, onCommentDeleted, onReply }) {
 
@@ -18,6 +21,8 @@ function CommentItem({ comment, postId, onCommentUpdated, onCommentDeleted, onRe
     const [likes, setLikes] = useState(comment.likes || []);
     const [likeCount, setLikeCount] = useState(comment.likeCount || 0);
     const [showCommentLikesModal, setShowCommentLikesModal] = useState(false);
+
+    const [isReportOpen, setIsReportOpen] = useState(false);
 
     const author = comment.author || {
         username: "Deleted User",
@@ -168,10 +173,14 @@ function CommentItem({ comment, postId, onCommentUpdated, onCommentDeleted, onRe
                 )}
 
                 <span style={{ marginLeft: '10px' }}>• {formatRelativeTime(comment.createdAt)}</span>
+                {!isAuthor && (<button style={{fontSize:"1.1rem", marginLeft:"auto"}} onClick={() => setIsReportOpen(true)} className="report-trigger-btn" title="Report this post">
+                    <FaRegFlag />
+                </button>)}
             </div>
             {showCommentLikesModal && (
                 <UserListModal title="Comment Likes" users={likes} onClose={() => { setShowCommentLikesModal(false) }} />
             )}
+            {isReportOpen && (<ReportModal isOpen={isReportOpen} onClose={() => { setIsReportOpen(false) }} targetId={comment._id} targetType="Comment" targetPost={postId} />)}
         </article>
 
     );

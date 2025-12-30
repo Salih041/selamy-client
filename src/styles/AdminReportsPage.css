@@ -1,0 +1,111 @@
+.admin-reports-container {
+    margin: 40px auto;
+    padding: 20px;
+    background-color: var(--bg-secondary);
+    border-radius: 15px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.admin-reports-container h1 {
+    margin-bottom: 20px;
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--bg-third);
+    padding-bottom: 15px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.reports-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.reports-table th, .reports-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.reports-table th {
+    background-color: var(--bg-primary);
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.type-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.icon-post { color: #3498db; }
+.icon-comment { color: #2ecc71; }
+.icon-user { color: #9b59b6; }
+
+.report-reason {
+    font-style: italic;
+    color: #e74c3c;
+    background: var(--bg-primary);
+    border: 1px solid black;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.reporter-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+}
+.reporter-link:hover { text-decoration: underline; }
+
+.view-content-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #3498db;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.tiny-id {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-resolve {
+    background-color: #86b7cc;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.85rem;
+    transition: 0.2s;
+}
+
+.btn-dismiss:hover { background-color: #27ae60; }
+
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    color: #777;
+}

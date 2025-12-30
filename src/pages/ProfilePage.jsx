@@ -8,6 +8,8 @@ import "../styles/ProfilPage.css";
 import { FaGithub, FaTwitter, FaInstagram } from "react-icons/fa";
 import FollowButton from "../components/FollowButton";
 import UserListModal from "../components/UserListModal";
+import { FaRegFlag } from "react-icons/fa6";
+import ReportModal from "../components/ReportModal";
 
 function ProfilePage() {
     const { id } = useParams();
@@ -22,6 +24,7 @@ function ProfilePage() {
     const [showFollowingModal, setShowFollowingModal] = useState(false);
     const [userBookmarks, setUserBookmarks] = useState([]);
     const [userLikedPosts, setUserLikedPosts] = useState([]);
+    const [isReportOpen, setIsReportOpen] = useState(false);
 
     const isOwnProfile = userId === id;
 
@@ -78,6 +81,10 @@ function ProfilePage() {
                 </div>
 
                 <div className="profile-info">
+                    {!isOwnProfile && (<button style={{ fontSize: "1.5rem", position: "absolute", top: "0px", right: "0px", zIndex: "9999" }} onClick={() => setIsReportOpen(true)} className="report-trigger-btn" title="Report this post">
+                        <FaRegFlag />
+                    </button>)}
+
                     <h1 className="profile-username">
                         {profileUser.displayName}
                         {profileUser.role === 'admin' && (
@@ -186,7 +193,7 @@ function ProfilePage() {
                 </div>
             )
             }
-            
+
             {/*bookmarks*/}
             {isOwnProfile && activeTab === "bookmarks" && (
                 <div className="profile-posts-section">
@@ -229,7 +236,7 @@ function ProfilePage() {
             {showFollowingModal && (
                 <UserListModal title="Following" users={profileUser.following} onClose={() => { setShowFollowingModal(false) }} />
             )}
-
+            {isReportOpen && (<ReportModal isOpen={isReportOpen} onClose={() => { setIsReportOpen(false) }} targetId={profileUser._id} targetType='User' />)}
         </div>
     )
 }

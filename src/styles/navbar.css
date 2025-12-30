@@ -306,6 +306,21 @@
     background-color: transparent;
 }
 
+.AdminPanelButton{
+    color: orange;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin-right: 5px;
+    transition: 0.4s;
+}
+.AdminPanelButton:hover{
+    color: rgb(255, 183, 50);
+    transition: 0.4s;
+    transform: scale(110%);
+}
+
 @media (max-width: 768px) {
     .nav {
         padding: 0 10px;

@@ -9,12 +9,12 @@ import { useTheme } from '../context/ThemeContext';
 import { formatRelativeTime } from '../utils/dateFormater';
 import { BsFillSunFill } from "react-icons/bs";
 import { IoMoonSharp } from "react-icons/io5";
-
+import { MdAdminPanelSettings } from "react-icons/md";
 
 
 function Navbar() {
 
-  const { isLoggedIn, logout, userId } = useAuth();
+  const { isLoggedIn, logout, userId, isAdmin } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [currentUser, setCurrentUser] = useState(null);
 
@@ -112,10 +112,10 @@ function Navbar() {
       case 'follow':
         return "started following you";
       case 'delete':
-        if(notif.message === "") return "Your content was deleted for violating our community rules.";
+        if (notif.message === "") return "Your content was deleted for violating our community rules.";
         else return `Your content was deleted! Reason: ${notif.message.toString()}`;
       case 'unpublish':
-        if(notif.message === "") return "Your post has been moved to drafts for violating our community rules. You can edit and republish it"
+        if (notif.message === "") return "Your post has been moved to drafts for violating our community rules. You can edit and republish it"
         else return `Your post has been moved to drafts! Reason: ${notif.message.toString()}`;
       default:
         return "interacted with you.";
@@ -133,6 +133,9 @@ function Navbar() {
       </form>
 
       <div className='nav__links'>
+
+        {isAdmin && (<NavLink to="/admin-reports"><MdAdminPanelSettings className='AdminPanelButton' /></NavLink>)}
+
         {isLoggedIn ? (
           <>
             <div className="nav-notification-wrapper">
@@ -207,7 +210,7 @@ function Navbar() {
           </>
         )}
         <button className="theme-toggle-btn" onClick={toggleTheme} title="Temayı Değiştir">
-          {theme === 'light' ? <IoMoonSharp /> : <BsFillSunFill/>}
+          {theme === 'light' ? <IoMoonSharp /> : <BsFillSunFill />}
         </button>
       </div>
     </nav>

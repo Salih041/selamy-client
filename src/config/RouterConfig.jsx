@@ -13,6 +13,7 @@ import VerifyEmailPage from '../pages/VerifyEmailPage'
 import ForgotPasswordPage from '../pages/ForgotPasswordPage'
 import ResetPasswordPage from '../pages/ResetPasswordPage'
 import NotFoundPage from '../pages/NotFoundPage'
+import AdminReportsPage from '../pages/AdminReportsPage'
 
 function RouterConfig() {
   return (
@@ -30,6 +31,10 @@ function RouterConfig() {
         <Route exact path="/create-post" element={<CreatePostPage />}></Route>
         <Route exact path="/posts/edit/:id" element={<PostEditPage/>}></Route>
         <Route exact path="/profile/edit/:id" element={<ProfileEditPage/>}></Route>
+      </Route>
+
+      <Route element={<ProtectedRoute adminOnly={true}/>}>
+        <Route exact path = "/admin-reports" element={<AdminReportsPage/>}></Route>
       </Route>
 
       <Route path="*" element={<NotFoundPage/>}></Route>
