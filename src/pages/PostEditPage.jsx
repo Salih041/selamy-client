@@ -117,10 +117,20 @@ function PostEditPage() {
             return;
         }
 
+        const tagsArray = tags.split(',').map(tag => tag.trim().toLowerCase()).filter(tag => tag !== "");
+        if(tagsArray.length > 15){
+            toast.error('Too many tags(max:15)');
+            return;
+        }
+        const isTagTooLong = tagsArray.some(tag=>tag.length > 20);
+        if(isTagTooLong){
+            toast.error('Some tags are too long (max:20 char)');
+            return;
+        }
+
         setIsLoading(true);
         setError(null);
 
-        const tagsArray = tags.split(',').map(tag => tag.trim()).filter(tag => tag !== "");
         try {
             const response = await api.put(`/posts/${id}`, {
                 title: title,
@@ -161,7 +171,7 @@ function PostEditPage() {
                     </div>
 
                     <div className='form-group'>
-                        <label htmlFor="tags">Tags (seperate with commas(,))</label>
+                        <label htmlFor="tags">Tags (seperate with commas ',')</label>
                         <input className='form-input' type="text" id='tags' placeholder='Tag1, tag2, tag3...' value={tags} onChange={(e) => { setTags(e.target.value) }} />
                     </div>
 

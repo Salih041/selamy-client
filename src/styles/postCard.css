@@ -26,6 +26,7 @@
     margin-top: 0px;
     font-size: 2rem;
     font-weight: bold;
+    overflow: hidden;
 }
 
 .post-card__title a {
