@@ -173,3 +173,11 @@
 .home-tabs .tab-btn:hover {
     color: var(--text-primary, #333);
 }
+
+@media (max-width: 768px) {
+    .home-tabs .tab-btn {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+        width: 80px;
+    }
+}

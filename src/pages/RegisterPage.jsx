@@ -81,6 +81,9 @@ function RegisterPage() {
             <label htmlFor="username">Username</label>
             <input className='form-input' type="text" id='username' value={username} minLength={3} maxLength={20} required placeholder='Username' onChange={(e) => { setUsername(e.target.value) }} />
           </div>
+          <p style={{ fontSize: '0.77rem', color: '#666' }}>
+              * Usernames are case-insensitive and will be stored in lowercase.
+            </p>
 
           <div className='form-group'>
             <label htmlFor="password">Password</label>
@@ -116,7 +119,7 @@ function RegisterPage() {
               <strong>Content Responsibility:</strong> You are entirely responsible for the posts and comments you share.
             </li>
             <li style={{ marginBottom: '5px' }}>
-              <strong>Demo Project:</strong> This is an educational project. Data availability is not guaranteed.
+              <strong>Project Status:</strong> SelamY is an evolving educational project. While core features are stable, data persistence and availability cannot be fully guaranteed.
             </li>
             <li>
               <strong>Privacy:</strong> Your email and data will strictly remain within this application.

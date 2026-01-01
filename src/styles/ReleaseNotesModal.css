@@ -50,9 +50,9 @@
 .rn-modal {
     background-color: var(--bg-secondary);
     color: var(--text-primary);
-    width: 90%;
-    max-width: 500px;
-    max-height: 80vh;
+    width: 100%;
+    max-width: 550px;
+    max-height: 90vh;
     border-radius: 12px;
     box-shadow: 0 10px 10px var(--shadow-color);
     display: flex;
