@@ -4,8 +4,10 @@ import { useSearchParams } from 'react-router-dom';
 import Post from '../components/Post';
 import "../styles/home.css"
 import PostSkeleton from '../components/skeletons/PostSkeleton';
-import {useAuth} from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import ReleaseNotes from '../components/ReleaseNotesModal';
+import { FaFireFlameCurved } from "react-icons/fa6";
+
 
 function Home() {
 
@@ -15,11 +17,26 @@ function Home() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null)
     const [activeTab, setActiveTab] = useState("all");
-    const {isLoggedIn} = useAuth();
+    const { isLoggedIn } = useAuth();
 
     const [searchParams, setSearchParams] = useSearchParams();
     const searchTerm = searchParams.get("search");
     const searchTag = searchParams.get("tag");
+
+    const [popularTags, setPopularTags] = useState([]);
+    const [displayPopularTags, setDisplayPopularTags] = useState(false);
+
+    const handlePopularTags = async () => {
+        try {
+            if (!displayPopularTags) {
+                const response = await api.get("/posts/popular-tags");
+                setPopularTags(response.data);
+            }
+            setDisplayPopularTags(!displayPopularTags);
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
 
     const fetchPosts = async () => {
         try {
@@ -31,8 +48,7 @@ function Home() {
             if (searchTerm) {
                 url = `/posts/search?q=${searchTerm}&page=${page}&limit=20`
             }
-            else if (searchTag)
-            {
+            else if (searchTag) {
                 url = `/posts/search?tag=${searchTag}&page=${page}&limit=20`
             }
             else {
@@ -53,11 +69,11 @@ function Home() {
 
     useEffect(() => {
         fetchPosts();
-    }, [page, searchTerm, searchTag,activeTab]);
+    }, [page, searchTerm, searchTag, activeTab]);
 
     useEffect(() => {
         setPage(1);
-    }, [searchTerm, searchTag,activeTab]);
+    }, [searchTerm, searchTag, activeTab]);
 
     const clearSearch = () => {
         setSearchParams({}); // url parametre temizleme
@@ -88,20 +104,54 @@ function Home() {
                 </div>
             )}
 
-            {!searchTerm && !searchTag && isLoggedIn &&(
+            {!searchTerm && !searchTag && (
                 <div className="home-tabs">
-                    <button
-                        className={`tab-btn ${activeTab === 'all' ? 'active' : ''}`}
-                        onClick={() => handleTabChange('all')}
-                    >
-                        All
-                    </button>
-                    <button
-                        className={`tab-btn ${activeTab === 'feed' ? 'active' : ''}`}
-                        onClick={() => handleTabChange('feed')}
-                    >
-                        Following
-                    </button>
+                    <div className="popular-tags-wrapper">
+                        <button className='popular-tags-btn' onClick={handlePopularTags}>
+                            <FaFireFlameCurved/> Trending
+                        </button>
+
+                        {displayPopularTags && (
+                            <div className='popular-tags-dropdown'>
+                                {popularTags.length > 0 ? (
+                                    <>
+                                        <div className="dropdown-title">Popular Tags</div>
+                                        <div className="tags-grid">
+                                            {popularTags.map((tag, index) => (
+                                                <span
+                                                    key={tag._id || index}
+                                                    className='popular-tags-tag'
+                                                    onClick={() => { setSearchParams("tag=" + tag._id);setDisplayPopularTags(false) }}
+                                                >
+                                                    #{tag._id}
+                                                    <span className="tag-count">{tag.count}</span>
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div className="empty-state">Tags not found</div>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                    {
+                        isLoggedIn && (<div>
+                            <button
+                                className={`tab-btn ${activeTab === 'all' ? 'active' : ''}`}
+                                onClick={() => handleTabChange('all')}
+                            >
+                                All
+                            </button>
+                            <button
+                                className={`tab-btn ${activeTab === 'feed' ? 'active' : ''}`}
+                                onClick={() => handleTabChange('feed')}
+                            >
+                                Following
+                            </button>
+                        </div>)
+                    }
+
                 </div>
             )}
 
