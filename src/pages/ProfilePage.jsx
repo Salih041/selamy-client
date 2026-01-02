@@ -67,16 +67,22 @@ function ProfilePage() {
     return (
         <div className="profile-container">
             <div className="profile-header">
-
-                <div className="profile-avatar" style={{ overflow: 'hidden' }}>
-                    {profileUser.profilePicture ? (
-                        <img
-                            src={profileUser.profilePicture}
-                            alt="Avatar"
-                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                        />
-                    ) : (
-                        profileUser.username.charAt(0).toUpperCase()
+                <div className="profile-avatar-container">
+                    <div className="profile-avatar" style={{ overflow: 'hidden' }}>
+                        {profileUser.profilePicture ? (
+                            <img
+                                src={profileUser.profilePicture}
+                                alt="Avatar"
+                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            />
+                        ) : (
+                            profileUser.username.charAt(0).toUpperCase()
+                        )}
+                    </div>
+                    {profileUser.username === 'sahoni' && (
+                        <span className="admin-badge" title="Admin">
+                            &#9733;
+                        </span>
                     )}
                 </div>
 
@@ -87,11 +93,7 @@ function ProfilePage() {
 
                     <h1 className="profile-username">
                         {profileUser.displayName}
-                        {profileUser.role === 'admin' && (
-                            <span className="admin-badge" title="Admin">
-                                &#9733;
-                            </span>
-                        )}
+
                         {isOwnProfile ? (
                             <Link className="edit-profile-button" to={`/profile/edit/${id}`}>
                                 Edit
@@ -103,6 +105,7 @@ function ProfilePage() {
                             })}></FollowButton>
                         )}
                     </h1>
+
                     <p style={{ color: '#888', margin: '-5px 0 10px 0', fontSize: '0.9rem' }}>
                         @{profileUser.username}
                     </p>
@@ -212,7 +215,7 @@ function ProfilePage() {
             )
             }
 
-            {/*bookmarks*/}
+            {/*liked*/}
             {isOwnProfile && activeTab === "liked" && (
                 <div className="profile-posts-section">
                     <h2 className="profile-posts-section_Posts-header">Liked</h2>

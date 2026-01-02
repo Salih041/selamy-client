@@ -44,6 +44,13 @@
     width: 100%;
 }
 
+.profile-avatar-container
+{
+    width: 120px;
+    height: 120px;
+    position: relative;
+}
+
 .profile-avatar {
     width: 120px;
     height: 120px;
@@ -59,6 +66,7 @@
     overflow: hidden;
     flex-shrink: 0;
     margin-bottom: 15px;
+    position: relative;
 }
 
 .profile-avatar img {
@@ -121,6 +129,9 @@
     border-radius: 20px;
     transition: all 0.2s;
     display: inline-block;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 .edit-profile-button:hover {
@@ -299,21 +310,23 @@ label.submit-btn {
 .admin-badge {
     font-size: 0.9rem;
     color: #fff;
-    background: linear-gradient(45deg, #1bf4ff, #3300ff);
+    background: linear-gradient(45deg, #ffd15b, #ae1717);
     padding: 4px 10px;
-    border-radius: 20px;
-    margin-left: 10px;
+    border-radius: 50%;
     font-weight: 800;
     letter-spacing: 2px;
     text-transform: uppercase;
-    box-shadow: 0 2px 5px rgb(243, 18, 221);
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.781);
     display: inline-flex;
     align-items: center;
-    gap: 5px;
     cursor: help;
     
-    animation: badgeShine 3s infinite linear;
     background-size: 200% auto;
+
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
 }
 
 
