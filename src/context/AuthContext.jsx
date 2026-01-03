@@ -80,8 +80,7 @@ export function AuthProvider({ children }) {
     }
 
 
-    if (isLoading) return <p>loading</p>
-
+    
     return (
         <AuthContext.Provider value={value}>
             {children}

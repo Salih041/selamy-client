@@ -17,6 +17,7 @@ import { FaBookmark } from "react-icons/fa";
 import { MdBookmarkAdded } from "react-icons/md";
 import ReportModal from '../components/ReportModal'
 import { FaRegFlag } from "react-icons/fa6";
+import PostDetailSkeleton from '../components/skeletons/PostDetailSkeleton';
 
 
 
@@ -46,6 +47,7 @@ function PostDetailsPage() {
   const navigate = useNavigate();
 
   const commentInputRef = useRef(null);
+  const likeTimeRef = useRef(null);
 
   const [currentUserFollowing, setCurrentUserFollowing] = useState([]);
   const [isSaved, setIsSaved] = useState(false);
@@ -95,7 +97,7 @@ function PostDetailsPage() {
       await api.put(`/posts/${id}/like`);
       await fetchPostData();
     } catch (error) {
-      console.error("Like error : ", error);
+      console.error("Like error : ", error?.message);
     }
   }
 
@@ -136,8 +138,8 @@ function PostDetailsPage() {
       toast.success("Comment Sent");
       setCommentText("");
     } catch (error) {
-      console.error("Comment error:", err);
-      toast.error(error.message || "Error")
+      console.error("Comment error:", error?.message);
+      toast.error(error?.message || "Error")
     } finally {
       setIsSubmitting(false);
     }
@@ -155,8 +157,8 @@ function PostDetailsPage() {
           toast.success("Post Deleted")
           navigate("/");
         } catch (error) {
-          console.error("Error: ", error)
-          toast.error(error.message || "Error")
+          console.error("Error: ", error?.message)
+          toast.error(error?.message || "Error")
         }
       }
     }
@@ -172,8 +174,8 @@ function PostDetailsPage() {
           toast.success("Post Deleted")
           navigate("/");
         } catch (error) {
-          console.error("Error: ", error)
-          toast.error(error.message || "Error")
+          console.error("Error: ", error?.message)
+          toast.error(error?.message || "Error")
         }
       }
     }
@@ -202,9 +204,9 @@ function PostDetailsPage() {
         const updatedPost = response.data;
         navigate(`/`);
       } catch (error) {
-        console.error("Error:", error);
-        setError(error.response ? error.response.data.message : "Error.");
-        toast.error(error.message || "Error")
+        console.error("Error:", error?.message);
+        setError(error?.response ? error.response.data.message : "Error.");
+        toast.error(error?.message || "Error");
         setIsLoading(false);
       } finally {
         setIsLoading(false);
@@ -306,8 +308,8 @@ function PostDetailsPage() {
   }
 
 
-  if (isLoading) return (<p>Loading</p>)
-  if (error) return (<p>Error: {error}</p>)
+  if (isLoading) return (<PostDetailSkeleton/>)
+  if (error) return (<p>Error: {error?.message}</p>)
   if (!post) return (<h4>Post Not Found</h4>)
 
   const hasLiked = post.likes.some(like => (like._id || like).toString() === userId);
@@ -380,9 +382,9 @@ function PostDetailsPage() {
             }} title='Share'><IoShareOutline /></button>
 
             {!isOwner && (<button onClick={() => setIsReportOpen(true)} className="report-trigger-btn" title="Report this post">
-              <FaRegFlag/>
+              <FaRegFlag />
             </button>)}
-            
+
           </div>
         </header>
 
@@ -446,7 +448,7 @@ function PostDetailsPage() {
       {showLikesModal && (
         <UserListModal title="Likes" users={post.likes} onClose={() => { setShowLikesModal(false) }} />
       )}
-      {isReportOpen && (<ReportModal isOpen={isReportOpen} onClose={()=>{setIsReportOpen(false)}} targetId={post._id} targetType="Post" targetPost={post._id}/>)}
+      {isReportOpen && (<ReportModal isOpen={isReportOpen} onClose={() => { setIsReportOpen(false) }} targetId={post._id} targetType="Post" targetPost={post._id} />)}
     </div >
   )
 }

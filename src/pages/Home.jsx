@@ -108,7 +108,7 @@ function Home() {
                 <div className="home-tabs">
                     <div className="popular-tags-wrapper">
                         <button className='popular-tags-btn' onClick={handlePopularTags}>
-                            <FaFireFlameCurved/> Trending
+                            <FaFireFlameCurved /> Trending
                         </button>
 
                         {displayPopularTags && (
@@ -121,7 +121,7 @@ function Home() {
                                                 <span
                                                     key={tag._id || index}
                                                     className='popular-tags-tag'
-                                                    onClick={() => { setSearchParams("tag=" + tag._id);setDisplayPopularTags(false) }}
+                                                    onClick={() => { setSearchParams("tag=" + tag._id); setDisplayPopularTags(false) }}
                                                 >
                                                     #{tag._id}
                                                     <span className="tag-count">{tag.count}</span>
@@ -157,9 +157,13 @@ function Home() {
 
             {isLoading ?
                 (
-                    <div className='posts-container'>
-                        <PostSkeleton cards={6} />
-                    </div>
+                    <>
+                        <p style={{ textAlign: 'center', width: '100%' }}>Content is Loading... It may take up to 1 minute</p>
+                        <div className='posts-container'>
+                            <PostSkeleton cards={6} />
+                        </div>
+                    </>
+
                 ) : ""
             }
 

@@ -10,6 +10,7 @@ import FollowButton from "../components/FollowButton";
 import UserListModal from "../components/UserListModal";
 import { FaRegFlag } from "react-icons/fa6";
 import ReportModal from "../components/ReportModal";
+import ProfileSkeleton from "../components/skeletons/ProfileSkeleton";
 
 function ProfilePage() {
     const { id } = useParams();
@@ -62,13 +63,13 @@ function ProfilePage() {
     }, [id, userId])
 
     if (!profileUser) return <p>User not found</p>
-    if (isLoading) return <p> Loading </p>
+    if (isLoading) return <ProfileSkeleton />
 
     return (
         <div className="profile-container">
             <div className="profile-header">
                 <div className="profile-avatar-container">
-                    <div className="profile-avatar" style={{ overflow: 'hidden' }}>
+                    <div className={`profile-avatar ${profileUser.role === 'admin' ? 'admin' : ''}`} style={{ overflow: 'hidden' }}>
                         {profileUser.profilePicture ? (
                             <img
                                 src={profileUser.profilePicture}

@@ -55,14 +55,13 @@
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #ffd15b 0%, #ae1717 100%);
     color: white;
     font-size: 3rem;
     font-weight: bold;
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 4px 10px rgba(118, 75, 162, 0.5);
     overflow: hidden;
     flex-shrink: 0;
     margin-bottom: 15px;
@@ -122,7 +121,7 @@
 
 .edit-profile-button {
     font-size: 0.9rem;
-    color: rgba(94, 21, 33, 0.802);
+    color: rgba(255, 71, 101, 0.802);
     text-decoration: none;
     border: 1px solid rgba(249, 77, 106, 0.806);
     padding: 4px 12px;
@@ -309,20 +308,21 @@ label.submit-btn {
 
 .admin-badge {
     font-size: 0.9rem;
+    aspect-ratio: 1;
+    width: 30px;
+    height: 30px;
     color: #fff;
-    background: linear-gradient(45deg, #ffd15b, #ae1717);
-    padding: 4px 10px;
+    background: radial-gradient(circle at top left,#ffd15b, #ae1717 70%);
     border-radius: 50%;
     font-weight: 800;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     text-transform: uppercase;
     box-shadow: 0 1px 10px rgba(0, 0, 0, 0.781);
-    display: inline-flex;
+    display: flex;
     align-items: center;
+    justify-content: center;
     cursor: help;
-    
     background-size: 200% auto;
-
     position: absolute;
     bottom: 0;
     right: 0;
