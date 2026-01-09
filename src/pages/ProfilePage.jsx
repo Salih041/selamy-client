@@ -86,16 +86,15 @@ function ProfilePage() {
                         </span>
                     )}
                 </div>
-
+                {!isOwnProfile && (<button onClick={() => setIsReportOpen(true)} className="profile-report-trigger-btn" title="Report this post">
+                    <FaRegFlag />
+                </button>)}
                 <div className="profile-info">
-                    {!isOwnProfile && (<button style={{ fontSize: "1.5rem", position: "absolute", top: "0px", right: "0px", zIndex: "9999" }} onClick={() => setIsReportOpen(true)} className="report-trigger-btn" title="Report this post">
-                        <FaRegFlag />
-                    </button>)}
 
                     <h1 className="profile-username">
                         {profileUser.displayName}
-
-                        {isOwnProfile ? (
+                    </h1>
+                    {isOwnProfile ? (
                             <Link className="edit-profile-button" to={`/profile/edit/${id}`}>
                                 Edit
                             </Link>
@@ -105,8 +104,7 @@ function ProfilePage() {
                                 return followerId.toString() === userId?.toString();
                             })}></FollowButton>
                         )}
-                    </h1>
-
+                    
                     <p style={{ color: '#888', margin: '-5px 0 10px 0', fontSize: '0.9rem' }}>
                         @{profileUser.username}
                     </p>

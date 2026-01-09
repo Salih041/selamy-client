@@ -108,7 +108,7 @@ function Home() {
                 <div className="home-tabs">
                     <div className="popular-tags-wrapper">
                         <button className='popular-tags-btn' onClick={handlePopularTags}>
-                            <FaFireFlameCurved /> Trending
+                            <FaFireFlameCurved /> Trending <span style={{fontSize : "0.7rem"}}>&#x25BC;</span>
                         </button>
 
                         {displayPopularTags && (

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../api';
 import toast from 'react-hot-toast';
@@ -23,6 +23,7 @@ function CommentItem({ comment, postId, onCommentUpdated, onCommentDeleted, onRe
     const [showCommentLikesModal, setShowCommentLikesModal] = useState(false);
 
     const [isReportOpen, setIsReportOpen] = useState(false);
+    const navigate = useNavigate();
 
     const author = comment.author || {
         username: "Deleted User",
@@ -35,14 +36,34 @@ function CommentItem({ comment, postId, onCommentUpdated, onCommentDeleted, onRe
     const canManage = isAuthor || isAdmin;
 
     const handleDelete = async () => {
-        if (!window.confirm("Are you sure you want to delete this comment?")) return;
-        try {
-            await api.delete(`/posts/${postId}/comment/${comment._id}`);
-            toast.success("Comment deleted");
-            onCommentDeleted(comment._id);
-        } catch (error) {
-            console.error("Delete error : ", error);
-            toast.error("Failed to delete");
+
+        if (!isAdmin && isAuthor) {
+            if (!window.confirm("Are you sure you want to delete this comment?")) return;
+            try {
+                await api.delete(`/posts/${postId}/comment/${comment._id}`);
+                toast.success("Comment deleted");
+                onCommentDeleted(comment._id);
+            } catch (error) {
+                console.error("Delete error : ", error);
+                toast.error("Failed to delete");
+            }
+        }
+        if (isAdmin) {
+            const reasonText = prompt("Reason : ");
+            if (reasonText !== null) {
+                try {
+                    await api.delete(`/posts/${postId}/comment/${comment._id}`, {
+                        params: {
+                            reason: reasonText
+                        }
+                    });
+                    toast.success("Comment Deleted")
+                    onCommentDeleted(comment._id);
+                } catch (error) {
+                    console.error("Error: ", error?.message)
+                    toast.error(error?.message || "Error")
+                }
+            }
         }
     }
 
@@ -173,7 +194,7 @@ function CommentItem({ comment, postId, onCommentUpdated, onCommentDeleted, onRe
                 )}
 
                 <span style={{ marginLeft: '10px' }}>• {formatRelativeTime(comment.createdAt)}</span>
-                {!isAuthor && (<button style={{fontSize:"1.1rem", marginLeft:"auto"}} onClick={() => setIsReportOpen(true)} className="report-trigger-btn" title="Report this post">
+                {!isAuthor && (<button style={{ fontSize: "1.1rem", marginLeft: "auto" }} onClick={() => setIsReportOpen(true)} className="report-trigger-btn" title="Report this post">
                     <FaRegFlag />
                 </button>)}
             </div>

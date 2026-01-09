@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useAuth } from "../context/AuthContext"
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../api';
@@ -11,8 +11,15 @@ function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const { login } = useAuth();
+  const { login , isLoggedIn } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(()=>{
+    if(isLoggedIn)
+    {
+      navigate('/');
+    }
+  },[isLoggedIn])
 
   const handleSubmit = async (e) => {
     e.preventDefault();

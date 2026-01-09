@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState , useEffect} from 'react'
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from "../api"
@@ -15,8 +15,16 @@ function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState('');
+  const { isLoggedIn } = useAuth();
 
   const navigate = useNavigate();
+
+  useEffect(()=>{
+      if(isLoggedIn)
+      {
+        navigate('/');
+      }
+    },[isLoggedIn])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
