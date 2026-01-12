@@ -9,7 +9,7 @@ function ProfileEditPage() {
 
     const { id } = useParams();
     const navigate = useNavigate();
-    const { userId, logout } = useAuth();
+    const { userId, logout , updateUser } = useAuth();
 
     const [bio, setBio] = useState("");
     const [displayName, setDisplayName] = useState("");
@@ -69,8 +69,9 @@ function ProfileEditPage() {
             await api.put(`/users/update/${id}`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
-            setDisplayName(finalDisplayName)
-            toast.success("Profie Updated!");
+            setDisplayName(finalDisplayName);
+            updateUser({ displayName: finalDisplayName, bio, socials, profilePicture: previewImage });
+            toast.success("Profile Updated!");
             navigate(`/profile/${id}`);
         } catch (error) {
             console.error(error);

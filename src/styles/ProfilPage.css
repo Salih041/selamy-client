@@ -97,6 +97,7 @@
     margin-bottom: 10px;
     line-height: 1.5;
     font-size: 1rem;
+    word-break: break-all;
 }
 
 .profile-join-date {
@@ -346,6 +347,21 @@ label.submit-btn {
     transform: translateY(-3px);
     opacity: 0.8;
     color: var(--accent-color) !important;
+}
+
+.ban-user-button{
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    z-index: 10;
+
+    border: 3px solid rgb(152, 0, 0);
+    border-radius: 10px;
+    background-color: rgb(255, 0, 0);
+    color: whitesmoke;
+    font-weight: bold;
+    padding: 5px 10px;
+    cursor: pointer;
 }
 
 .profile-report-trigger-btn

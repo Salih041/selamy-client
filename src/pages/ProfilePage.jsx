@@ -14,7 +14,7 @@ import ProfileSkeleton from "../components/skeletons/ProfileSkeleton";
 
 function ProfilePage() {
     const { id } = useParams();
-    const { userId } = useAuth();
+    const { userId, user } = useAuth();
     const [profileUser, setProfileUser] = useState(null);
     const [userPosts, setUserPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -62,6 +62,23 @@ function ProfilePage() {
         fetchProfileData();
     }, [id, userId])
 
+    const handleBanUser = async () => {
+        try {
+            if (profileUser.role !== 'admin' && user.role === 'admin') {
+                if (window.confirm("Are you sure you want to ban " + profileUser.username + " ?")) {
+                    await api.put(`/users/ban-account/${profileUser._id}`);
+                    toast.success("User banned successfully");
+                }
+            } else {
+                toast.error("You do not have permission to ban this user");
+            }
+
+        } catch (error) {
+            console.error("Ban user error: ", error.message);
+            toast.error("Failed to ban user");
+        }
+    }
+
     if (!profileUser) return <p>User not found</p>
     if (isLoading) return <ProfileSkeleton />
 
@@ -89,22 +106,25 @@ function ProfilePage() {
                 {!isOwnProfile && (<button onClick={() => setIsReportOpen(true)} className="profile-report-trigger-btn" title="Report this post">
                     <FaRegFlag />
                 </button>)}
+                {!isOwnProfile && profileUser.role !== 'admin' && user && user.role === 'admin' && (
+                    <button className="ban-user-button" onClick={handleBanUser}>BAN</button>
+                )}
                 <div className="profile-info">
 
                     <h1 className="profile-username">
                         {profileUser.displayName}
                     </h1>
                     {isOwnProfile ? (
-                            <Link className="edit-profile-button" to={`/profile/edit/${id}`}>
-                                Edit
-                            </Link>
-                        ) : (
-                            <FollowButton targetUserId={id} isFollowingInitial={profileUser.followers?.some(follower => {
-                                const followerId = follower._id ? follower._id : follower;
-                                return followerId.toString() === userId?.toString();
-                            })}></FollowButton>
-                        )}
-                    
+                        <Link className="edit-profile-button" to={`/profile/edit/${id}`}>
+                            Edit
+                        </Link>
+                    ) : (
+                        <FollowButton targetUserId={id} isFollowingInitial={profileUser.followers?.some(follower => {
+                            const followerId = follower._id ? follower._id : follower;
+                            return followerId.toString() === userId?.toString();
+                        })}></FollowButton>
+                    )}
+
                     <p style={{ color: '#888', margin: '-5px 0 10px 0', fontSize: '0.9rem' }}>
                         @{profileUser.username}
                     </p>

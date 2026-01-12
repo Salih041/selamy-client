@@ -14,10 +14,9 @@ import { MdAdminPanelSettings } from "react-icons/md";
 
 function Navbar() {
 
-  const { isLoggedIn, logout, userId, isAdmin } = useAuth();
+  const { isLoggedIn, logout, userId, isAdmin , user} = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
-  const [currentUser, setCurrentUser] = useState(null);
-
+  //const [currentUser, setCurrentUser] = useState(null);
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -26,7 +25,7 @@ function Navbar() {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
+ /* useEffect(() => {
     const fetchUserData = async () => {
       if (isLoggedIn && userId) {
         try {
@@ -38,7 +37,7 @@ function Navbar() {
       }
     };
     fetchUserData();
-  }, [isLoggedIn, userId]);
+  }, [isLoggedIn, userId,user]);*/
 
   const handleLogout = () => {
     logout();
@@ -188,15 +187,15 @@ function Navbar() {
             </div>
             <NavLink to={`/profile/${userId}`} className="nav-profile-link" title="Profilim">
               <div className="nav-avatar-container">
-                {currentUser?.profilePicture ? (
+                {user?.profilePicture ? (
                   <img
-                    src={currentUser.profilePicture}
+                    src={user.profilePicture}
                     alt="Profile"
                     className="nav-avatar-img"
                   />
                 ) : (
                   <span>
-                    {currentUser?.username?.charAt(0).toUpperCase() || "U"}
+                    {user?.username?.charAt(0).toUpperCase() || "U"}
                   </span>
                 )}
               </div>

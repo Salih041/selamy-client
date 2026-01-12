@@ -1,4 +1,4 @@
-import React, { useState , useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from "../api"
@@ -19,12 +19,11 @@ function RegisterPage() {
 
   const navigate = useNavigate();
 
-  useEffect(()=>{
-      if(isLoggedIn)
-      {
-        navigate('/');
-      }
-    },[isLoggedIn])
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/');
+    }
+  }, [isLoggedIn])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -90,8 +89,8 @@ function RegisterPage() {
             <input className='form-input' type="text" id='username' value={username} minLength={3} maxLength={20} required placeholder='Username' onChange={(e) => { setUsername(e.target.value) }} />
           </div>
           <p style={{ fontSize: '0.77rem', color: '#666' }}>
-              * Usernames are case-insensitive and will be stored in lowercase.
-            </p>
+            * Usernames are case-insensitive and will be stored in lowercase.
+          </p>
 
           <div className='form-group'>
             <label htmlFor="password">Password</label>
@@ -119,22 +118,12 @@ function RegisterPage() {
           color: '#666',
           lineHeight: '1.5'
         }}>
-          <p style={{ fontWeight: 'bold', marginBottom: '5px', color: '#444' }}>
-            By registering, you acknowledge that:
-          </p>
-          <ul style={{ paddingLeft: '20px', listStyleType: 'disc' }}>
-            <li style={{ marginBottom: '5px' }}>
-              <strong>Content Responsibility:</strong> You are entirely responsible for the posts and comments you share.
-            </li>
-            <li style={{ marginBottom: '5px' }}>
-              <strong>Project Status:</strong> SelamY is an evolving educational project. While core features are stable, data persistence and availability cannot be fully guaranteed.
-            </li>
-            <li>
-              <strong>Privacy:</strong> Your email and data will strictly remain within this application.
-            </li>
-          </ul>
+          <div style={{ fontWeight: 'bold', marginBottom: '5px', color: '#444' }}>
+            <p><strong>SelamY</strong> is an evolving indie project.</p>
+            <p>Data persistence and availability can not be guaranteed.</p>
+            <p>Users are responsible for their content.</p>
+          </div>
         </div>
-
         <div className='auth-footer'>
           Already have an account? <Link to={"/login"}>Login</Link>
         </div>
