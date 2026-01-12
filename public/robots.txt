@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.selamy.me/sitemap.xml
+Sitemap: https://salih-blog-api-server.onrender.com/sitemap.xml

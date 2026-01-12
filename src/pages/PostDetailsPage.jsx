@@ -308,7 +308,7 @@ function PostDetailsPage() {
   }
 
 
-  if (isLoading) return (<PostDetailSkeleton/>)
+  if (isLoading) return (<PostDetailSkeleton />)
   if (error) return (<p>Error: {error?.message}</p>)
   if (!post) return (<h4>Post Not Found</h4>)
 
@@ -323,6 +323,9 @@ function PostDetailsPage() {
           <Helmet>
             <title>{post.title} | SelamY</title>
             <meta name='description' content={post.content.substring(0, 150)} />
+            <meta property="og:title" content={post.title} />
+            <meta property="og:description" content={post.content.substring(0, 150)} />
+            <meta property="og:url" content={`https://selamy.me/posts/${post._id}`} />
           </Helmet>
         )
       }
