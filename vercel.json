@@ -28,6 +28,10 @@
     ],
     "rewrites": [
         {
+            "source": "/sitemap.xml",
+            "destination": "https://salih-blog-api-server.onrender.com/sitemap.xml"
+        },
+        {
             "source": "/(.*)",
             "destination": "/index.html"
         }
