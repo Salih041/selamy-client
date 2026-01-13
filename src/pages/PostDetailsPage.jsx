@@ -18,6 +18,7 @@ import { MdBookmarkAdded } from "react-icons/md";
 import ReportModal from '../components/ReportModal'
 import { FaRegFlag } from "react-icons/fa6";
 import PostDetailSkeleton from '../components/skeletons/PostDetailSkeleton';
+import NotFoundPage from './NotFoundPage'
 
 
 
@@ -309,8 +310,14 @@ function PostDetailsPage() {
 
 
   if (isLoading) return (<PostDetailSkeleton />)
-  if (error) return (<p>Error: {error?.message}</p>)
-  if (!post) return (<h4>Post Not Found</h4>)
+  //if (error.status === 404) return (<NotFoundPage />)
+
+  if (error) {
+    if(error.toLowerCase() === "post not found") return (<NotFoundPage />)
+    return (<p>Error: {error}</p>)
+  }
+  if (!post) return (<NotFoundPage />)
+
 
   const hasLiked = post.likes.some(like => (like._id || like).toString() === userId);
   const isOwner = isLoggedIn && userId === post.author?._id;

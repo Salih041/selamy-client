@@ -11,6 +11,7 @@ import UserListModal from "../components/UserListModal";
 import { FaRegFlag } from "react-icons/fa6";
 import ReportModal from "../components/ReportModal";
 import ProfileSkeleton from "../components/skeletons/ProfileSkeleton";
+import NotFoundPage from "./NotFoundPage";
 
 function ProfilePage() {
     const { id } = useParams();
@@ -79,8 +80,12 @@ function ProfilePage() {
         }
     }
 
-    if (!profileUser) return <p>User not found</p>
     if (isLoading) return <ProfileSkeleton />
+    if (error) {
+        if (error.toLowerCase().includes("user not found")) return (<NotFoundPage />)
+        return (<p>Error: {error}</p>)
+    }
+    if (!profileUser) return (<NotFoundPage />)
 
     return (
         <div className="profile-container">

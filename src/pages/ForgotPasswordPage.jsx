@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import api from '../api';
 import toast from 'react-hot-toast';
 import '../styles/Posting.css';
@@ -7,7 +8,13 @@ import '../styles/Posting.css';
 function ForgotPasswordPage() {
     const [email, setEmail] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const { user } = useAuth();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (user) navigate("/");
+    }, [user, navigate]);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
