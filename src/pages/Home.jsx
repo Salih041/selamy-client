@@ -183,9 +183,9 @@ function Home() {
                 }
             </div>
             <div className='home__controls'>
-                <button onClick={() => { handlePageChange(page - 1) }} disabled={page === 1}>prev</button>
+                <button style={{color: 'black'}} onClick={() => { handlePageChange(page - 1) }} disabled={page === 1}>&#x2190;</button>
                 <span>Page {page} / {pagination.totalPages}</span>
-                <button onClick={() => { handlePageChange(page + 1) }} disabled={page === pagination.totalPages}>next</button>
+                <button style={{color: 'black'}} onClick={() => { handlePageChange(page + 1) }} disabled={page === pagination.totalPages}>&#x2192;</button>
             </div>
         </>
     )

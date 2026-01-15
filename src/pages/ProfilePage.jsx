@@ -13,6 +13,7 @@ import ReportModal from "../components/ReportModal";
 import ProfileSkeleton from "../components/skeletons/ProfileSkeleton";
 import NotFoundPage from "./NotFoundPage";
 
+
 function ProfilePage() {
     const { id } = useParams();
     const { userId, user } = useAuth();
@@ -21,47 +22,83 @@ function ProfilePage() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [activeTab, setActiveTab] = useState("published");
-    const [userDrafts, setUserDrafts] = useState([]);
     const [showFollowersModal, setShowFollowersModal] = useState(false);
     const [showFollowingModal, setShowFollowingModal] = useState(false);
-    const [userBookmarks, setUserBookmarks] = useState([]);
-    const [userLikedPosts, setUserLikedPosts] = useState([]);
+    const [currentContent, setCurrentContent] = useState([]);
     const [isReportOpen, setIsReportOpen] = useState(false);
+    const [page, setPage] = useState(1);
+    const [pagination, setPagination] = useState({ currentPage: 1, totalPages: 1, limit: 20, totalResults: 0 })
 
     const isOwnProfile = userId === id;
 
     useEffect(() => {
-        const fetchProfileData = async () => {
+        const fetchUserProfile = async () => {
+            setIsLoading(true);
             try {
-                setIsLoading(true);
-
                 const userRes = await api.get(`/users/${id}`);
                 setProfileUser(userRes.data)
-
-                const userPostRes = await api.get(`/posts/user/${id}`);
-                setUserPosts(userPostRes.data);
-
-                if (userId === id) {
-                    const userDraftRes = await api.get(`/posts/my-drafts`);
-                    setUserDrafts(userDraftRes.data);
-
-                    const userSavedRes = await api.get(`/posts/my-saved`);
-                    setUserBookmarks(userSavedRes.data);
-
-                    const userLikedRes = await api.get(`/posts/my-liked`);
-                    setUserLikedPosts(userLikedRes.data);
-                }
             } catch (error) {
-                console.error("Profile error: ", error);
+                setError(error?.response?.data?.message);
+            } finally {
+                //setIsLoading(false);
+            }
+        }
+        fetchUserProfile();
+    }, [id]);
+
+    useEffect(() => {
+        const fetchContent = async () => {
+            if (!id) return;
+            //setIsLoading(true);
+            setCurrentContent([]);
+            try {
+                let endpoint = "";
+                switch (activeTab) {
+                    case "published":
+                        endpoint = `/posts/user/${id}?page=${page}&limit=20`;
+                        break;
+                    case "drafts":
+                        if (isOwnProfile) endpoint = `/posts/my-drafts?page=${page}&limit=20`;
+                        break;
+                    case "bookmarks":
+                        if (isOwnProfile) endpoint = `/posts/my-saved?page=${page}&limit=20`;
+                        break;
+                    case "liked":
+                        if (isOwnProfile) endpoint = `/posts/my-liked?page=${page}&limit=20`;
+                        break;
+                    default:
+                        endpoint = `/posts/user/${id}?page=${page}&limit=20`;
+                        break;
+                }
+                if (endpoint) {
+                    const response = await api.get(endpoint);
+                    setCurrentContent(response.data.data)
+                    setUserPosts(response.data.data);
+                    setPagination(response.data.pagination)
+                }
+
+            } catch (error) {
+                console.error("Content fetch error: ", error.message);
                 const errorMessage = error.response?.data?.message || error.message || "Error";
                 setError(errorMessage);
                 toast.error(errorMessage)
+                setCurrentContent([]);
             } finally {
                 setIsLoading(false);
             }
         }
-        fetchProfileData();
-    }, [id, userId])
+        fetchContent();
+    }, [id, userId, page, activeTab]);
+
+    useEffect(() => {
+        setPage(1);
+    }, [activeTab])
+
+    const handlePageChange = (newPage) => {
+        if (newPage >= 1 && newPage <= pagination.totalPages && newPage !== page) {
+            setPage(newPage);
+        }
+    }
 
     const handleBanUser = async () => {
         try {
@@ -80,7 +117,7 @@ function ProfilePage() {
         }
     }
 
-    if (isLoading) return <ProfileSkeleton />
+    if (isLoading || !profileUser) return <ProfileSkeleton />
     if (error) {
         if (error.toLowerCase().includes("user not found")) return (<NotFoundPage />)
         return (<p>Error: {error}</p>)
@@ -185,77 +222,33 @@ function ProfilePage() {
                 )}
             </div>
 
-            {/*published posts */}
-            {activeTab === "published" && (
-                <div className="profile-posts-section">
-                    <h2 className="profile-posts-section_Posts-header">Posts</h2>
-                    <div className="profile-posts-container">
-                        {userPosts.length > 0 ? (
-                            userPosts.map(post => (
-                                <Post key={post._id} postProps={post} />
-                            ))
-                        ) :
-                            (
-                                <p className="no-post-p">This user has not posted yet</p>
-                            )}
-                    </div>
-                </div>
-            )
-            }
 
-            {/*draft posts */}
-            {isOwnProfile && activeTab === "drafts" && (
-                <div className="profile-posts-section">
-                    <h2 className="profile-posts-section_Posts-header">Drafts</h2>
-                    <div className="profile-posts-container">
-                        {userDrafts.length > 0 ? (
-                            userDrafts.map(post => (
-                                <Post key={post._id} postProps={post} />
-                            ))
-                        ) :
-                            (
-                                <p className="no-post-p">You have no drafts yet</p>
-                            )}
-                    </div>
+            <div className="profile-posts-section">
+                <h2 className="profile-posts-section_Posts-header">Posts</h2>
+                <div className="profile-posts-container">
+                    {currentContent.length > 0 ? (
+                        currentContent.map(post => (
+                            <Post key={post._id} postProps={post} />
+                        ))
+                    ) :
+                        (
+                            <p className="no-post-p">No Post</p>
+                        )}
                 </div>
-            )
-            }
+            </div>
 
-            {/*bookmarks*/}
-            {isOwnProfile && activeTab === "bookmarks" && (
-                <div className="profile-posts-section">
-                    <h2 className="profile-posts-section_Posts-header">Bookmarks</h2>
-                    <div className="profile-posts-container">
-                        {userBookmarks.length > 0 ? (
-                            userBookmarks.map(post => (
-                                <Post key={post._id} postProps={post} />
-                            ))
-                        ) :
-                            (
-                                <p className="no-post-p">You have no bookmark yet</p>
-                            )}
-                    </div>
-                </div>
-            )
-            }
 
-            {/*liked*/}
-            {isOwnProfile && activeTab === "liked" && (
-                <div className="profile-posts-section">
-                    <h2 className="profile-posts-section_Posts-header">Liked</h2>
-                    <div className="profile-posts-container">
-                        {userLikedPosts.length > 0 ? (
-                            userLikedPosts.map(post => (
-                                <Post key={post._id} postProps={post} />
-                            ))
-                        ) :
-                            (
-                                <p className="no-post-p">You have not liked a post yet</p>
-                            )}
-                    </div>
+            {!isLoading && currentContent.length > 0 && pagination.totalPages > 1 && (
+                <div className='home__controls'>
+                    <button style={{color: 'black'}} onClick={() => handlePageChange(page - 1)} disabled={page === 1}>
+                        &#x2190;
+                    </button>
+                    <span>Page {page} / {pagination.totalPages}</span>
+                    <button style={{color: 'black'}} onClick={() => handlePageChange(page + 1)} disabled={page === pagination.totalPages}>
+                        &#x2192;
+                    </button>
                 </div>
-            )
-            }
+            )}
 
             {showFollowersModal && (
                 <UserListModal title="Followers" users={profileUser.followers} onClose={() => { setShowFollowersModal(false) }} />
