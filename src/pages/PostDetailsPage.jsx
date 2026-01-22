@@ -1,4 +1,3 @@
-import React from 'react'
 import { useState, useEffect, useRef } from 'react'
 import { useParams, NavLink, useNavigate } from 'react-router-dom'
 import api from "../api"
@@ -13,15 +12,12 @@ import FollowButton from '../components/FollowButton';
 import { Helmet } from 'react-helmet'
 import { IoShareOutline } from "react-icons/io5";
 import { FaRegBookmark } from "react-icons/fa";
-import { FaBookmark } from "react-icons/fa";
 import { MdBookmarkAdded } from "react-icons/md";
 import ReportModal from '../components/ReportModal'
 import { FaRegFlag } from "react-icons/fa6";
 import PostDetailSkeleton from '../components/skeletons/PostDetailSkeleton';
 import NotFoundPage from './NotFoundPage'
-
-
-
+import { useDebounce } from '../hooks/useDebounce'
 
 
 DOMPurify.addHook('afterSanitizeAttributes', function (node) {
@@ -48,12 +44,16 @@ function PostDetailsPage() {
   const navigate = useNavigate();
 
   const commentInputRef = useRef(null);
-  const likeTimeRef = useRef(null);
 
   const [currentUserFollowing, setCurrentUserFollowing] = useState([]);
   const [isSaved, setIsSaved] = useState(false);
 
   const [isReportOpen, setIsReportOpen] = useState(false);
+
+  const [likedState, setLikedState] = useState(false);
+  const [likedCountState, setLikedCountState] = useState(0);
+  const initialLikedStatus = useRef(false);
+  const initialLikedCount = useRef(0);
 
   const fetchPostData = async () => {
     try {
@@ -88,18 +88,43 @@ function PostDetailsPage() {
     fetchPostData();
   }, [id])
 
+  useEffect(() => {
+    if (post) {
+      const initialHasLiked = post.likes.some(like => (like._id || like).toString() === userId);
+      setLikedState(initialHasLiked);
+      setLikedCountState(post.likeCount);
+
+      initialLikedStatus.current = initialHasLiked;
+      initialLikedCount.current = post.likeCount;
+    }
+  }, [post, userId])
+
+  const debouncedHandleLike = useDebounce(async (finalLikedStatus) => {
+    if(finalLikedStatus === initialLikedStatus.current){return;}
+    try {
+      await api.put(`/posts/${id}/like`);
+      initialLikedStatus.current = finalLikedStatus;
+      if(finalLikedStatus) initialLikedCount.current = initialLikedCount.current+1;
+      else initialLikedCount.current = initialLikedCount.current-1;
+    }
+    catch (error) {
+      console.error("Like error : ", error.message);
+      setLikedState(initialLikedStatus.current);
+      setLikedCountState(initialLikedCount.current);
+    }
+  }, 500)
+
 
   const handleLike = async () => {
     if (!isLoggedIn) {
       toast.warn("Please Login")
       return
     }
-    try {
-      await api.put(`/posts/${id}/like`);
-      await fetchPostData();
-    } catch (error) {
-      console.error("Like error : ", error?.message);
-    }
+    const newLikedStatus = !likedState
+    setLikedState(newLikedStatus);
+    setLikedCountState(prev => newLikedStatus ? prev+1 : prev-1);
+
+    debouncedHandleLike(newLikedStatus)
   }
 
   const handleCommentDeleted = (commentId) => {
@@ -223,35 +248,6 @@ function PostDetailsPage() {
     }
   }
 
-  /*const handleLikeComment = async (comment_id) => {
-    if (!isLoggedIn) {
-      toast.warn("Please Login")
-      return
-    }
-    try {
-      const response = await api.put(`/posts/${id}/comment/${comment_id}/like`);
-      const { likeCount, likes } = response.data;
-      setPost(prevPost => {
-        const updatedComments = prevPost.comments.map(comment => {
-          if (comment._id === comment_id) {
-            return {
-              ...comment,
-              likeCount: likeCount,
-              likes: likes
-            }
-          }
-          return comment;
-        });
-        return {
-          ...prevPost,
-          comments: updatedComments
-        }
-      });
-    } catch (error) {
-      console.error("Like error : ", error);
-    }
-  }*/
-
   const handleTagClick = (e, tag) => {
     e.stopPropagation();
     navigate(`/?tag=${tag}`);
@@ -313,13 +309,13 @@ function PostDetailsPage() {
   //if (error.status === 404) return (<NotFoundPage />)
 
   if (error) {
-    if(error.toLowerCase() === "post not found") return (<NotFoundPage />)
+    if (error.toLowerCase() === "post not found") return (<NotFoundPage />)
     return (<p>Error: {error}</p>)
   }
   if (!post) return (<NotFoundPage />)
 
 
-  const hasLiked = post.likes.some(like => (like._id || like).toString() === userId);
+  //const hasLiked = post.likes.some(like => (like._id || like).toString() === userId);
   const isOwner = isLoggedIn && userId === post.author?._id;
   const canManage = isOwner || isAdmin;
   const authorExists = !!post.author;
@@ -414,14 +410,14 @@ function PostDetailsPage() {
         )}
 
         <footer className='post-footer'>
-          <button className='like-button' onClick={handleLike} disabled={!isLoggedIn} style={{ color: hasLiked ? '#e74c3c' : '', borderColor: hasLiked ? '#e74c3c' : '' }}>
-            {hasLiked ? '❤️ Liked' : '🤍 Like'}
+          <button className='like-button' onClick={handleLike} disabled={!isLoggedIn} style={{ color: likedState ? '#e74c3c' : '', borderColor: likedState ? '#e74c3c' : '' }}>
+            {likedState ? '❤️ Liked' : '🤍 Like'}
           </button>
           <span onClick={() => { if (post.likeCount > 0) setShowLikesModal(true) }} style={{
             cursor: post.likeCount > 0 ? 'pointer' : 'default',
             fontWeight: 'bold',
             fontStyle: post.likeCount > 0 ? 'none' : 'italic'
-          }}><strong>{post.likeCount}</strong> Likes </span>
+          }}><strong>{likedCountState}</strong> Likes </span>
         </footer>
       </article>
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { NavLink, useNavigate } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
 import toast from 'react-hot-toast';
@@ -16,7 +16,6 @@ function Navbar() {
 
   const { isLoggedIn, logout, userId, isAdmin , user} = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
-  //const [currentUser, setCurrentUser] = useState(null);
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -25,19 +24,6 @@ function Navbar() {
 
   const navigate = useNavigate();
 
- /* useEffect(() => {
-    const fetchUserData = async () => {
-      if (isLoggedIn && userId) {
-        try {
-          const res = await api.get(`/users/${userId}`);
-          setCurrentUser(res.data);
-        } catch (error) {
-          console.error("Navbar user fetch error", error);
-        }
-      }
-    };
-    fetchUserData();
-  }, [isLoggedIn, userId,user]);*/
 
   const handleLogout = () => {
     logout();

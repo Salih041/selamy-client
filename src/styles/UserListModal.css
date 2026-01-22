@@ -17,7 +17,7 @@
     width: 90%;
     max-width: 400px;
     border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     overflow: hidden;
     border: 1px solid var(--border-color);
 }
@@ -65,7 +65,7 @@
     height: 40px;
     border-radius: 50%;
     overflow: hidden;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #ffd15b 0%, #ae1717 100%);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -90,6 +90,7 @@
     color: var(--text-primary);
     text-decoration: none;
 }
+
 .modal-user-link:hover {
     text-decoration: underline;
 }
