@@ -382,7 +382,7 @@ function PostDetailsPage() {
               handleBookmarkPost();
             }} title='Bookmark'> {isSaved ? <MdBookmarkAdded style={{ fontSize: "2rem" }} /> : <FaRegBookmark style={{ fontSize: "1.6rem" }} />}  </button>
 
-            <button className="action-btn share-btn" onClick={(e) => {
+            <button className="action-btn shareAction" onClick={(e) => {
               e.preventDefault();
               handleSharePost();
             }} title='Share'><IoShareOutline /></button>
