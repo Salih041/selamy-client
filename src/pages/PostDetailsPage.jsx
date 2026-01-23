@@ -86,7 +86,7 @@ function PostDetailsPage() {
   useEffect(() => {
     setIsLoading(true);
     fetchPostData();
-  }, [id])
+  }, [id,isLoggedIn, userId])
 
   useEffect(() => {
     if (post) {

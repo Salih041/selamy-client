@@ -44,7 +44,7 @@ function ProfilePage() {
             }
         }
         fetchUserProfile();
-    }, [id]);
+    }, [id,userId]);
 
     useEffect(() => {
         const fetchContent = async () => {
