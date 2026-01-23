@@ -382,10 +382,10 @@ function PostDetailsPage() {
               handleBookmarkPost();
             }} title='Bookmark'> {isSaved ? <MdBookmarkAdded style={{ fontSize: "2rem" }} /> : <FaRegBookmark style={{ fontSize: "1.6rem" }} />}  </button>
 
-            <button className="action-btn shareAction" onClick={(e) => {
+            <button className="action-btn SAction" onClick={(e) => {
               e.preventDefault();
               handleSharePost();
-            }} title='Share'><IoShareOutline /></button>
+            }} title='Action'><IoShareOutline /></button>
 
             {!isOwner && (<button onClick={() => setIsReportOpen(true)} className="report-trigger-btn" title="Report this post">
               <FaRegFlag />

@@ -383,7 +383,7 @@
     box-shadow: 0 2px 5px rgba(243, 156, 18, 1);
 }
 
-.shareAction {
+.SAction {
     background: transparent;
     border: none;
     font-size: 2rem;
@@ -413,7 +413,7 @@
     color: #0984e3;
 }
 
-.shareAction:hover {
+.SAction:hover {
     color: #0984e3;
 }
 
