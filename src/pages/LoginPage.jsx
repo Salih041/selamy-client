@@ -37,7 +37,6 @@ function LoginPage() {
       toast.success("Logged in")
       navigate('/');
     } catch (error) {
-      console.error("Login error ", error)
       setError(error.response ? error.response.data.message : "Login Error");
       toast.error("Login Error")
     } finally {

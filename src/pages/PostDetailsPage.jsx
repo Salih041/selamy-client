@@ -108,7 +108,7 @@ function PostDetailsPage() {
       else initialLikedCount.current = initialLikedCount.current-1;
     }
     catch (error) {
-      console.error("Like error : ", error.message);
+      toast.error(error?.message || "Error")
       setLikedState(initialLikedStatus.current);
       setLikedCountState(initialLikedCount.current);
     }
@@ -164,7 +164,6 @@ function PostDetailsPage() {
       toast.success("Comment Sent");
       setCommentText("");
     } catch (error) {
-      console.error("Comment error:", error?.message);
       toast.error(error?.message || "Error")
     } finally {
       setIsSubmitting(false);
@@ -183,7 +182,6 @@ function PostDetailsPage() {
           toast.success("Post Deleted")
           navigate("/");
         } catch (error) {
-          console.error("Error: ", error?.message)
           toast.error(error?.message || "Error")
         }
       }
@@ -200,7 +198,6 @@ function PostDetailsPage() {
           toast.success("Post Deleted")
           navigate("/");
         } catch (error) {
-          console.error("Error: ", error?.message)
           toast.error(error?.message || "Error")
         }
       }
@@ -230,7 +227,6 @@ function PostDetailsPage() {
         const updatedPost = response.data;
         navigate(`/`);
       } catch (error) {
-        console.error("Error:", error?.message);
         setError(error?.response ? error.response.data.message : "Error.");
         toast.error(error?.message || "Error");
         setIsLoading(false);

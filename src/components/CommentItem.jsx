@@ -44,7 +44,6 @@ function CommentItem({ comment, postId, onCommentUpdated, onCommentDeleted, onRe
                 toast.success("Comment deleted");
                 onCommentDeleted(comment._id);
             } catch (error) {
-                console.error("Delete error : ", error);
                 toast.error("Failed to delete");
             }
         }
@@ -60,7 +59,6 @@ function CommentItem({ comment, postId, onCommentUpdated, onCommentDeleted, onRe
                     toast.success("Comment Deleted")
                     onCommentDeleted(comment._id);
                 } catch (error) {
-                    console.error("Error: ", error?.message)
                     toast.error(error?.message || "Error")
                 }
             }
@@ -76,7 +74,6 @@ function CommentItem({ comment, postId, onCommentUpdated, onCommentDeleted, onRe
             setIsEditing(false);
             onCommentUpdated(comment._id, editText);
         } catch (error) {
-            console.error("Update error:", error);
             toast.error("Failed to update.");
         } finally {
             setIsSubmitting(false);
@@ -95,7 +92,6 @@ function CommentItem({ comment, postId, onCommentUpdated, onCommentDeleted, onRe
             setLikeCount(response.data.likeCount);
 
         } catch (error) {
-            console.error("Like error:", error);
             toast.error("Something went wrong");
         }
     }

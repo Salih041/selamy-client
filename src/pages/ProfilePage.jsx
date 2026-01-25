@@ -78,7 +78,6 @@ function ProfilePage() {
                 }
 
             } catch (error) {
-                console.error("Content fetch error: ", error.message);
                 const errorMessage = error.response?.data?.message || error.message || "Error";
                 setError(errorMessage);
                 toast.error(errorMessage)

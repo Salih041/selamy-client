@@ -56,7 +56,6 @@ function PostEditPage() {
                 toast.success("Image Uploaded", { id: loadingToast });
 
             } catch (error) {
-                console.error("Error:", error);
                 toast.error("Image upload error", { id: loadingToast });
             }
         };
@@ -100,7 +99,6 @@ function PostEditPage() {
                 }
                 setIsLoading(false)
             } catch (error) {
-                console.error("Error:", error);
                 setError("Post data could not be loaded.");
                 toast.error(error.message || "Error")
                 setIsLoading(false);
@@ -143,7 +141,6 @@ function PostEditPage() {
             navigate(`/posts/${updatedPost.slug || updatedPost._id}`);
 
         } catch (error) {
-            console.error("Error:", error);
             setError(error.response ? error.response.data.message : "Error.");
             toast.error(error.message || "Error")
             setIsLoading(false);

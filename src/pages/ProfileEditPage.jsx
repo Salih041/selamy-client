@@ -36,7 +36,6 @@ function ProfileEditPage() {
                 setPreviewImage(res.data.profilePicture || null);
                 setSocials(res.data.socials || {x: "", instagram: "", github: ""});
             } catch (error) {
-                console.error(error);
                 toast.error("Information could not be loaded");
             }
         };
@@ -74,7 +73,6 @@ function ProfileEditPage() {
             toast.success("Profile Updated!");
             navigate(`/profile/${id}`);
         } catch (error) {
-            console.error(error);
             toast.error("Update failed.");
         } finally {
             setIsLoading(false);

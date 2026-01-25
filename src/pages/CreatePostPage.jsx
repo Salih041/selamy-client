@@ -50,7 +50,6 @@ function CreatePostPage() {
 
 
             } catch (error) {
-                console.error("Error:", error);
                 toast.error("Image upload error", { id: loadingToast });
             }
         }
@@ -112,7 +111,6 @@ function CreatePostPage() {
             const savedPost = response.data.savedPost;
             navigate(`/posts/${savedPost.slug || savedPost._id}`)
         } catch (error) {
-            console.error("Create Post error :", error)
             const errorMessage = error.response?.data?.message || error.message || "Post couldnt be created";
             toast.error(errorMessage);
             setError(errorMessage);

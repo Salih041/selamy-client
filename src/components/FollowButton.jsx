@@ -20,7 +20,6 @@ function FollowButton({targetUserId, isFollowingInitial, onFollowChange}) {
             if(onFollowChange) onFollowChange(newStatus);
 
         }catch(error){
-            console.error("Follow/Unfollow error: ", error);
             const errorMessage = error.response?.data?.message || error.message || "Error";
             toast.error(errorMessage);
         }finally{

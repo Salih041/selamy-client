@@ -44,8 +44,8 @@ function RegisterPage() {
       navigate("/verify-email", { state: { email: email } });
 
     } catch (error) {
-      console.error("Register error:", error);
       setError(error.response ? error.response.data.message : "Error");
+      toast.error(error?.message || "Error")
     } finally {
       setIsLoading(false);
     }
