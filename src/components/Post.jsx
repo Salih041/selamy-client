@@ -26,11 +26,6 @@ function Post({ postProps }) {
         navigate(`/?tag=${tag}`);
     }
 
-    const handleProfileClick = (e) => {
-        e.stopPropagation();
-        // !
-    }
-
     return (
         <article className={'post-card'+ (statu==='draft' ? ' draft-post': '')} onClick={handleCardClick}>
             <h2 className='post-card__title'> {title} </h2>

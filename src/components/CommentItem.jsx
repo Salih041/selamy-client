@@ -11,7 +11,7 @@ import { FaRegFlag } from "react-icons/fa6";
 
 
 function CommentItem({ comment, postId, onCommentUpdated, onCommentDeleted, onReply }) {
-
+    const MAX_COMMENT_LENGTH = 20000;
     const { userId, isLoggedIn, isAdmin } = useAuth();
 
     const [isEditing, setIsEditing] = useState(false);
@@ -66,13 +66,20 @@ function CommentItem({ comment, postId, onCommentUpdated, onCommentDeleted, onRe
     }
 
     const handleUpdate = async () => {
-        if (!editText.trim()) return;
+        if (!editText.trim()){
+            toast.error("comment is required");
+            return;
+        }
+        if(editText.trim() > MAX_COMMENT_LENGTH){
+            toast.error("Comment is too long. max: "+MAX_COMMENT_LENGTH);
+            return;
+        }
         setIsSubmitting(true);
         try {
             await api.put(`/posts/${postId}/comment/${comment._id}`, { text: editText });
             toast.success("Comment Updated");
             setIsEditing(false);
-            onCommentUpdated(comment._id, editText);
+            onCommentUpdated(comment._id, editText.trim());
         } catch (error) {
             toast.error("Failed to update.");
         } finally {
@@ -149,6 +156,7 @@ function CommentItem({ comment, postId, onCommentUpdated, onCommentDeleted, onRe
                 <div className="comment-edit-form" style={{ marginTop: '10px' }}>
                     <textarea
                         className="form-textarea"
+                        maxLength={MAX_COMMENT_LENGTH}
                         value={editText}
                         onChange={(e) => setEditText(e.target.value)}
                         style={{ minHeight: '60px', padding: '8px', fontSize: '0.9rem' }}

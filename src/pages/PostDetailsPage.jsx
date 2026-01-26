@@ -29,7 +29,7 @@ DOMPurify.addHook('afterSanitizeAttributes', function (node) {
 
 
 function PostDetailsPage() {
-
+  const MAX_COMMENT_LENGTH = 20000;
   const [post, setPost] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -86,7 +86,7 @@ function PostDetailsPage() {
   useEffect(() => {
     setIsLoading(true);
     fetchPostData();
-  }, [id,isLoggedIn, userId])
+  }, [id, isLoggedIn, userId])
 
   useEffect(() => {
     if (post) {
@@ -100,12 +100,12 @@ function PostDetailsPage() {
   }, [post, userId])
 
   const debouncedHandleLike = useDebounce(async (finalLikedStatus) => {
-    if(finalLikedStatus === initialLikedStatus.current){return;}
+    if (finalLikedStatus === initialLikedStatus.current) { return; }
     try {
       await api.put(`/posts/${id}/like`);
       initialLikedStatus.current = finalLikedStatus;
-      if(finalLikedStatus) initialLikedCount.current = initialLikedCount.current+1;
-      else initialLikedCount.current = initialLikedCount.current-1;
+      if (finalLikedStatus) initialLikedCount.current = initialLikedCount.current + 1;
+      else initialLikedCount.current = initialLikedCount.current - 1;
     }
     catch (error) {
       toast.error(error?.message || "Error")
@@ -122,7 +122,7 @@ function PostDetailsPage() {
     }
     const newLikedStatus = !likedState
     setLikedState(newLikedStatus);
-    setLikedCountState(prev => newLikedStatus ? prev+1 : prev-1);
+    setLikedCountState(prev => newLikedStatus ? prev + 1 : prev - 1);
 
     debouncedHandleLike(newLikedStatus)
   }
@@ -148,11 +148,15 @@ function PostDetailsPage() {
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     if (!commentText.trim()) return;
+    if (commentText.trim().length > MAX_COMMENT_LENGTH) {
+      toast.error("Comment is too long. max: " + MAX_COMMENT_LENGTH);
+      return;
+    }
     setIsSubmitting(true);
 
     try {
       const response = await api.post(`/posts/${id}/comment`, {
-        text: commentText
+        text: commentText.trim()
       });
       const newComment = response.data;
 
@@ -422,7 +426,8 @@ function PostDetailsPage() {
 
         {isLoggedIn ? (
           <form onSubmit={handleCommentSubmit} className='comment-form'>
-            <textarea ref={commentInputRef} rows="3" placeholder='Write your comments' value={commentText} onChange={(e) => { setCommentText(e.target.value) }} required ></textarea>
+            <textarea ref={commentInputRef} rows="3" placeholder='Write your comments' value={commentText} onChange={(e) => { setCommentText(e.target.value); }} required maxLength={MAX_COMMENT_LENGTH}></textarea>
+            <span className='char-counter'>max {MAX_COMMENT_LENGTH} characters</span>
             <button type='submit' disabled={isSubmitting}>{isSubmitting ? '...' : 'Comment'}</button>
           </form>
         ) : (

@@ -13,7 +13,7 @@
 
 ## Key Features
 
-- **Modern & Responsive UI:** Fully responsive design tailored for mobile and desktop experiences.
+- **Modern & Responsive UI:** Fully responsive design for mobile and desktop experiences.
 - **Rich Text Editor:** Integrated **React-Quill-New** for advanced post creation (Bold, Italic, Links, Images).
 - **Security:**
   - **XSS Protection:** Implements `DOMPurify` to sanitize HTML content before rendering.
@@ -21,6 +21,7 @@
 - **User Dashboard:**
   - Profile management with Avatar upload.
   - Bio editing and personal post history.
+  - Tabs for Liked Posts, Saved Posts, and Drafts.
 - **Real-time Feedback:** Enhanced UX with **React-Hot-Toast** notifications.
 - **Dynamic Tagging:** Categorize posts with a flexible tagging system.
 - **Image Handling:** Optimized image uploads via Cloudinary integration.
@@ -32,7 +33,7 @@
 - **State Management:** Context API (Auth Context)
 - **HTTP Client:** Axios (with Interceptors for token management)
 - **Styling:** Custom CSS (Flexbox)
-- **Editor:** React-Quill New
+- **Editor:** React-Quill
 - **Utilities:** DOMPurify, React-Loading-Skeleton
 
 ## Getting Started
@@ -40,7 +41,7 @@
 Follow these steps to run the project ***locally***.
 
 ### Prerequisites
-- Node.js (v18 or higher)
+- Node.js
 - Running Backend Service [See Backend Repo](https://github.com/Salih041/Blog_API)
 
 ### Installation
