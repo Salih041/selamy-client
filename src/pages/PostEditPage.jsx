@@ -9,7 +9,7 @@ import 'react-quill-new/dist/quill.snow.css';
 function PostEditPage() {
 
     const MAX_LENGTH = 20000;
-    const MIN_LENGTH = 200;
+    const MIN_LENGTH = 150;
 
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
