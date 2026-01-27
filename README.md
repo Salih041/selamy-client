@@ -7,7 +7,7 @@
 
 **SelamY Blog Client** is the modern, responsive frontend interface for the SelamY platform. It offers a seamless blogging experience with a rich text editor, real-time feedback, and a secure environment.
 
-[**🔴 Live Demo**](https://selamy.vercel.app)
+[**🔴 Live Demo**](https://www.selamy.me)
 
 ---
 

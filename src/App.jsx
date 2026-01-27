@@ -5,8 +5,7 @@ import { Toaster } from 'react-hot-toast'
 import FloatingPostButton from './components/FloatingPostButton'
 import ScrollToTop from './components/ScrollTop'
 import Footer from './components/Footer'
-import { Helmet } from 'react-helmet'
-
+import { Helmet } from 'react-helmet-async'
 function App() {
 
   return (
@@ -18,13 +17,12 @@ function App() {
           <title>SelamY</title>
         </Helmet>
         <Navbar></Navbar>
-        <div style={{flex: 1}}>
+        <div style={{ flex: 1 }}>
           <RouterConfig></RouterConfig>
         </div>
         <Footer></Footer>
         <FloatingPostButton />
       </div>
-
     </>
   )
 }

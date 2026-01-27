@@ -9,7 +9,7 @@ import CommentItem from '../components/CommentItem'
 import "../styles/PostDetail.css"
 import { formatRelativeTime } from '../utils/dateFormater';
 import FollowButton from '../components/FollowButton';
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 import { IoShareOutline } from "react-icons/io5";
 import { FaRegBookmark } from "react-icons/fa";
 import { MdBookmarkAdded } from "react-icons/md";
