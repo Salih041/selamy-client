@@ -28,7 +28,7 @@
 
 ## Tech Stack
 
-- **Core:** React 19 (Vite)
+- **Core:** React 18 (Vite)
 - **Routing:** React Router Dom v7
 - **State Management:** Context API (Auth Context)
 - **HTTP Client:** Axios (with Interceptors for token management)
