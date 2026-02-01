@@ -18,6 +18,7 @@ function ProfileEditPage() {
     const [socials, setSocials] = useState({x: "", instagram: "", github: ""});
     const [isLoading, setIsLoading] = useState(false);
     const [username, setUsername] = useState("");
+    const [removeImage, setRemoveImage] = useState(false);
 
     useEffect(() => {
         if (userId && userId !== id) {
@@ -56,6 +57,10 @@ function ProfileEditPage() {
 
         const formData = new FormData();
         formData.append('bio', bio);
+
+        if(removeImage){
+            formData.append('removeProfilePicture', 'true');
+        }
 
         const finalDisplayName = displayName.trim() === "" ? username : displayName
         formData.append('displayName', finalDisplayName);
@@ -140,6 +145,7 @@ function ProfileEditPage() {
                             Select Image
                             <input type="file" hidden onChange={handleImageChange} accept="image/*" />
                         </label>
+                        <span className="remove-btn" onClick={()=>{setRemoveImage(true);setImageFile(null);setPreviewImage(null)}}>Remove Picture</span>
                     </div>
 
                     <div className="form-group">

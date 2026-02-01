@@ -91,6 +91,15 @@
     flex-wrap: wrap;
 }
 
+.remove-btn
+{
+    font-size: 0.8rem;
+    color: brown;
+    cursor: pointer;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
 .profile-bio-text {
     font-style: italic;
     color: var(--text-secondary);
