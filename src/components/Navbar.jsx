@@ -10,6 +10,7 @@ import { formatRelativeTime } from '../utils/dateFormater';
 import { BsFillSunFill } from "react-icons/bs";
 import { IoMoonSharp } from "react-icons/io5";
 import { MdAdminPanelSettings } from "react-icons/md";
+import favicon from "/favicon.svg";
 
 
 function Navbar() {
@@ -110,8 +111,13 @@ function Navbar() {
   return (
     <nav className='nav'>
       <div className='nav__logo'>
-        <NavLink to="/">SelamY</NavLink>
+        <NavLink to="/">
+          <img src={favicon} alt='Logo'></img>
+          <span>SelamY</span>
+        </NavLink>
+        
       </div>
+      
 
       <form onSubmit={handleSearch} className='search-form'>
         <input className='nav_search-input' type="text" placeholder='Search' value={searchQuery} onChange={(e) => { setSearchQuery(e.target.value) }} />
