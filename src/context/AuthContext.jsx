@@ -39,11 +39,19 @@ export function AuthProvider({ children }) {
         setToken(newToken)
     }
 
-    const logout = () => {
-        localStorage.removeItem('token');
-        delete api.defaults.headers.common['Authorization'];
-        setToken(null);
-        setUser(null);
+    const logout = async ()=>{
+        try{
+            await api.post("/auth/logout");
+        }catch(error)
+        {
+            console.error("Failed to logout");
+        }finally{
+            localStorage.removeItem('token');
+            setToken(null);
+            setUser(null);
+            delete api.defaults.headers.common['Authorization'];
+            window.location.href = "/login";
+        }
     }
 
     const updateUser = (newData)=>{

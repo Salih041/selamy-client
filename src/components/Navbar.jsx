@@ -25,8 +25,8 @@ function Navbar() {
   const navigate = useNavigate();
 
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     toast.success("Logged out")
     navigate("/");
   }
