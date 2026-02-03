@@ -2,7 +2,7 @@ export const releaseNotes = [
     {
         id: 1,
         version: "v1.0.0",
-        date: "xx-01-2026", 
+        date: "03/02/2026", 
         title: "SelamY Is Live",
         items: [
             {

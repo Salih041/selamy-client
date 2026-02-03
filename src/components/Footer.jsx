@@ -1,10 +1,9 @@
-import React from 'react';
 import '../styles/Footer.css';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 
 function Footer() {
     const currentYear = new Date().getFullYear();
-    const version = "v0.9.0";
+    const version = "v1.0.0";
     return (
         <footer className="footer">
             <div className="footer-content">

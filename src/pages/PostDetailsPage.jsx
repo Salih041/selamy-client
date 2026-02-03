@@ -256,7 +256,11 @@ function PostDetailsPage() {
   const handleExternalLinkClick = (e) => {
     const link = e.target.closest('a');
     if (!link || !link.href) return;
-    if (link.href.startsWith('http') || link.href.startsWith('https')) {
+    const isHttp = link.href.startsWith('http') || link.href.startsWith('https');
+    const isExternal = link.origin !== window.location.origin;
+
+    if (isHttp && isExternal)
+    {
       e.preventDefault();
       const isConfirmed = window.confirm("Are you sure you want to go to :\n" + link.href)
       if (isConfirmed) {

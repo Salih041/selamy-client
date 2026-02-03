@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import {useState} from 'react'
 import api from '../api'
 import toast from 'react-hot-toast'
 import '../styles/FollowButton.css'

@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef } from 'react'
+import { useState, useMemo, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from "../api"
 import "../styles/Posting.css"

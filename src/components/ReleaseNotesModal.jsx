@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {releaseNotes} from "../ReleaseNotes";
 import {FaTimes } from 'react-icons/fa';
 import { CgNotes } from "react-icons/cg";

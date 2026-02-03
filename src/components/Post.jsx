@@ -1,4 +1,3 @@
-import React from 'react'
 import { NavLink, useNavigate } from 'react-router-dom';
 import "../styles/postCard.css"
 import {formatRelativeTime} from "../utils/dateFormater"
@@ -30,7 +29,7 @@ function Post({ postProps }) {
     return (
         <article className={'post-card'+ (statu==='draft' ? ' draft-post': '') + (pinned ? ' pinned' : '')} onClick={handleCardClick}>
             {pinned && <span className='pinned-badge'>pinned</span>}
-            <h2 className='post-card__title'> {title} </h2>
+            <h2 className='post-card__title'> <NavLink to={`/posts/${slug || _id}`} onClick={(e) => e.stopPropagation()}>{title}</NavLink> </h2>
             
             <div className='post-card__meta'>
                 <div className="post-card-avatar">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import api from "../api";
@@ -166,7 +166,7 @@ function ProfilePage() {
                         })}></FollowButton>
                     )}
 
-                    <p style={{ color: '#888', margin: '-5px 0 10px 0', fontSize: '0.9rem' }}>
+                    <p style={{ color: '#888', margin: '10px 0 10px 0', fontSize: '0.9rem' }}>
                         @{profileUser.username}
                     </p>
 

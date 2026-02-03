@@ -164,15 +164,13 @@
     align-items: center;
     justify-content: center;
     font-size: 1.8rem;
-    color: #ffffff;
-    transition: color 0.2s;
-    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 1));
+    color: var(--text-secondary); 
+    transition: 0.2s;
     margin-right: -12px;
 }
 
 .notification-btn:hover {
-    color: rgb(255, 244, 244);
-    transform: scale(1.1);
+    transform: scale(1.2);
 }
 
 .notification-badge {
