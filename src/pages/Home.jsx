@@ -95,7 +95,7 @@ function Home() {
 
     if (error) return <p className='error'>Error: {error}</p>;
     return (
-        <>
+        <div className='homeBody'>
             <ReleaseNotes></ReleaseNotes>
             {(searchTerm || searchTag) && (
                 <div style={{ textAlign: 'center', margin: '20px', color: '#666' }}>
@@ -108,7 +108,7 @@ function Home() {
                 <div className="home-tabs">
                     <div className="popular-tags-wrapper">
                         <button className='popular-tags-btn' onClick={handlePopularTags}>
-                            <FaFireFlameCurved /> Trending <span style={{fontSize : "0.7rem"}}>&#x25BC;</span>
+                            <FaFireFlameCurved /> Trending <span style={{ fontSize: "0.7rem" }}>&#x25BC;</span>
                         </button>
 
                         {displayPopularTags && (
@@ -183,11 +183,16 @@ function Home() {
                 }
             </div>
             <div className='home__controls'>
-                <button style={{color: 'black'}} onClick={() => { handlePageChange(page - 1) }} disabled={page === 1}>&#x2190;</button>
+                <button style={{ color: 'black' }} onClick={() => { handlePageChange(page - 1) }} disabled={page === 1}>&#x2190;</button>
                 <span>Page {page} / {pagination.totalPages}</span>
-                <button style={{color: 'black'}} onClick={() => { handlePageChange(page + 1) }} disabled={page === pagination.totalPages}>&#x2192;</button>
+                <button style={{ color: 'black' }} onClick={() => { handlePageChange(page + 1) }} disabled={page === pagination.totalPages}>&#x2192;</button>
             </div>
-        </>
+
+            <div className="rope-wrapper">
+                <div className="rope"></div>
+                <img src="/imagee.png" className="rope-character" />
+            </div>
+        </div>
     )
 }
 

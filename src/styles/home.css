@@ -73,11 +73,10 @@
     color: var(--text-secondary, #666);
     cursor: pointer;
     transition: all 0.3s ease;
-    border-radius: 0; 
+    border-radius: 0;
 }
 
-.popular-tags-btn
-{
+.popular-tags-btn {
     background: none;
     border: none;
     border-bottom: 3px solid transparent;
@@ -87,10 +86,10 @@
     color: var(--text-secondary, #666);
     cursor: pointer;
     transition: all 0.3s ease;
-    border-radius: 0; 
+    border-radius: 0;
 }
-.popular-tags-btn:hover
-{
+
+.popular-tags-btn:hover {
     color: #ff6200;
 }
 
@@ -101,18 +100,18 @@
 
 .popular-tags-dropdown {
     position: absolute;
-    top: 110%; 
+    top: 110%;
     left: 0;
     z-index: 999;
-    
+
     width: 260px;
     max-height: 300px;
     background: var(--bg-secondary);
-    
+
     border: 1px solid var(--border-color);
     border-radius: 8px;
     box-shadow: 0 4px 10px var(--shadow-color);
-    
+
     padding: 12px;
     display: flex;
     flex-direction: column;
@@ -139,7 +138,7 @@
     font-size: 0.75rem;
     color: var(--text-secondary);
     background-color: var(--bg-primary);
-    
+
     padding: 4px 10px;
     border-radius: 12px;
     font-weight: bold;
@@ -174,10 +173,48 @@
     color: var(--text-primary, #333);
 }
 
+.homeBody {
+    position: relative;
+}
+
+.rope-wrapper {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.rope-character {
+    position: absolute;
+    bottom: -101px;
+    left: 51px;
+    width: 140px;
+    transition: transform 0.3s ease, width 0.3s ease;
+}
+
+.rope-character:hover {
+    transform: scale(1.035);
+}
+
+.rope {
+    position: absolute;
+    bottom: 65px;
+    left: 102px;
+    width: 2px;
+    height: 900vh;
+    background: linear-gradient(to top,
+            #25282a 0%,
+            #e8fff7 50%,
+            #1f2221 100%);
+}
+
 @media (max-width: 768px) {
     .home-tabs .tab-btn {
         padding: 8px 12px;
         font-size: 0.9rem;
         width: 80px;
+    }
+    .rope-wrapper{
+        display: none;
     }
 }

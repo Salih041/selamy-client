@@ -1,5 +1,17 @@
 export const releaseNotes = [
     {
+        id: 2,
+        version: "v1.0.1",
+        date: "23/04/2026",
+        title: "The Fall",
+        items:[
+            {
+                type: "feature",
+                content: "A figure hanging on the left..."
+            }
+        ]
+    },
+    {
         id: 1,
         version: "v1.0.0",
         date: "03/02/2026", 
